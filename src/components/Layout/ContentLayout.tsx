@@ -1,0 +1,37 @@
+import React, {ReactNode, useState} from "react";
+import {Button, Layout} from "antd";
+import Sidebar from "../Sidebar";
+import {MenuFoldOutlined, MenuUnfoldOutlined} from "@ant-design/icons";
+import CustomHeader from "../Header";
+import {Content, Header} from "antd/es/layout/layout";
+import Sider from "antd/es/layout/Sider";
+import styles from './ContentLayout.module.css'
+
+interface ContentLayoutProps {
+    children: ReactNode
+}
+
+const ContentLayout = ({children}: ContentLayoutProps) => {
+    const [collapsed, setCollapsed] = useState(false)
+    return (
+        <Layout style={{height: '100vh'}} hasSider>
+            <Sider theme="light" trigger={null} collapsible collapsed={collapsed} className={styles.sider}>
+                <Sidebar/>
+                <Button type="text" icon={collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
+                        onClick={() => setCollapsed(!collapsed)}
+                        className={styles.triggerBtn}
+                />
+            </Sider>
+            <Layout>
+                <Header className={styles.header}>
+                    <CustomHeader/>
+                </Header>
+                <Content className={styles.content}>
+                        {children}
+                </Content>
+            </Layout>
+        </Layout>
+    )
+}
+
+export default ContentLayout
