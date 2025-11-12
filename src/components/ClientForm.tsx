@@ -7,10 +7,10 @@ const ClientForm = () => {
                 <Col span={10}>
                     <Form.Item name="identificacion"
                                label="Tipo de identificación"
+                               initialValue="rut"
                                rules={[{required: true}]}>
                         <Radio.Group>
-                            <Radio value='rut'>RUT
-                            </Radio>
+                            <Radio value='rut'>RUT</Radio>
                         </Radio.Group>
                     </Form.Item>
                 </Col>

@@ -8,14 +8,24 @@ import ClientPage from "./pages/Client";
 import ConfigurationPage from "./pages/Configuration";
 import ReportPage from "./pages/Report";
 import MeterReadingPage from "./pages/MeterReading";
+import LoginPage from "./pages/Login";
+import ResetPassword from "./pages/ResetPassword";
+import PaymentPage from "./pages/Payment";
+import ContentPage from "./pages/Content";
+import PlantillaPage from './pages/Plantilla';
 
 const router = createBrowserRouter([
     {path: '/', element: <DashboardPage/>},
+    {path: '/pagos-online', element: <PaymentPage/>},
     {path: '/dashboard', element: <DashboardPage/>},
     {path: '/client', element: <ClientPage/>},
     {path: '/report', element: <ReportPage/>},
     {path: '/configuration', element: <ConfigurationPage/>},
     {path: '/meter-reading', element: <MeterReadingPage/>},
+    {path: '/login', element: <LoginPage/>},
+    {path: '/reset-password', element: <ResetPassword/>},
+    {path: '/content', element: <ContentPage/>},
+    {path: '/plantilla', element: <PlantillaPage/>},
 ])
 
 const root = ReactDOM.createRoot(

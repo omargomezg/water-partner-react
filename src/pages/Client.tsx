@@ -8,16 +8,19 @@ import ClientTableFilter from "../components/Client/Client.tableFilter";
 import ClientDrawerForm from "../components/Client/Client.drawerForm";
 import {useClientStore} from "../store/Client.store";
 import ClientProfile from "../components/Client/Client.profile";
+import CheckAuthentication from "../components/CheckAuthentication";
 
 const ClientPage: FC = () => {
     const {profile} = useClientStore();
     return (
-        <ContentLayout>
-            {!profile && (<ClientList></ClientList>)}
-            {profile &&
-                <ClientProfile></ClientProfile>}
-            <ClientDrawerForm></ClientDrawerForm>
-        </ContentLayout>
+        <CheckAuthentication>
+            <ContentLayout>
+                {!profile && (<ClientList></ClientList>)}
+                {profile &&
+                    <ClientProfile></ClientProfile>}
+                <ClientDrawerForm></ClientDrawerForm>
+            </ContentLayout>
+        </CheckAuthentication>
     )
 }
 

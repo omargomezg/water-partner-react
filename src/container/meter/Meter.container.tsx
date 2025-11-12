@@ -11,10 +11,10 @@ export const MeterContainer = () => {
             <Card style={{marginBottom: '10px'}}>
                 <Space>
                     <Button>Opciones o filtros</Button>
-                    <Button type="default" onClick={setOpenForm}><PlusOutlined/>Crear</Button>
                 </Space>
             </Card>
-            <Card title="Listado de medidores">
+            <Card title="Listado de medidores" extra={
+                <Button type={'primary'} onClick={setOpenForm}><PlusOutlined/>Crear</Button>}>
                 <MeterTable></MeterTable>
             </Card>
             <MeterDrawer></MeterDrawer>

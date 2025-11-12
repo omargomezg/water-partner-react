@@ -1,5 +1,5 @@
 {
-  "name": "front-app",
+  "name": "water-partner-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,6 +13,7 @@
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "antd": "^5.26.7",
+    "axios": "^1.11.0",
     "dayjs": "^1.11.13",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

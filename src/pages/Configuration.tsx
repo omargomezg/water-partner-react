@@ -4,27 +4,36 @@ import ContentLayout from "../components/Layout/ContentLayout";
 import {Tabs, TabsProps} from "antd";
 import TariffContainer from "../container/tariff/Tariff.container";
 import {MeterContainer} from "../container/meter/Meter.container";
+import CheckAuthentication from "../components/CheckAuthentication";
+import SectorContainer from "../container/Sector/Sector.container";
+import PeriodContainer from "../container/Period/Period.container";
+import AccountContainer from "../container/Account/Account.container";
 
 const items: TabsProps['items'] = [
     {
         key: '1',
         label: 'Tarifas',
-        children: <TariffContainer />,
+        children: <TariffContainer/>,
     },
     {
         key: '2',
         label: 'Medidores',
-        children: <MeterContainer />,
+        children: <MeterContainer/>,
     },
     {
         key: '3',
         label: 'Sectores',
-        children: 'Content of Tab Pane 3',
+        children: <SectorContainer/>,
     },
     {
         key: '4',
         label: 'Periodos',
-        children: 'Content of Tab Pane 4',
+        children: <PeriodContainer />,
+    },
+    {
+        key: '5',
+        label: 'Cuentas',
+        children: <AccountContainer />,
     },
 ];
 
@@ -33,9 +42,11 @@ const ConfigurationPage: FC = () => {
         console.log(key);
     };
     return (
-        <ContentLayout>
-            <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
-        </ContentLayout>
+        <CheckAuthentication>
+            <ContentLayout>
+                <Tabs defaultActiveKey="1" items={items} onChange={onChange}/>
+            </ContentLayout>
+        </CheckAuthentication>
     )
 }
 

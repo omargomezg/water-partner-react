@@ -1,6 +1,14 @@
 import {Button, Space, Table, TableProps} from "antd";
-import { SettingOutlined} from "@ant-design/icons";
+import {SettingOutlined} from "@ant-design/icons";
 import {useClientStore} from "../../store/Client.store";
+import {useEffect, useState} from "react";
+import axiosInstance from "../../utils/axios";
+import {AxiosResponse} from "axios";
+
+interface Response {
+    items: DataType[];
+    totalHits: number
+}
 
 interface DataType {
     key: string;
@@ -42,43 +50,36 @@ const columns: TableProps<DataType>['columns'] = [
         title: 'Action',
         key: 'action',
         render: (_, record) => (
-            <RowButtons client={record} />
+            <RowButtons client={record}/>
         ),
     },
 ];
 
-const data: DataType[] = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        diameter: '1/2"',
-        address: 'New York No. 1 Lake Park',
-        tariff: 'Socio'
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        diameter: '1/2"',
-        address: 'London No. 1 Lake Park',
-        tariff: 'Particular'
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        diameter: '1/2"',
-        address: 'Sydney No. 1 Lake Park',
-        tariff: 'Residencial'
-    },
-];
 
 const ClientTable = () => {
+    const [clients, setClients] = useState<DataType[]>([])
+    useEffect(() => {
+        axiosInstance.get(`/v1/client?pageIndex=0&pageSize=10`)
+            .then((result: AxiosResponse<Response>) => {
+                const mappedData: DataType[] = result.data.items.map((d: any) => (
+                    {
+                        key: d.dni,
+                        name: d.fullName,
+                        address: d.sector ?? 'Sin dirección',
+                        age: 0,
+                        diameter: '',
+                        tariff: ''
+                    }
+                ))
+                setClients(mappedData)
+            })
+            .catch()
+
+    }, [])
     return <Table<DataType> style={{width: '100%'}}
                             rowKey="key"
                             columns={columns}
-                            dataSource={data}/>
+                            dataSource={clients}/>
 }
 
 const RowButtons = ({client}: any) => {
@@ -87,10 +88,9 @@ const RowButtons = ({client}: any) => {
         <Space size="middle">
             <Button type="link" onClick={() => {
                 setProfile(client)
-            }}>Editar</Button>
+            }}>Ficha</Button>
             <Button type="link">Medidores</Button>
-            <Button type="link">Ficha</Button>
-            <Button title="Editar"><SettingOutlined /></Button>
+            <Button title="Editar"><SettingOutlined/></Button>
         </Space>
     )
 }
