@@ -13,6 +13,8 @@ import ResetPassword from "./pages/ResetPassword";
 import PaymentPage from "./pages/Payment";
 import ContentPage from "./pages/Content";
 import PlantillaPage from './pages/Plantilla';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 const router = createBrowserRouter([
     {path: '/', element: <DashboardPage/>},
@@ -33,7 +35,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <React.StrictMode>
-        <RouterProvider router={router}/>
+        <Provider store={store}>
+            <RouterProvider router={router}/>
+        </Provider>
     </React.StrictMode>
 );
 

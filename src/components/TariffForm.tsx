@@ -1,29 +1,47 @@
-import {Form, Input, Select} from "antd";
+import {Button, Form, Input, Select, Space} from "antd";
+import { Tariff } from "../types";
+import {useCreateTariffMutation, useGetTariffsQuery} from "../services/tariffApi";
 
-const TariffForm = () => {
+interface TariffFormProps {
+    onCancel: () => void;
+}
+
+const TariffForm: React.FC<TariffFormProps> = ({onCancel}) => {
+
+    const [ createTariff] = useCreateTariffMutation();
+    const onFinish = async (values: Tariff) => {
+        await createTariff(values);
+        onCancel();
+    }
     return (
-            <Form layout={'vertical'}>
-                <Form.Item name="telefono" label="Medida del medidor" rules={[{required: true}]}>
+            <Form layout={'vertical'} onFinish={onFinish}>
+                <Form.Item name="diameter" label="Medida del medidor" rules={[{required: true}]}>
                     <Select options={[
-                        {value: "13", label: "13 mm"},
-                        {value: "19", label: "19 mm"},
-                        {value: "25", label: "25 mm"},
-                        {value: "38", label: "38 mm"}
+                        {value: "THIRTEEN", label: "13 mm"},
+                        {value: "NINETEEN", label: "19 mm"},
+                        {value: "TWENTY_FIVE", label: "25 mm"},
+                        {value: "THIRTY_EIGHT", label: "38 mm"}
                     ]} />
                 </Form.Item>
-                <Form.Item name="telefono" label="Tipo de cliente" rules={[{required: true}]}>
+            <Form.Item name="clientType" label="Tipo de cliente" rules={[{required: true}]}>
                     <Select options={[
-                        {value: "13", label: "Publico"},
-                        {value: "19", label: "Socio"},
-                        {value: "25", label: "Privado"}
+                        {value: "PUBLIC", label: "Publico"},
+                        {value: "RESIDENT_PARTNER", label: "Socio"},
+                        {value: "PRIVATE", label: "Privado"}
                     ]} />
                 </Form.Item>
-                <Form.Item name="telefono" label="Carjo fijo" rules={[{required: true}]}>
+            <Form.Item name="flatFee" label="Carjo fijo" rules={[{required: true}]}>
                     <Input/>
                 </Form.Item>
-                <Form.Item name="telefono" label="Valor del m3" rules={[{required: true}]}>
+            <Form.Item name="cubicMeter" label="Valor del m3" rules={[{required: true}]}>
                     <Input/>
                 </Form.Item>
+                <Space style={{float: 'right'}}>
+                    <Button type="default" onClick={onCancel}>Cancelar</Button>
+                <Button type="primary" htmlType="submit">
+                        Guardar
+                    </Button>
+                </Space>
             </Form>
     )
 }
