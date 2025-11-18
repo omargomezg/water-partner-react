@@ -1,20 +1,22 @@
 import {useNavigate} from "react-router-dom";
 import {useAuthStore} from "../../store/AuthStore";
-import axios, {AxiosResponse} from "axios";
 import {Button, Card, Checkbox, Flex, Form, Input, Typography} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
+import {useLoginMutation} from "../../services/authApi";
+import {useState} from "react";
+import {Auth} from "../../types";
 
 const LoginContainer = () => {
     const navigate = useNavigate();
+    const [auth, setAuth] = useState<Auth | undefined>(undefined);
+    const [login, {isLoading, isSuccess, data, error}] = useLoginMutation();
     const {setToken} = useAuthStore()
     const onFinish = async (values: any) => {
         try {
-            const res: AxiosResponse = await axios.post('http://localhost:8080/api/v1/public/auth/signup', values)
-            if (res.status === 200) {
-                setToken(res.data.token, res.data.fullName)
-                navigate('/dashboard');
-            }
-            console.log('Received values of form: ', res.status);
+            const res: Auth = await login(values).unwrap();
+
+            setToken(res.token as string, res.fullName as string)
+            navigate('/dashboard');
         } catch (error) {
             console.log(error);
         }
