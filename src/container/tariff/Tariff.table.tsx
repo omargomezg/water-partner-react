@@ -3,6 +3,8 @@ import dayjs from "dayjs";
 import {EditOutlined} from "@ant-design/icons";
 import {useTariffStore} from "../../store/Tariff.store";
 import { Tariff } from "../../types";
+import {appStore} from "../../store/appStore";
+import {useEffect} from "react";
 
 const columns: TableProps<Tariff>['columns'] = [
     {
@@ -43,12 +45,17 @@ const columns: TableProps<Tariff>['columns'] = [
 ];
 
 const TariffTable = () => {
+    const tariffs = appStore((state) => state.tariffs);
+    const fetchTariffs = appStore((state) => state.fetchTariff);
+    useEffect(() => {
+        fetchTariffs();
+    }, []);
     return (
         <Table<Tariff> style={{width: '100%'}}
                          rowKey="id"
                          loading={false}
                          columns={columns}
-                         dataSource={[]}/>
+                         dataSource={tariffs}/>
     )
 }
 
