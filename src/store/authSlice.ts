@@ -1,48 +1,42 @@
-import {StateCreator} from 'zustand';
+import {ImmerStateCreator} from "./appStore";
+import apiClient from "../services/apiClient";
 
-export type AuthState = {
+type AuthState = {
     email: string | undefined;
     fullName: string | undefined;
     token: string | undefined;
 }
 
-export interface AuthActions {
+interface AuthActions {
     login: (email: string, password: string) => Promise<boolean>;
     logout: () => void;
 }
 
 export type AuthSlice = AuthState & AuthActions;
 
-export const createAuthSlice: StateCreator<
-    AuthSlice,
-    [],
-    []
-> = (set, get, api) => ({
+export const createAuthSlice: ImmerStateCreator<AuthSlice> = (set) => ({
     token: undefined,
     email: undefined,
     fullName: undefined,
     login: async (email: string, password: string) => {
-        console.log(' asasa' );
-        const response = await fetch('http://localhost:8080/api/v1/public/auth/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email, password})
-        });
-        if (!response.ok) {
+        const response = await apiClient.post('/public/auth/signup', {email, password});
+        const {status, data} = response;
+        if (status !== 200) {
             console.error('Login failed');
             return false;
         }
-        const data = await response.json();
-        set({
-            token: data.token,
-            email: data.email,
-            fullName: data.fullName
+        set((state) => {
+            state.token = data.token;
+            state.email = data.email;
+            state.fullName = data.fullName;
         });
         return true;
     },
     logout: () => {
-        set({token: undefined, email: undefined, fullName: undefined});
+        set((state) => {
+            state.token = undefined;
+            state.email = undefined;
+            state.fullName = undefined;
+        });
     }
 });

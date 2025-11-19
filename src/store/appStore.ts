@@ -1,23 +1,22 @@
-import {create} from "zustand";
-import {devtools, persist, subscribeWithSelector} from "zustand/middleware";
+import {create, StateCreator} from "zustand";
+import {devtools, persist} from "zustand/middleware";
 import {AuthSlice, createAuthSlice} from "./authSlice";
 import {immer} from "zustand/middleware/immer";
+import {createTariffSlice, TariffSlice} from "./tariffSlice";
 
-type Store = AuthSlice;
+type RootState = AuthSlice & TariffSlice;
 
-export const appStore = create<Store>()(
-    devtools(
+export type ImmerStateCreator<T> = StateCreator<RootState, [["zustand/immer", never], never], [], T>;
+
+export const appStore = create<RootState>()(
+    immer(
         persist(
-            subscribeWithSelector(
-                immer((...args) => ({
-                        ...createAuthSlice(...args),
-                    })
-                )
-            ), {
-                name: 'app-storage',
-                partialize: (state) => state
+            devtools((...args) => ({
+                ...createAuthSlice(...args),
+                ...createTariffSlice(...args)
+            })), {
+                name: "app-store"
             }
-        ),
-        { name: "AppStoreDevTools"}
+        )
     )
 );
