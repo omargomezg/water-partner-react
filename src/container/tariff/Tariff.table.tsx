@@ -2,7 +2,6 @@ import {Button, Space, Table, TableProps} from "antd";
 import dayjs from "dayjs";
 import {EditOutlined} from "@ant-design/icons";
 import {useTariffStore} from "../../store/Tariff.store";
-import { useGetTariffsQuery } from "../../services/tariffApi";
 import { Tariff } from "../../types";
 
 const columns: TableProps<Tariff>['columns'] = [
@@ -44,13 +43,12 @@ const columns: TableProps<Tariff>['columns'] = [
 ];
 
 const TariffTable = () => {
-    const {data: tariffs, isLoading, isError} = useGetTariffsQuery();
     return (
         <Table<Tariff> style={{width: '100%'}}
                          rowKey="id"
-                         loading={isLoading}
+                         loading={false}
                          columns={columns}
-                         dataSource={tariffs?.tariffs}/>
+                         dataSource={[]}/>
     )
 }
 

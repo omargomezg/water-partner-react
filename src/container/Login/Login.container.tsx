@@ -1,24 +1,17 @@
 import {useNavigate} from "react-router-dom";
-import {useAuthStore} from "../../store/AuthStore";
 import {Button, Card, Checkbox, Flex, Form, Input, Typography} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
-import {useLoginMutation} from "../../services/authApi";
-import {useState} from "react";
-import {Auth} from "../../types";
+import {appStore} from "../../store/appStore";
 
 const LoginContainer = () => {
     const navigate = useNavigate();
-    const [auth, setAuth] = useState<Auth | undefined>(undefined);
-    const [login, {isLoading, isSuccess, data, error}] = useLoginMutation();
-    const {setToken} = useAuthStore()
+    const loginAction = appStore((state) => state.login);
     const onFinish = async (values: any) => {
-        try {
-            const res: Auth = await login(values).unwrap();
-
-            setToken(res.token as string, res.fullName as string)
+        const result = await loginAction(values.email, values.password);
+        if (result) {
             navigate('/dashboard');
-        } catch (error) {
-            console.log(error);
+        } else {
+            console.log('Login failed');
         }
     };
     return (<Flex

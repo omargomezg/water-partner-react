@@ -1,6 +1,5 @@
 import {Button, Form, Input, Select, Space} from "antd";
 import { Tariff } from "../types";
-import {useCreateTariffMutation, useGetTariffsQuery} from "../services/tariffApi";
 
 interface TariffFormProps {
     onCancel: () => void;
@@ -8,9 +7,8 @@ interface TariffFormProps {
 
 const TariffForm: React.FC<TariffFormProps> = ({onCancel}) => {
 
-    const [ createTariff] = useCreateTariffMutation();
     const onFinish = async (values: Tariff) => {
-        await createTariff(values);
+
         onCancel();
     }
     return (
