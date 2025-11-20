@@ -1,9 +1,10 @@
 import {Drawer} from "antd";
-import {useTariffStore} from "../../store/Tariff.store";
 import TariffForm from "../../components/TariffForm";
+import {useAppStore} from "../../store/useAppStore";
 
 const TariffDrawer = () => {
-    const {openForm, setOpenForm} = useTariffStore()
+    const setOpenForm = useAppStore((state) => state.setOpenForm);
+    const openForm = useAppStore((state) => state.openForm);
     return (<Drawer title='Editar/Crear tarifa'
                     width={350}
                     open={openForm} onClose={setOpenForm}>

@@ -1,12 +1,19 @@
-import {create} from "zustand/react";
+import {ImmerStateCreator} from "./useAppStore";
+import apiClient from "../services/apiClient";
+import {Client} from "../types/Client";
+import {Clients} from "../types/Clients";
 
-interface ClientState {
+type ClientState = {
     openForm: boolean;
     openSubsidyForm: boolean;
     openReadingRecordForm: boolean;
     openModalPdf: boolean;
     meterForSubsidy: any,
     profile: {} | null,
+    clients: Client[]
+}
+
+interface ClientActions {
     setOpenSubsidyForm: (meter: any) => void;
     /**
      * Cambia el estado de openForm para abrir la edicion de clientes
@@ -15,15 +22,19 @@ interface ClientState {
     setProfile: (client: any) => void;
     setOpenModalPdf: ()=> void;
     setOpenReadingRecordForm: ()=> void;
+    getClients: (page: number, size: number) => Promise<boolean>;
 }
 
-export const useClientStore = create<ClientState>((set)=>({
+export type ClientSlice = ClientState & ClientActions;
+
+export const createClientSlice: ImmerStateCreator<ClientSlice> =(set)=>({
     openForm: false,
     openSubsidyForm: false,
     openReadingRecordForm: false,
     openModalPdf: false,
     meterForSubsidy: null,
     profile: null,
+    clients: [],
     setOpenSubsidyForm: (meter: any) => {
         set((state) => ({
             openSubsidyForm: !state.openSubsidyForm,
@@ -34,4 +45,15 @@ export const useClientStore = create<ClientState>((set)=>({
     setProfile: (client) => set((state) => ({profile: client})),
     setOpenModalPdf: () => set((state) => ({openModalPdf: !state.openModalPdf})),
     setOpenReadingRecordForm: () => set((state) => ({openReadingRecordForm: !state.openReadingRecordForm})),
-}))
+    getClients: async (page: number, size: number) => {
+        const response = await apiClient.get<Clients>(`client?pageIndex=${page}&pageSize=${size}`);
+        const {status, data} = response;
+        if (status === 200) {
+            set((state) => {
+                state.clients = data.items
+            });
+            return true;
+        }
+        return false;
+    }
+})

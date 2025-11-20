@@ -1,11 +1,11 @@
 import {useNavigate} from "react-router-dom";
 import {Button, Card, Checkbox, Flex, Form, Input, Typography} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
-import {appStore} from "../../store/appStore";
+import {useAppStore} from "../../store/useAppStore";
 
 const LoginContainer = () => {
     const navigate = useNavigate();
-    const loginAction = appStore((state) => state.login);
+    const loginAction = useAppStore((state) => state.login);
     const onFinish = async (values: any) => {
         const result = await loginAction(values.email, values.password);
         if (result) {

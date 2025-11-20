@@ -1,7 +1,7 @@
 import { EditOutlined } from "@ant-design/icons";
 import {Button, Space, Table, TableProps, Typography} from "antd";
 import dayjs from "dayjs";
-import {useClientStore} from "../../store/Client.store";
+import {useAppStore} from "../../store/useAppStore";
 
 interface DataType {
     createdAt: string;
@@ -61,7 +61,7 @@ const ClientReadingRecords = () => {
 export default ClientReadingRecords
 
 const RowButtons = ({lectura}: any) => {
-    const {setOpenReadingRecordForm} = useClientStore();
+    const setOpenReadingRecordForm = useAppStore((state) => state.setOpenReadingRecordForm);
     return <Space>
         <Button type="link" onClick={setOpenReadingRecordForm}><EditOutlined /></Button>
     </Space>

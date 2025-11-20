@@ -1,6 +1,6 @@
 import {Button, Table, TableProps} from "antd";
 import dayjs from "dayjs";
-import {useClientStore} from "../../store/Client.store";
+import {useAppStore} from "../../store/useAppStore";
 
 interface DataType {
     code: number;
@@ -75,7 +75,7 @@ const Medidores = () => {
 export default Medidores
 
 const ActionButtons = ({meter}: any) => {
-const {setOpenSubsidyForm} = useClientStore();
+    const setOpenSubsidyForm = useAppStore((state) => state.setOpenSubsidyForm);
     return (
         <Button title="Agregar subsidio" onClick={() => setOpenSubsidyForm(meter)}>+ Subsidio</Button>
     )

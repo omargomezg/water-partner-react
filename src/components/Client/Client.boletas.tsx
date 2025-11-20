@@ -1,7 +1,7 @@
 import {Button, Space, Table, TableProps} from "antd";
 import dayjs from "dayjs";
 import {FilePdfOutlined} from "@ant-design/icons";
-import {useClientStore} from "../../store/Client.store";
+import {useAppStore} from "../../store/useAppStore";
 
 interface DataType {
     createdAt: string;
@@ -52,7 +52,7 @@ const data: DataType[] = [
 const ClientBoletas = () => {
     return <Table<DataType> style={{width: '100%'}}
                             size="small"
-                            scroll={{ y: 25 * 5 }}
+                            scroll={{y: 25 * 5}}
                             rowKey="createdAt"
                             columns={columns}
                             dataSource={data}/>
@@ -60,8 +60,8 @@ const ClientBoletas = () => {
 export default ClientBoletas
 
 const RowButtons = ({boleta}: any) => {
-    const {setOpenModalPdf} = useClientStore();
+    const setOpenModalPdf = useAppStore((state) => state.setOpenModalPdf);
     return <Space>
-        <Button type="link" onClick={setOpenModalPdf}><FilePdfOutlined /></Button>
+        <Button type="link" onClick={setOpenModalPdf}><FilePdfOutlined/></Button>
     </Space>
 }

@@ -1,25 +1,10 @@
 import {Button, Space, Table, TableProps} from "antd";
 import {SettingOutlined} from "@ant-design/icons";
-import {useClientStore} from "../../store/Client.store";
-import {useEffect, useState} from "react";
-import axiosInstance from "../../utils/axios";
-import {AxiosResponse} from "axios";
+import {useEffect} from "react";
+import {useAppStore} from "../../store/useAppStore";
+import {Client} from "../../types/Client";
 
-interface Response {
-    items: DataType[];
-    totalHits: number
-}
-
-interface DataType {
-    key: string;
-    name: string;
-    age: number;
-    diameter: string;
-    address: string;
-    tariff: string;
-}
-
-const columns: TableProps<DataType>['columns'] = [
+const columns: TableProps<Client>['columns'] = [
     {
         title: 'Nombre',
         dataIndex: 'name',
@@ -55,35 +40,24 @@ const columns: TableProps<DataType>['columns'] = [
     },
 ];
 
-
 const ClientTable = () => {
-    const [clients, setClients] = useState<DataType[]>([])
+    const {clients, getClients} = useAppStore(
+        (state) =>({
+            clients: state.clients,
+            getClients: state.getClients
+        })
+    );
     useEffect(() => {
-        axiosInstance.get(`/v1/client?pageIndex=0&pageSize=10`)
-            .then((result: AxiosResponse<Response>) => {
-                const mappedData: DataType[] = result.data.items.map((d: any) => (
-                    {
-                        key: d.dni,
-                        name: d.fullName,
-                        address: d.sector ?? 'Sin dirección',
-                        age: 0,
-                        diameter: '',
-                        tariff: ''
-                    }
-                ))
-                setClients(mappedData)
-            })
-            .catch()
-
+        getClients(0, 20);
     }, [])
-    return <Table<DataType> style={{width: '100%'}}
-                            rowKey="key"
+    return <Table<Client> style={{width: '100%'}}
+                            rowKey="dni"
                             columns={columns}
                             dataSource={clients}/>
 }
 
 const RowButtons = ({client}: any) => {
-    const {setProfile} = useClientStore();
+    const setProfile = useAppStore((state) => state.setProfile);
     return (
         <Space size="middle">
             <Button type="link" onClick={() => {

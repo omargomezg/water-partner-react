@@ -1,7 +1,7 @@
 import {CSSProperties, useState} from "react";
-import {Page, pdfjs, Document} from "react-pdf";
-import {useClientStore} from "../../store/Client.store";
+import {Document, Page, pdfjs} from "react-pdf";
 import {Button, Modal} from "antd";
+import {useAppStore} from "../../store/useAppStore";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -20,7 +20,10 @@ const ClientModalPdf = ({
                             pdfUrl = "http://localhost:3000/BOLETA.pdf"
                         }) => {
     const [numPages, setNumPages] = useState(null);
-    const {openModalPdf, setOpenModalPdf} = useClientStore();
+    const {openModalPdf, setOpenModalPdf} = useAppStore((state) => ({
+        openModalPdf: state.openModalPdf,
+        setOpenModalPdf: state.setOpenModalPdf
+    }));
 
 
     const onDocumentLoadSuccess = ({numPages}: any) => {

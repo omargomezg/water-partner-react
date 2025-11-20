@@ -1,13 +1,14 @@
 import {Button, Drawer, Space} from "antd";
-import {useClientStore} from "../../store/Client.store";
 import ClientForm from "../ClientForm";
+import {useAppStore} from "../../store/useAppStore";
 
 type EditClientProps = {
     client?: {}
 }
 
 const ClientDrawerForm = ({client}: EditClientProps) => {
-    const {openForm, setOpenForm} = useClientStore();
+    const openForm = useAppStore((state) => state.openForm);
+    const setOpenForm = useAppStore((state) => state.setOpenForm);
     return (<Drawer title='Editar cliente'
                     width={600}
                     extra={

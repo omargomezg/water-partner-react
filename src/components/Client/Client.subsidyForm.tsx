@@ -1,8 +1,12 @@
-import {useClientStore} from "../../store/Client.store";
 import {Button, Col, Divider, Drawer, Form, Input, Row, Select, Space, Typography} from "antd";
+import {useAppStore} from "../../store/useAppStore";
 
 const ClientSubsidyForm = () => {
-    const {openSubsidyForm, meterForSubsidy, setOpenSubsidyForm} = useClientStore();
+    const {openSubsidyForm, meterForSubsidy, setOpenSubsidyForm} = useAppStore((state) => ({
+        openSubsidyForm: state.openSubsidyForm,
+        meterForSubsidy: state.meterForSubsidy,
+        setOpenSubsidyForm: state.setOpenSubsidyForm
+    }));
     return (<Drawer title={'Subsidio servicio ' + meterForSubsidy?.code}
                     width={600}
                     extra={

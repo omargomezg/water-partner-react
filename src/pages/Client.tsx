@@ -6,12 +6,12 @@ import ClientTable from "../components/Client/Client.table";
 import {Button, Col, Divider, Row, Space} from "antd";
 import ClientTableFilter from "../components/Client/Client.tableFilter";
 import ClientDrawerForm from "../components/Client/Client.drawerForm";
-import {useClientStore} from "../store/Client.store";
 import ClientProfile from "../components/Client/Client.profile";
 import CheckAuthentication from "../components/CheckAuthentication";
+import {useAppStore} from "../store/useAppStore";
 
 const ClientPage: FC = () => {
-    const {profile} = useClientStore();
+    const profile = useAppStore((state) => state.profile);
     return (
         <CheckAuthentication>
             <ContentLayout>
@@ -27,7 +27,7 @@ const ClientPage: FC = () => {
 export default ClientPage
 
 const ClientList = () => {
-    const {setOpenForm} = useClientStore();
+    const setOpenForm = useAppStore((state) => state.setOpenForm);
     return (
         <>
             <Row>

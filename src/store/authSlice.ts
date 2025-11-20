@@ -1,4 +1,4 @@
-import {ImmerStateCreator} from "./appStore";
+import {ImmerStateCreator} from "./useAppStore";
 import apiClient from "../services/apiClient";
 
 type AuthState = {

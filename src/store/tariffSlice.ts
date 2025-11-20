@@ -1,12 +1,14 @@
 import {Tariff, Tariffs} from "../types";
 import apiClient from "../services/apiClient";
-import {ImmerStateCreator} from "./appStore";
+import {ImmerStateCreator} from "./useAppStore";
 
 interface TariffState {
     tariffs: Tariff[];
+    openFormTariff: boolean
 }
 
 interface TariffActions {
+    setOpenFormTariff: ()=> void
     fetchTariff: () => Promise<void>;
     create: (tariff: Tariff) => void;
 }
@@ -15,6 +17,12 @@ export type TariffSlice = TariffState & TariffActions;
 
 export const createTariffSlice: ImmerStateCreator<TariffSlice> = (set) => ({
     tariffs: [],
+    openFormTariff: false,
+    setOpenFormTariff: () => {
+        set((state) => ({
+            openFormTariff: !state.openFormTariff
+        }))
+    },
     fetchTariff: async () => {
         const res = await apiClient.get<Tariffs>('/tariff');
         const {status, data} = res;

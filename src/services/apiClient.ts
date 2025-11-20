@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
-import {appStore} from "../store/appStore";
+import {useAppStore} from "../store/useAppStore";
 
 const BASE_URL = 'http://localhost:8080/api/v1';
 
@@ -12,7 +12,7 @@ const apiClient: AxiosInstance = axios.create({
 
 apiClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-        const { token } = appStore.getState();
+        const { token } = useAppStore.getState();
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -29,9 +29,9 @@ apiClient.interceptors.response.use(
     },
     (error) => {
         if (error.response?.status === 401) {
-            if (appStore.getState().token) {
+            if (useAppStore.getState().token) {
                 console.log('Token expirado o inválido. Cerrando sesión automáticamente.');
-                appStore.getState().logout();
+                useAppStore.getState().logout();
             }
         }
         return Promise.reject(error);

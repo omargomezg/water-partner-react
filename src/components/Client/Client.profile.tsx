@@ -1,5 +1,4 @@
 import {Button, Card, Col, Divider, Flex, Row, Space, Typography} from "antd";
-import {useClientStore} from "../../store/Client.store";
 import './Client.module.css';
 import Medidores from "./Client.medidores";
 import ClientReadingRecords from "./Client.readingRecords";
@@ -7,9 +6,14 @@ import ClientBoletas from "./Client.boletas";
 import ClientSubsidyForm from "./Client.subsidyForm";
 import ClientModalPdf from "./Client.modalPdf";
 import ClientReadingRecordForm from "./Client.readingRecordForm";
+import {useAppStore} from "../../store/useAppStore";
 
 const ClientProfile = () => {
-    const {profile, setProfile, setOpenForm} = useClientStore();
+    const {profile, setProfile, setOpenForm} = useAppStore((state) => ({
+        profile: state.profile,
+        setProfile: state.setProfile,
+        setOpenForm: state.setOpenForm
+    }));
     if (!profile) return null;
     return (<>
             <Card style={{marginBottom: '10px'}}>
