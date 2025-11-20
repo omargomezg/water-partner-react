@@ -5,6 +5,7 @@ type AuthState = {
     email: string | undefined;
     fullName: string | undefined;
     token: string | undefined;
+    openModalSessionExpired: boolean;
 }
 
 interface AuthActions {
@@ -18,6 +19,7 @@ export const createAuthSlice: ImmerStateCreator<AuthSlice> = (set) => ({
     token: undefined,
     email: undefined,
     fullName: undefined,
+    openModalSessionExpired: false,
     login: async (email: string, password: string) => {
         const response = await apiClient.post('/public/auth/signup', {email, password});
         const {status, data} = response;
@@ -37,6 +39,8 @@ export const createAuthSlice: ImmerStateCreator<AuthSlice> = (set) => ({
             state.token = undefined;
             state.email = undefined;
             state.fullName = undefined;
+            state.openModalSessionExpired = false;
         });
+        window.location.href = '/login'
     }
 });

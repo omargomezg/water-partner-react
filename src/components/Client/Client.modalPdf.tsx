@@ -20,11 +20,8 @@ const ClientModalPdf = ({
                             pdfUrl = "http://localhost:3000/BOLETA.pdf"
                         }) => {
     const [numPages, setNumPages] = useState(null);
-    const {openModalPdf, setOpenModalPdf} = useAppStore((state) => ({
-        openModalPdf: state.openModalPdf,
-        setOpenModalPdf: state.setOpenModalPdf
-    }));
-
+    const openModalPdf = useAppStore((state) => state.openModalPdf);
+    const setOpenModalPdf = useAppStore((state) => state.setOpenModalPdf);
 
     const onDocumentLoadSuccess = ({numPages}: any) => {
         setNumPages(numPages);

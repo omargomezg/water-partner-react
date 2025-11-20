@@ -1,11 +1,15 @@
-import {Col, Divider, Form, Input, Radio, Row, Segmented} from "antd";
+import {Button, Col, Divider, Form, Input, Radio, Row, Segmented, Space} from "antd";
+import {useAppStore} from "../store/useAppStore";
 
 const ClientForm = () => {
+    const createClient = useAppStore((state) => state.createClient);
+    const onCancel = () => {}
+
     return (
-        <Form layout={'vertical'}>
+        <Form layout={'vertical'} onFinish={createClient}>
             <Row gutter={16}>
                 <Col span={10}>
-                    <Form.Item name="identificacion"
+                    <Form.Item name="dniType"
                                label="Tipo de identificación"
                                initialValue="rut"
                                rules={[{required: true}]}>
@@ -15,7 +19,7 @@ const ClientForm = () => {
                     </Form.Item>
                 </Col>
                 <Col span={14}>
-                    <Form.Item name="rut" label="Rut" rules={[{required: true}]}>
+                    <Form.Item name="dni" label="Rut" rules={[{required: true}]}>
                         <Input/>
                     </Form.Item>
                 </Col>
@@ -45,6 +49,12 @@ const ClientForm = () => {
                     </Form.Item>
                 </Col>
             </Row>
+            <Space style={{float: 'right'}}>
+                <Button type="default" onClick={onCancel}>Cancelar</Button>
+                <Button type="primary" htmlType="submit">
+                    Guardar
+                </Button>
+            </Space>
         </Form>
     )
 }

@@ -2,10 +2,10 @@ import {Avatar, Flex, Typography} from "antd"
 import React from "react"
 import Search from "antd/es/input/Search";
 import {MessageOutlined, NotificationOutlined, UserOutlined} from "@ant-design/icons";
-import {useAuthStore} from "../store/AuthStore";
+import {useAppStore} from "../store/useAppStore";
 
 const CustomHeader = () => {
-    const {fullName} = useAuthStore()
+    const fullName = useAppStore((state) => state.fullName)
     return <Flex align="center" justify="space-between">
         <Typography.Title level={3} type="secondary">
             Hola {fullName}

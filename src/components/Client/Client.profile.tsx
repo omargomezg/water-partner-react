@@ -9,11 +9,9 @@ import ClientReadingRecordForm from "./Client.readingRecordForm";
 import {useAppStore} from "../../store/useAppStore";
 
 const ClientProfile = () => {
-    const {profile, setProfile, setOpenForm} = useAppStore((state) => ({
-        profile: state.profile,
-        setProfile: state.setProfile,
-        setOpenForm: state.setOpenForm
-    }));
+    const profile = useAppStore((state) => state.profile);
+    const setProfile = useAppStore((state) => state.setProfile);
+    const setOpenForm = useAppStore((state) => state.setOpenForm);
     if (!profile) return null;
     return (<>
             <Card style={{marginBottom: '10px'}}>

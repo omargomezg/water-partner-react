@@ -2,11 +2,9 @@ import {Button, Col, Divider, Drawer, Form, Input, Row, Select, Space, Typograph
 import {useAppStore} from "../../store/useAppStore";
 
 const ClientSubsidyForm = () => {
-    const {openSubsidyForm, meterForSubsidy, setOpenSubsidyForm} = useAppStore((state) => ({
-        openSubsidyForm: state.openSubsidyForm,
-        meterForSubsidy: state.meterForSubsidy,
-        setOpenSubsidyForm: state.setOpenSubsidyForm
-    }));
+    const openSubsidyForm = useAppStore((state) => state.openSubsidyForm);
+    const meterForSubsidy = useAppStore((state) => state.meterForSubsidy);
+    const setOpenSubsidyForm = useAppStore((state) => state.setOpenSubsidyForm);
     return (<Drawer title={'Subsidio servicio ' + meterForSubsidy?.code}
                     width={600}
                     extra={

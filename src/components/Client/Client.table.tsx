@@ -41,19 +41,15 @@ const columns: TableProps<Client>['columns'] = [
 ];
 
 const ClientTable = () => {
-    const {clients, getClients} = useAppStore(
-        (state) =>({
-            clients: state.clients,
-            getClients: state.getClients
-        })
-    );
+    const clients = useAppStore((state) => state.clients);
+    const getClients = useAppStore((state) => state.getClients);
     useEffect(() => {
         getClients(0, 20);
     }, [])
     return <Table<Client> style={{width: '100%'}}
-                            rowKey="dni"
-                            columns={columns}
-                            dataSource={clients}/>
+                          rowKey="dni"
+                          columns={columns}
+                          dataSource={clients}/>
 }
 
 const RowButtons = ({client}: any) => {

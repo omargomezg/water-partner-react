@@ -23,6 +23,7 @@ interface ClientActions {
     setOpenModalPdf: ()=> void;
     setOpenReadingRecordForm: ()=> void;
     getClients: (page: number, size: number) => Promise<boolean>;
+    createClient: (client: Client) => Promise<boolean>;
 }
 
 export type ClientSlice = ClientState & ClientActions;
@@ -46,14 +47,27 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> =(set)=>({
     setOpenModalPdf: () => set((state) => ({openModalPdf: !state.openModalPdf})),
     setOpenReadingRecordForm: () => set((state) => ({openReadingRecordForm: !state.openReadingRecordForm})),
     getClients: async (page: number, size: number) => {
-        const response = await apiClient.get<Clients>(`client?pageIndex=${page}&pageSize=${size}`);
-        const {status, data} = response;
-        if (status === 200) {
-            set((state) => {
-                state.clients = data.items
-            });
-            return true;
+        try {
+            const response = await apiClient.get<Clients>(`/client?pageIndex=${page}&pageSize=${size}`);
+            const {status, data} = response;
+            if (status === 200) {
+                set((state) => {
+                    state.clients = data.items
+                });
+                return true;
+            }
+            return false;
+        } catch (err) {
+            return false;
         }
-        return false;
-    }
+    },
+    createClient: async (client: Client) => {
+        try {
+            const response = await apiClient.post<Client>(`/client`, client);
+            const {status, data} = response;
+            return status === 201;
+        } catch (err) {
+            return false;
+        }
+    },
 })

@@ -44,12 +44,8 @@ const columns: TableProps<Tariff>['columns'] = [
 ];
 
 const TariffTable = () => {
-    const {tariffs, fetchTariff} = useAppStore(
-        (state) => ({
-            tariffs: state.tariffs,
-            fetchTariff: state.fetchTariff
-        })
-    );
+    const tariffs = useAppStore((state) => state.tariffs);
+    const fetchTariff = useAppStore((state) => state.fetchTariff);
     useEffect(() => {
         fetchTariff();
     }, []);

@@ -6,6 +6,7 @@ import CustomHeader from "../Header";
 import {Content, Header} from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import './ContentLayout.css'
+import ModalSessionExpired from "../ModalSessionExpired";
 
 interface ContentLayoutProps {
     children: ReactNode
@@ -29,6 +30,7 @@ const ContentLayout = ({children}: ContentLayoutProps) => {
                 <Content className="content">
                         {children}
                 </Content>
+                <ModalSessionExpired />
             </Layout>
         </Layout>
     )
