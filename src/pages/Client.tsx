@@ -36,6 +36,7 @@ const ClientList = () => {
                         <Space>
                             <Button type="primary">Carga masiva <small>(archivo csv)</small></Button>
                             <Button type="primary" onClick={setOpenForm}>Crear cliente</Button>
+                            <Button type="primary" onClick={setOpenForm}>Tipo de cliente</Button>
                         </Space>
                     </CardContent>
                 </Col>
