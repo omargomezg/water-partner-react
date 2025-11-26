@@ -1,8 +1,10 @@
-import {Button, Col, Divider, Form, Input, Radio, Row, Segmented, Space} from "antd";
+import {Button, Col, Divider, Form, Input, Radio, Row, Select, Space} from "antd";
 import {useAppStore} from "../store/useAppStore";
 
 const ClientForm = () => {
     const createClient = useAppStore((state) => state.createClient);
+    const clientTypes = useAppStore((state) => state.clientTypes);
+
     const onCancel = () => {}
 
     return (
@@ -14,7 +16,7 @@ const ClientForm = () => {
                                initialValue="rut"
                                rules={[{required: true}]}>
                         <Radio.Group>
-                            <Radio value='rut'>RUT</Radio>
+                            <Radio value='CHILEAN'>RUT</Radio>
                         </Radio.Group>
                     </Form.Item>
                 </Col>
@@ -25,10 +27,10 @@ const ClientForm = () => {
                 </Col>
             </Row>
             <Divider />
-            <Form.Item name="role"
+            <Form.Item name="clientType"
                        label="Tipo de cliente"
                        rules={[{required: true}]}>
-                <Segmented options={['Socio', 'Público', 'Privado']} />
+                <Select options={clientTypes.map(x => ({label: x.description, value: x.id}))} />
             </Form.Item>
             <Divider />
             <Form.Item name="nombre" label="Nombre" rules={[{required: true}]}>

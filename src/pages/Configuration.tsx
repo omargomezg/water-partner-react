@@ -8,6 +8,7 @@ import CheckAuthentication from "../components/CheckAuthentication";
 import SectorContainer from "../container/Sector/Sector.container";
 import PeriodContainer from "../container/Period/Period.container";
 import AccountContainer from "../container/Account/Account.container";
+import ClientTypeContainer from "../container/ClientType/ClientType.container";
 
 const items: TabsProps['items'] = [
     {
@@ -34,17 +35,18 @@ const items: TabsProps['items'] = [
         key: '5',
         label: 'Cuentas',
         children: <AccountContainer />,
+    }, {
+        key: '6',
+        label: 'Tipo de Clientes',
+        children: <ClientTypeContainer/>,
     },
 ];
 
 const ConfigurationPage: FC = () => {
-    const onChange = (key: string) => {
-        console.log(key);
-    };
     return (
         <CheckAuthentication>
             <ContentLayout>
-                <Tabs defaultActiveKey="1" items={items} onChange={onChange}/>
+                <Tabs defaultActiveKey="1" items={items}/>
             </ContentLayout>
         </CheckAuthentication>
     )
