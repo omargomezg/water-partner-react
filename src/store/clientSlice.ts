@@ -4,7 +4,7 @@ import {Client} from "../types/Client";
 import {Clients} from "../types/Clients";
 
 type ClientState = {
-    openForm: boolean;
+    openClientForm: boolean;
     openSubsidyForm: boolean;
     openReadingRecordForm: boolean;
     openModalPdf: boolean;
@@ -18,7 +18,7 @@ interface ClientActions {
     /**
      * Cambia el estado de openForm para abrir la edicion de clientes
      */
-    setOpenForm: () => void;
+    setClientOpenForm: () => void;
     setProfile: (client: any) => void;
     setOpenModalPdf: ()=> void;
     setOpenReadingRecordForm: ()=> void;
@@ -29,7 +29,7 @@ interface ClientActions {
 export type ClientSlice = ClientState & ClientActions;
 
 export const createClientSlice: ImmerStateCreator<ClientSlice> =(set)=>({
-    openForm: false,
+    openClientForm: false,
     openSubsidyForm: false,
     openReadingRecordForm: false,
     openModalPdf: false,
@@ -42,7 +42,7 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> =(set)=>({
             meterForSubsidy: meter
         }))
     },
-    setOpenForm: () => set((state) =>({openForm: !state.openForm})),
+    setClientOpenForm: () => set((state) =>({openClientForm: !state.openClientForm})),
     setProfile: (client) => set((state) => ({profile: client})),
     setOpenModalPdf: () => set((state) => ({openModalPdf: !state.openModalPdf})),
     setOpenReadingRecordForm: () => set((state) => ({openReadingRecordForm: !state.openReadingRecordForm})),
@@ -64,7 +64,7 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> =(set)=>({
     createClient: async (client: Client) => {
         try {
             const response = await apiClient.post<Client>(`/client`, client);
-            const {status, data} = response;
+            const {status} = response;
             return status === 201;
         } catch (err) {
             return false;

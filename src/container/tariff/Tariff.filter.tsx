@@ -3,9 +3,9 @@ import {PlusOutlined} from "@ant-design/icons";
 import {useAppStore} from "../../store/useAppStore";
 
 const TariffFilter = () => {
-    const setOpenForm = useAppStore((state) => state.setOpenForm);
+    const setOpenFormTariff = useAppStore((state) => state.setOpenFormTariff);
     return (
-         <Button type="default" onClick={setOpenForm}><PlusOutlined />Crear</Button>
+         <Button type="default" onClick={setOpenFormTariff}><PlusOutlined />Crear</Button>
 
     )
  }

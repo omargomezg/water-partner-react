@@ -3,12 +3,12 @@ import TariffForm from "../../components/TariffForm";
 import {useAppStore} from "../../store/useAppStore";
 
 const TariffDrawer = () => {
-    const setOpenForm = useAppStore((state) => state.setOpenForm);
-    const openForm = useAppStore((state) => state.openForm);
+    const setOpenFormTariff = useAppStore((state) => state.setOpenFormTariff);
+    const openFormTariff = useAppStore((state) => state.openFormTariff);
     return (<Drawer title='Editar/Crear tarifa'
                     width={350}
-                    open={openForm} onClose={setOpenForm}>
-        <TariffForm onCancel={setOpenForm}></TariffForm>
+                    open={openFormTariff} onClose={setOpenFormTariff}>
+        <TariffForm onCancel={setOpenFormTariff}></TariffForm>
     </Drawer>)
 }
 export default TariffDrawer

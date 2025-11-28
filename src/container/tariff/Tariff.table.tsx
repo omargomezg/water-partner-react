@@ -59,9 +59,9 @@ const TariffTable = () => {
 }
 
 const RowButtons = ({tariff}: any) => {
-    const setOpenForm = useAppStore((state) => state.setOpenForm);
+    const setOpenFormTariff = useAppStore((state) => state.setOpenFormTariff);
     return <Space>
-        <Button type="link" onClick={setOpenForm}>
+        <Button type="link" onClick={setOpenFormTariff}>
             <EditOutlined/>
         </Button>
     </Space>

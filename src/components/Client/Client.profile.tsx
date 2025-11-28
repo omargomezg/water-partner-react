@@ -11,7 +11,8 @@ import {useAppStore} from "../../store/useAppStore";
 const ClientProfile = () => {
     const profile = useAppStore((state) => state.profile);
     const setProfile = useAppStore((state) => state.setProfile);
-    const setOpenForm = useAppStore((state) => state.setOpenForm);
+	//TODO Editar para abrir el formulario de edicion de usuario y no el de cliente
+    const setClientOpenForm = useAppStore((state) => state.setClientOpenForm);
     if (!profile) return null;
     return (<>
             <Card style={{marginBottom: '10px'}}>
@@ -40,7 +41,7 @@ const ClientProfile = () => {
                         </dl>
                         <Divider/>
                         <Flex justify="end">
-                            <Button type="default" onClick={setOpenForm}>Editar antecedentes</Button>
+                            <Button type="default" onClick={setClientOpenForm}>Editar antecedentes</Button>
                         </Flex>
                     </Card>
                 </Col>
