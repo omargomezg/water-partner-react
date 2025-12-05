@@ -43,7 +43,7 @@ const ClientTable = () => {
 	const loadingClients = useAppStore((state) => state.loadingClients);
 	const setClientFilter = useAppStore((state) => state.setClientFilter);
 	const clientFilter = useAppStore((state) => state.clientFilter);
-	
+
 	useEffect(() => {
 		getClients();
 	}, [getClients]);
@@ -51,7 +51,6 @@ const ClientTable = () => {
 	const onPageChange = (pageNumber: number) => {
 		const page = pageNumber - 1;
 		setClientFilter({ page, size: constants.PAGE_SIZE } as ClientFilter);
-		getClients();
 	}
 
 	return (<>

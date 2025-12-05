@@ -48,7 +48,7 @@ const TariffTable = () => {
     const fetchTariff = useAppStore((state) => state.fetchTariff);
     useEffect(() => {
         fetchTariff();
-    }, []);
+    }, [fetchTariff]);
     return (
         <Table<Tariff> style={{width: '100%'}}
                        rowKey="id"

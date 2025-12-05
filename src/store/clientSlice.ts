@@ -1,6 +1,6 @@
 import { ImmerStateCreator } from "./useAppStore";
 import apiClient from "../services/apiClient";
-import { Client, ClientFilter, Clients } from "../types";
+import { Client, ClientFilter, PageResponse } from "../types";
 import { cleanFilter, constants } from "../utils/Utils";
 
 type ClientState = {
@@ -11,7 +11,7 @@ type ClientState = {
 	meterForSubsidy: any,
 	clientFilter: ClientFilter,
 	client: Client | null,
-	clients: Clients | null,
+	clients: PageResponse<Client> | null,
 	loadingClients: boolean,
 }
 
@@ -62,7 +62,7 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 		try {
 			const clientFilter = get().clientFilter
 			const params = new URLSearchParams(cleanFilter(clientFilter)).toString();
-			const response = await apiClient.get<Clients>(`/client?${params}`);
+			const response = await apiClient.get<PageResponse<Client>>(`/client?${params}`);
 			const { status, data } = response;
 			if (status === 200) {
 				set((state) => {

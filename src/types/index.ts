@@ -4,5 +4,7 @@ export * from './Auth';
 export * from './ClientType';
 export * from './WaterMeter';
 export * from './Client';
-export * from './Clients';
 export * from './ClientFilter';
+export * from './WaterMeter';
+export * from './WaterMeterFilter';
+export * from './PageResponse';
