@@ -8,8 +8,7 @@ type ClientTypeState = {
 }
 
 interface ClientTypeActions {
-    getClientTypes: () => Promise<boolean>;
-    setClientType: (clientType: ClientType) => void;
+    getClientTypes: () => Promise<ClientType[]>;
     clearFormClientType: () => void;
     saveClientType: (clientType: ClientType) => Promise<boolean>;
 }
@@ -18,27 +17,27 @@ export type ClientTypeSlice = ClientTypeState & ClientTypeActions;
 export const createClientTypeSlice: ImmerStateCreator<ClientTypeSlice> = (set, get) => ({
     clientTypes: [],
     clientType: null,
-    setClientType: (type: ClientType) => set((state) => {
-        state.clientType = type;
-
-    }),
     clearFormClientType: () => set((state) => {
         state.clientType = null;
     }),
     getClientTypes: async () => {
+        const clientTypes = get().clientTypes;
+        if (clientTypes.length > 0) {
+            return clientTypes;
+        }
         try {
             const response = await apiClient<ClientType[]>('/client-type');
             const {status, data} = response;
             if (status !== 200) {
-                return false;
+                return [];
             }
             set((state) => {
                 state.clientTypes = data;
             });
-            return true;
+            return data;
         } catch (err) {
             console.error("Error fetching client types:", err);
-            return false;
+            return [];
         }
     },
     saveClientType: async (clientType: ClientType) => {

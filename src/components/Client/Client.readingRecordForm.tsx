@@ -2,10 +2,8 @@ import {Button, Drawer, Form, Input, Space} from "antd";
 import {useAppStore} from "../../store/useAppStore";
 
 const ClientReadingRecordForm = () => {
-    const {setOpenReadingRecordForm, openReadingRecordForm} = useAppStore((state) => ({
-        setOpenReadingRecordForm: state.setOpenReadingRecordForm,
-        openReadingRecordForm: state.openReadingRecordForm
-    }));
+	const setOpenReadingRecordForm = useAppStore((state) => state.setOpenReadingRecordForm);
+	const openReadingRecordForm = useAppStore((state) => state.openReadingRecordForm);
     return (
         <Drawer title='Editar cliente'
                 width={600}

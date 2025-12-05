@@ -1,82 +1,72 @@
-import {Button, Table, TableProps} from "antd";
+import { Button, Table, TableProps } from "antd";
 import dayjs from "dayjs";
-import {useAppStore} from "../../store/useAppStore";
+import { useAppStore } from "../../store/useAppStore";
+import { useState, useEffect } from "react";
+import { WaterMeter } from "../../types";
 
-interface DataType {
-    code: number;
-    millimeter: string;
-    createdAt: string;
-    sector: string;
-    fixedTariff: number;
-    amountPerM3: number;
-}
-
-const columns: TableProps<DataType>['columns'] = [
-    {
-        title: 'Código',
-        dataIndex: 'code',
-        key: 'code',
-    },
-    {
-        title: 'Milímetros',
-        dataIndex: 'millimeter',
-        key: 'millimeter',
-    },
-    {
-        title: 'Alta',
-        dataIndex: 'createdAt',
-        key: 'createdAt',
-        render: (dateString) => {
-            return dayjs(dateString).format('MMMM DD, YYYY');
-        }
-    },
-    {
-        title: 'Sector',
-        dataIndex: 'sector',
-        key: 'sector',
-    },
-    {
-        title: 'Cargo fijo',
-        key: 'fixedTariff',
-        dataIndex: 'fixedTariff',
-    },
-    {
-        title: '$ m3',
-        key: 'amountPerM3',
-        dataIndex: 'amountPerM3',
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (_, record) => (
-            <ActionButtons meter={record}/>
-        ),
-    },
-];
-
-const data: DataType[] = [
-    {
-        code: 23423423,
-        millimeter: '1/2"',
-        createdAt: '2025-07-28T10:00:00Z',
-        sector: 'Mirador poniente',
-        fixedTariff: 1500,
-        amountPerM3: 10
-    },
+const columns: TableProps<WaterMeter>['columns'] = [
+	{
+		title: 'Código',
+		dataIndex: 'serial',
+		key: 'serial',
+	},
+	{
+		title: 'Milímetros',
+		dataIndex: 'diameter',
+		key: 'diameter',
+	},
+	{
+		title: 'Alta',
+		dataIndex: 'createdAt',
+		key: 'createdAt',
+		render: (dateString) => {
+			return dayjs(dateString).format('MMMM DD, YYYY');
+		}
+	},
+	{
+		title: 'Sector',
+		dataIndex: 'sector',
+		key: 'sector',
+	},
+	{
+		title: 'Cargo fijo',
+		key: 'fixedTariff',
+		dataIndex: 'fixedTariff',
+	},
+	{
+		title: '$ m3',
+		key: 'amountPerM3',
+		dataIndex: 'amountPerM3',
+	},
+	{
+		title: 'Action',
+		key: 'action',
+		render: (_, record) => (
+			<ActionButtons meter={record} />
+		),
+	},
 ];
 
 const Medidores = () => {
-    return <Table<DataType> style={{width: '100%'}}
-                            columns={columns}
-                            rowKey="code"
-                            dataSource={data}/>
+	const client = useAppStore((state) => state.client);
+	const [meters, setMeters] = useState<WaterMeter[]>([]);
+	useEffect(() => {
+		if (client?.waterMeters) {
+			setMeters(client.waterMeters);
+		}
+	}, [client]);
+	
+	return <Table<WaterMeter> style={{ width: '100%' }}
+		columns={columns}
+		rowKey="code"
+		dataSource={meters} />
 }
 
 export default Medidores
 
-const ActionButtons = ({meter}: any) => {
-    const setOpenSubsidyForm = useAppStore((state) => state.setOpenSubsidyForm);
-    return (
-        <Button title="Agregar subsidio" onClick={() => setOpenSubsidyForm(meter)}>+ Subsidio</Button>
-    )
+const ActionButtons = ({ meter }: any) => {
+	const setOpenSubsidyForm = useAppStore((state) => state.setOpenSubsidyForm);
+	return (
+		<Button title="Agregar subsidio" onClick={() => setOpenSubsidyForm(meter)}>+ Subsidio</Button>
+	)
 }

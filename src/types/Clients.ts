@@ -1,6 +1,6 @@
-import {Client} from "./Client";
+import { Client } from "./Client";
 
 export interface Clients {
-    items: Client[];
-    totalHits: number;
+    content: Client[];
+    totalElements: number;
 }

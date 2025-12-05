@@ -2,9 +2,11 @@ import {Button, Col, Divider, Drawer, Form, Input, Row, Select, Space, Typograph
 import {useAppStore} from "../../store/useAppStore";
 
 const ClientSubsidyForm = () => {
+    const [form] = Form.useForm();
     const openSubsidyForm = useAppStore((state) => state.openSubsidyForm);
     const meterForSubsidy = useAppStore((state) => state.meterForSubsidy);
     const setOpenSubsidyForm = useAppStore((state) => state.setOpenSubsidyForm);
+
     return (<Drawer title={'Subsidio servicio ' + meterForSubsidy?.code}
                     width={600}
                     extra={
@@ -16,7 +18,7 @@ const ClientSubsidyForm = () => {
                         </Space>
                     }
                     open={openSubsidyForm} onClose={setOpenSubsidyForm}>
-            <Form layout={'vertical'}>
+            <Form layout={'vertical'} form={form}>
                 <Typography.Title level={5}>
                     Datos del decreto
                 </Typography.Title>

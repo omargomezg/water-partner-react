@@ -11,12 +11,12 @@ import CheckAuthentication from "../components/CheckAuthentication";
 import { useAppStore } from "../store/useAppStore";
 
 const ClientPage: FC = () => {
-	const profile = useAppStore((state) => state.profile);
+	const client = useAppStore((state) => state.client);
 	return (
 		<CheckAuthentication>
 			<ContentLayout>
-				{!profile && (<ClientList></ClientList>)}
-				{profile &&
+				{!client && (<ClientList></ClientList>)}
+				{client &&
 					<ClientProfile></ClientProfile>}
 				<ClientDrawerForm></ClientDrawerForm>
 			</ContentLayout>

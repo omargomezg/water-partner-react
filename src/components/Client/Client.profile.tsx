@@ -9,11 +9,13 @@ import ClientReadingRecordForm from "./Client.readingRecordForm";
 import {useAppStore} from "../../store/useAppStore";
 
 const ClientProfile = () => {
-    const profile = useAppStore((state) => state.profile);
+    const client = useAppStore((state) => state.client);
     const setProfile = useAppStore((state) => state.setProfile);
 	//TODO Editar para abrir el formulario de edicion de usuario y no el de cliente
     const setClientOpenForm = useAppStore((state) => state.setClientOpenForm);
-    if (!profile) return null;
+    // if (!client) return (<>No cliente para editar</>);
+
+
     return (<>
             <Card style={{marginBottom: '10px'}}>
                 <Space>
@@ -31,13 +33,13 @@ const ClientProfile = () => {
                         <Divider/>
                         <dl>
                             <dt>Rut</dt>
-                            <dd>14.081.226-9</dd>
+                            <dd>{client?.dni}</dd>
                             <dt>Nombre</dt>
-                            <dd>Omar Fernando Gómez Gómez</dd>
+                            <dd>{client?.fullName}</dd>
                             <dt>Teléfono</dt>
-                            <dd><a href="tel:+56956296195">+56 9 5629 6195</a></dd>
+                            <dd><a href={`tel:${client?.telephone}`}>{client?.telephone}</a></dd>
                             <dt>Correo electrónico</dt>
-                            <dd>omar.fdo.gomez@gmail.com</dd>
+                            <dd>{client?.email}</dd>
                         </dl>
                         <Divider/>
                         <Flex justify="end">

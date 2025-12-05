@@ -14,7 +14,6 @@ const apiClient: AxiosInstance = axios.create({
 apiClient.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         const { token } = useAppStore.getState();
-        console.log(token);
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -24,11 +23,6 @@ apiClient.interceptors.request.use(
         return Promise.reject(error);
     }
 );
-
-let navigateToLogin: () => void;
-export const setNavigateToLogin = (callback: () => void) => {
-    navigateToLogin = callback;
-};
 
 apiClient.interceptors.response.use(
     (response) => response,

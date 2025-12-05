@@ -1,73 +1,112 @@
-import {ImmerStateCreator} from "./useAppStore";
+import { ImmerStateCreator } from "./useAppStore";
 import apiClient from "../services/apiClient";
-import {Client} from "../types/Client";
-import {Clients} from "../types/Clients";
+import { Client, ClientFilter, Clients } from "../types";
+import { cleanFilter, constants } from "../utils/Utils";
 
 type ClientState = {
-    openClientForm: boolean;
-    openSubsidyForm: boolean;
-    openReadingRecordForm: boolean;
-    openModalPdf: boolean;
-    meterForSubsidy: any,
-    profile: {} | null,
-    clients: Client[]
+	openClientForm: boolean;
+	openSubsidyForm: boolean;
+	openReadingRecordForm: boolean;
+	openModalPdf: boolean;
+	meterForSubsidy: any,
+	clientFilter: ClientFilter,
+	client: Client | null,
+	clients: Clients | null,
+	loadingClients: boolean,
 }
 
 interface ClientActions {
-    setOpenSubsidyForm: (meter: any) => void;
-    /**
-     * Cambia el estado de openForm para abrir la edicion de clientes
-     */
-    setClientOpenForm: () => void;
-    setProfile: (client: any) => void;
-    setOpenModalPdf: ()=> void;
-    setOpenReadingRecordForm: ()=> void;
-    getClients: (page: number, size: number) => Promise<boolean>;
-    createClient: (client: Client) => Promise<boolean>;
+	setClientFilter: (filter: ClientFilter) => void;
+	setOpenSubsidyForm: (meter: any) => void;
+	setClientOpenForm: () => void;
+	setProfile: (client: any) => void;
+	setOpenModalPdf: () => void;
+	setOpenReadingRecordForm: () => void;
+	getClients: () => Promise<boolean>;
+	createClient: (client: Client) => Promise<boolean>;
+	deleteClient: (id: string) => Promise<boolean>;
 }
 
 export type ClientSlice = ClientState & ClientActions;
 
-export const createClientSlice: ImmerStateCreator<ClientSlice> =(set)=>({
-    openClientForm: false,
-    openSubsidyForm: false,
-    openReadingRecordForm: false,
-    openModalPdf: false,
-    meterForSubsidy: null,
-    profile: null,
-    clients: [],
-    setOpenSubsidyForm: (meter: any) => {
-        set((state) => ({
-            openSubsidyForm: !state.openSubsidyForm,
-            meterForSubsidy: meter
-        }))
-    },
-    setClientOpenForm: () => set((state) =>({openClientForm: !state.openClientForm})),
-    setProfile: (client) => set((state) => ({profile: client})),
-    setOpenModalPdf: () => set((state) => ({openModalPdf: !state.openModalPdf})),
-    setOpenReadingRecordForm: () => set((state) => ({openReadingRecordForm: !state.openReadingRecordForm})),
-    getClients: async (page: number, size: number) => {
-        try {
-            const response = await apiClient.get<Clients>(`/client?pageIndex=${page}&pageSize=${size}`);
-            const {status, data} = response;
-            if (status === 200) {
-                set((state) => {
-                    state.clients = data.items
-                });
-                return true;
-            }
-            return false;
-        } catch (err) {
-            return false;
-        }
-    },
-    createClient: async (client: Client) => {
-        try {
-            const response = await apiClient.post<Client>(`/client`, client);
-            const {status} = response;
-            return status === 201;
-        } catch (err) {
-            return false;
-        }
-    },
+export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => ({
+	openClientForm: false,
+	openSubsidyForm: false,
+	openReadingRecordForm: false,
+	openModalPdf: false,
+	meterForSubsidy: null,
+	clientFilter: { page: 0, size: constants.PAGE_SIZE },
+	client: null,
+	clients: null,
+	loadingClients: false,
+	setClientFilter: (filter: ClientFilter) => {
+		set((state) => {
+			state.clientFilter = filter;
+		});
+		get().getClients();
+	},
+	setOpenSubsidyForm: (meter: any) => {
+		set((state) => ({
+			openSubsidyForm: !state.openSubsidyForm,
+			meterForSubsidy: meter
+		}))
+	},
+	setClientOpenForm: () => set((state) => ({ openClientForm: !state.openClientForm })),
+	setProfile: (client) => {
+		set((state) => { state.client = client })
+	},
+	setOpenModalPdf: () => set((state) => ({ openModalPdf: !state.openModalPdf })),
+	setOpenReadingRecordForm: () => set((state) => ({ openReadingRecordForm: !state.openReadingRecordForm })),
+	getClients: async () => {
+		set((state) => ({ loadingClients: true }))
+		try {
+			const clientFilter = get().clientFilter
+			const params = new URLSearchParams(cleanFilter(clientFilter)).toString();
+			const response = await apiClient.get<Clients>(`/client?${params}`);
+			const { status, data } = response;
+			if (status === 200) {
+				set((state) => {
+					state.clients = data
+				});
+				return true;
+			}
+			return false;
+		} catch (err) {
+			return false;
+		} finally {
+			set((state) => {
+				state.loadingClients = false
+			});
+		}
+	},
+	createClient: async (client: Client) => {
+		try {
+			const response = await apiClient.post<Client>(`/client`, client);
+			const { status } = response;
+			if (status === 201) {
+				set((state) => {
+					state.clientFilter = { page: 0, size: constants.PAGE_SIZE };
+				});
+				get().getClients();
+				return true;
+			}
+			return false;
+		} catch (err) {
+			return false;
+		}
+	},
+	deleteClient: async (id: string) => {
+		try {
+			const response = await apiClient.delete(`/client/${id}`);
+			const { status } = response;
+			if (status === 200) {
+				get().getClients();
+				return true;
+			}
+			return false;
+		} catch (err) {
+			return false;
+		}
+	}
+
 })

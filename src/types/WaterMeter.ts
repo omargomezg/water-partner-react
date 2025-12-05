@@ -5,5 +5,6 @@ export interface WaterMeter {
     diameter: string;
     comment: string;
     sector: string;
-    updated: string;
+    createdAt: string;
+    updatedAt: string;
 }
