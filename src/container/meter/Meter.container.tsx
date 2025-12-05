@@ -2,10 +2,10 @@ import MeterTable from "./Meter.table";
 import {Button, Card, Space} from "antd";
 import MeterDrawer from "./Meter.drawer";
 import {PlusOutlined} from "@ant-design/icons";
-import {useMeterStore} from "../../store/Meter.store";
+import {useAppStore} from "../../store/useAppStore";
 
 export const MeterContainer = () => {
-    const {setOpenForm} = useMeterStore();
+    const setOpenForm = useAppStore((state) => state.setOpenFormWaterMeter);
     return (
         <>
             <Card style={{marginBottom: '10px'}}>

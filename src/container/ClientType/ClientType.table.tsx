@@ -8,13 +8,14 @@ const columns: TableProps<ClientType>['columns'] = [
         title: 'ID',
         dataIndex: 'id',
         key: 'id',
-    }, {
+    },
+    {
         title: 'Descripción',
         dataIndex: 'description',
         key: 'description',
     },
     {
-        title: 'Action',
+        title: 'Acciones',
         key: 'action',
         render: (_, record: ClientType) => (
             <RowButtons type={record} />

@@ -2,7 +2,6 @@ export * from './Tariff';
 export * from './Tariffs';
 export * from './Auth';
 export * from './ClientType';
-export * from './WaterMeter';
 export * from './Client';
 export * from './ClientFilter';
 export * from './WaterMeter';

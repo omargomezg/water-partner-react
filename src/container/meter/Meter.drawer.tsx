@@ -1,19 +1,13 @@
-import {Button, Drawer, Space} from "antd";
+import {Drawer} from "antd";
 import MeterForm from "./Meter.form";
-import {useMeterStore} from "../../store/Meter.store";
+import {useAppStore} from "../../store/useAppStore";
 
 const MeterDrawer = () => {
-    const {openForm, setOpenForm} = useMeterStore()
+    const setOpenForm = useAppStore((state) => state.setOpenFormWaterMeter);
+    const openForm = useAppStore((state) => state.openFormWaterMeter);
+
     return (
         <Drawer title='Editar/Crear Medidor'
-                extra={
-                    <Space>
-                        <Button onClick={setOpenForm}>Cancelar</Button>
-                        <Button onClick={setOpenForm} type="primary">
-                            Guardar
-                        </Button>
-                    </Space>
-                }
                 open={openForm} onClose={setOpenForm}>
             <MeterForm></MeterForm>
         </Drawer>)

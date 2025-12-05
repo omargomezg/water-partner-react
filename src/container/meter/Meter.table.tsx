@@ -9,18 +9,18 @@ import {WaterMeter} from "../../types";
 const columns: TableProps<WaterMeter>['columns'] = [
     {
         title: 'Serie',
-        dataIndex: 'serialNumber',
-        key: 'serialNumber',
+        dataIndex: 'serial',
+        key: 'serial',
     },
     {
         title: 'Marca',
-        dataIndex: 'brand',
-        key: 'brand',
+        dataIndex: 'trademark',
+        key: 'trademark',
     },
     {
         title: 'Tamaño',
-        dataIndex: 'size',
-        key: 'size',
+        dataIndex: 'diameter',
+        key: 'diameter',
     },
     {
         title: 'Última actualización',
@@ -31,7 +31,7 @@ const columns: TableProps<WaterMeter>['columns'] = [
         },
     },
     {
-        title: 'Action',
+        title: 'Acciones',
         key: 'action',
         render: (_, record: WaterMeter) => (
             <RowButtons tariff={record}/>
@@ -63,7 +63,8 @@ const MeterTable = () => {
 
     <Pagination defaultCurrent={filter.page + 1}
                 pageSize={filter.size}
-                showTotal={(total) => `Hay ${total} medidores`}
+                showTotal={(total) => total > constants.PAGE_SIZE ? `Hay ${total} medidores` : ''}
+
                 total={meters?.totalElements} onChange={onPageChange} />
         </>
     )

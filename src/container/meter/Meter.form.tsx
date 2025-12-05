@@ -1,29 +1,43 @@
-import {Form, Input, Select} from "antd";
+import {Form, Input, Select, Space, Button} from "antd";
+import {useAppStore} from "../../store/useAppStore";
+import {WaterMeter} from "../../types";
 
 const MeterForm = () => {
+    const setOpenForm = useAppStore((state) => state.setOpenFormWaterMeter);
+    const create = useAppStore((state) => state.createWaterMeter);
+    const onFinish = async (values: WaterMeter) => {
+        await create(values);
+        setOpenForm()
+    }
     return (
-        <Form layout={'vertical'}>
-            <Form.Item name="nombre" label="Numero" rules={[{required: true}]}>
+        <Form layout={'vertical'} onFinish={onFinish}>
+            <Form.Item name="serial" label="Numero" rules={[{required: true}]}>
                 <Input/>
             </Form.Item>
-            <Form.Item name="telefono" label="Medida del medidor" rules={[{required: true}]}>
+            <Form.Item name="diameter" label="Medida del medidor" rules={[{required: true}]}>
                 <Select options={[
-                    {value: "13", label: "13 mm"},
-                    {value: "19", label: "19 mm"},
-                    {value: "25", label: "25 mm"},
-                    {value: "38", label: "38 mm"}
+                    {value: "THIRTEEN", label: "13 mm"},
+                    {value: "NINETEEN", label: "19 mm"},
+                    {value: "TWENTY_FIVE", label: "25 mm"},
+                    {value: "THIRTY_EIGHT", label: "38 mm"}
                 ]}/>
             </Form.Item>
-            <Form.Item name="nombre" label="Marca" rules={[{required: true}]}>
+            <Form.Item name="trademark" label="Marca" rules={[{required: true}]}>
                 <Input/>
             </Form.Item>
-            <Form.Item name="nombre" label="Sector" rules={[{required: true}]}>
+            <Form.Item name="sector" label="Sector" rules={[{required: true}]}>
                 <Input/>
             </Form.Item>
-            <Form.Item label={'Observaciones'}>
+            <Form.Item name="comment" label={'Observaciones'}>
                 <Input.TextArea/>
             </Form.Item>
+            <Space style={{float: 'right'}}>
+                <Button type="default" onClick={setOpenForm}>Cancelar</Button>
+                <Button type="primary" htmlType="submit">
+                    Guardar
+                </Button>
+            </Space>
         </Form>
     )
 }
-export default MeterForm
+export default MeterForm;
