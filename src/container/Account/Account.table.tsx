@@ -2,74 +2,64 @@ import {Button, Space, Table, TableProps} from "antd";
 import dayjs from "dayjs";
 import {useMeterStore} from "../../store/Meter.store";
 import {EditOutlined} from "@ant-design/icons";
+import { Account } from "../../types";
+import { useAppStore } from "../../store/useAppStore";
+import { useEffect } from "react";
+
+
+const columns: TableProps<Account>['columns'] = [
+    {
+        title: 'Nombre',
+        dataIndex: 'fullName',
+        key: 'fullName',
+    }, {
+        title: 'Correo electrónico',
+        dataIndex: 'email',
+        key: 'email',
+    }, {
+        title: 'Rol',
+        dataIndex: 'roles',
+        key: 'roles',
+        render: (roles) => roles?.join(', '),
+    }, {
+        title: 'Estado',
+        dataIndex: 'enabled',
+        key: 'enabled',
+        render: (enabled) => enabled ? 'Activo' : 'Inactivo',
+    }, {
+        title: 'Última actualización',
+        key: 'updatedAt',
+        dataIndex: 'updatedAt',
+        render: (dateString) => {
+            return dayjs(dateString).format('MMMM DD, YYYY');
+        },
+    }, {
+        title: 'Último acceso',
+        key: 'lastLogin',
+        dataIndex: 'lastLogin',
+        render: (dateString) => {
+            return dayjs(dateString).format('MMMM DD, YYYY');
+        },
+    }, {
+        title: 'Action',
+        key: 'action',
+        render: (_, record: Account) => (
+            <RowButtons tariff={record} />
+        ),
+    }
+];
 
 const AccountTable = () => {
-    interface DataType {
-        id: string,
-        fullName: string,
-        email: string,
-        alias: string,
-        principalSite: string,
-        role: string,
-        status: string,
-        updatedAt: Date
-    }
-    const columns: TableProps<DataType>['columns'] = [
-        {
-            title: 'Nombre',
-            dataIndex: 'fullName',
-            key: 'fullName',
-        },{
-            title: 'Correo electrónico',
-            dataIndex: 'email',
-            key: 'email',
-        },{
-            title: 'Alias',
-            dataIndex: 'alias',
-            key: 'alias',
-        },{
-            title: 'Sitio principal',
-            dataIndex: 'principalSite',
-            key: 'principalSite',
-        },{
-            title: 'Rol',
-            dataIndex: 'role',
-            key: 'role',
-        },{
-            title: 'Estado',
-            dataIndex: 'status',
-            key: 'status',
-        },{
-            title: 'Última actualización',
-            key: 'updatedAt',
-            dataIndex: 'updatedAt',
-            render: (dateString) => {
-                return dayjs(dateString).format('MMMM DD, YYYY');
-            },
-        }, {
-            title: 'Action',
-            key: 'action',
-            render: (_, record: DataType) => (
-                <RowButtons tariff={record}/>
-            ),
-        }
-    ]
-    const data: DataType[] = [
-        {
-            id: "123e4567-e89b-12d3-a456-426614174000",
-            fullName: "Omar Gómez",
-            email: "ogomez@lavozdepuertovaras.cl",
-            alias: "o.gomez",
-            principalSite: "https://www.lavozdepuertovaras.cl",
-            role: "Editor",
-            status: "Active",
-            updatedAt: new Date("2025-09-01T16:28:00.000Z")
-        }
-    ]
-    return <Table<DataType> style={{width: '100%'}}
-                            rowKey="id"
+    const getAccounts = useAppStore((state) => state.getAccounts);
+    const accounts = useAppStore((state) => state.accounts);
+    useEffect(() => {
+        getAccounts();
+    }, [getAccounts]);
+
+    return <Table<Account> style={{width: '100%'}}
+                            rowKey="dni"
                             columns={columns}
-                            dataSource={data}/>
+        dataSource={accounts?.content}/>
 }
 const RowButtons = ({tariff}: any) => {
     const {setOpenForm} = useMeterStore()

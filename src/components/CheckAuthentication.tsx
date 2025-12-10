@@ -11,7 +11,7 @@ const CheckAuthentication = ({children}: any)=>{
         if(!isAuthenticated) {
             navigate("/login");
         }
-    },[navigate]);
+    },[navigate, isAuthenticated]);
 
     return (
         children

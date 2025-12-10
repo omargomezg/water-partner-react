@@ -130,12 +130,12 @@ const PaymentSecondStep = () => {
                         Pagar
                     </Button>
                     <div style={{ marginTop: '32px' }}>
-                        <a href="#" style={{ color: '#007BFF', textDecoration: 'none' }}>
+                        <button style={{ background: 'none', border: 'none', color: '#007BFF', cursor: 'pointer', padding: 0 }}>
                             <Space>
                                 <CaretDownOutlined />
                                 <Text style={{ color: '#007BFF', fontWeight: 'bold' }}>Ver últimos pagos</Text>
                             </Space>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </Card>

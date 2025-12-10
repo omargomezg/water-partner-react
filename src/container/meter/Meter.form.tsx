@@ -7,7 +7,7 @@ const MeterForm = () => {
     const create = useAppStore((state) => state.createWaterMeter);
     const onFinish = async (values: WaterMeter) => {
         await create(values);
-        setOpenForm()
+        setOpenForm();
     }
     return (
         <Form layout={'vertical'} onFinish={onFinish}>

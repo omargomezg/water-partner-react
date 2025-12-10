@@ -1,14 +1,19 @@
-import {Button, Card} from "antd";
-import {PlusOutlined} from "@ant-design/icons";
+import { Button, Card } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import AccountTable from "./Account.table";
+import { useAppStore } from "../../store/useAppStore";
+import AccountDrawerForm from "./Account.drawerForm";
 
 const AccountContainer = () => {
-    return (
+    const setOpenAccountForm = useAppStore((state) => state.setOpenAccountForm);
+    return (<>
         <Card title="Todas las cuentas" extra={
-            <Button type={'primary'}><PlusOutlined/>Crear</Button>
+            <Button type={'primary'} onClick={setOpenAccountForm}><PlusOutlined />Crear</Button>
         }>
-            <AccountTable/>
+            <AccountTable />
         </Card>
+        <AccountDrawerForm />
+    </>
     )
 }
 export default AccountContainer

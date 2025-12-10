@@ -7,3 +7,4 @@ export * from './ClientFilter';
 export * from './WaterMeter';
 export * from './WaterMeterFilter';
 export * from './PageResponse';
+export * from './Account';
