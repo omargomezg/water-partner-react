@@ -2,7 +2,7 @@ import { Button, Form, Input, message, Space, Select } from "antd"
 import { useAppStore } from "../../store/useAppStore";
 import { Account } from "../../types";
 import { FC } from "react";
-import { formatRut, validateRut } from "../../utils/Utils";
+import FormInputRut from "../../components/FormInputRut";
 
 const AccountForm: FC = () => {
     const [form] = Form.useForm();
@@ -16,33 +16,8 @@ const AccountForm: FC = () => {
     }
     return <>
         {contextHolder}
-        <Form layout="vertical" onFinish={onFinish}>
-            <Form.Item label="RUT" name="dni"
-                rules={[
-                    { required: true, message: 'Por favor ingrese RUT' },
-                    ({ getFieldValue }) => ({
-                        validator(_, value) {
-                            // 1. Permite RUTs vacíos si no es requerido (Antd lo maneja arriba)
-                            if (!value) {
-                                return Promise.resolve();
-                            }
-
-                            // 2. Ejecuta la validación del dígito verificador
-                            if (validateRut(value)) {
-                                return Promise.resolve(); // Válido
-                            }
-
-                            // 3. Inválido
-                            return Promise.reject(new Error('El RUT ingresado no es válido.'));
-                        },
-                    }),]}>
-                <Input onChange={(e) => {
-                    const formattedValue = formatRut(e.target.value);
-                    form.setFieldsValue({
-                        rut: formattedValue,
-                    });
-                }} />
-            </Form.Item>
+        <Form layout="vertical" form={form} onFinish={onFinish}>
+            <FormInputRut name="dni" label="Identificador RUT" />
             <Form.Item label="Nombre completo" name="fullName" rules={[{ required: true, message: 'Por favor ingrese el nombre completo' }]}>
                 <Input />
             </Form.Item>

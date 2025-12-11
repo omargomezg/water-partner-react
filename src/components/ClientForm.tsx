@@ -3,6 +3,7 @@ import { useAppStore } from "../store/useAppStore";
 import React, { useEffect, useState } from "react";
 import { Client } from "../types/Client";
 import { ClientType } from "../types";
+import FormInputRut from "./FormInputRut";
 
 interface ClientFormProps {
 	client?: Client;
@@ -49,9 +50,7 @@ useEffect(() => {
 					</Form.Item>
 				</Col>
 				<Col span={14}>
-					<Form.Item name="dni" label="Rut" rules={[{ required: true }]}>
-						<Input />
-					</Form.Item>
+					<FormInputRut name="dni" label="Identificador RUT" />
 				</Col>
 			</Row>
 			<Divider />

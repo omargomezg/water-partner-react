@@ -1,5 +1,5 @@
-import {Avatar, Flex, Typography} from "antd"
-import React from "react"
+import {Avatar, Flex, Popover, Typography} from "antd"
+import React, { FC } from "react"
 import Search from "antd/es/input/Search";
 import {MessageOutlined, NotificationOutlined, UserOutlined} from "@ant-design/icons";
 import {useAppStore} from "../store/useAppStore";
@@ -15,10 +15,20 @@ const CustomHeader = () => {
             <Flex align="center" gap="10px">
                 <MessageOutlined className="header-icon"/>
                 <NotificationOutlined className="header-icon"/>
-                <Avatar icon={<UserOutlined/>} size="large" />
+                <Popover placement="bottomRight" content={<Options />}>
+                    <Avatar icon={<UserOutlined/>} size="large" />
+                </Popover>
             </Flex>
         </Flex>
     </Flex>
 }
 
 export default CustomHeader
+
+const Options: FC = () => {
+    return (
+        <>
+        Hola, cerrar sesion.
+        </>
+    )
+}
