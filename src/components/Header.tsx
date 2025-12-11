@@ -1,4 +1,4 @@
-import {Avatar, Flex, Popover, Typography} from "antd"
+import {Avatar, Button, Flex, Popover, Typography} from "antd"
 import React, { FC } from "react"
 import Search from "antd/es/input/Search";
 import {MessageOutlined, NotificationOutlined, UserOutlined} from "@ant-design/icons";
@@ -26,9 +26,10 @@ const CustomHeader = () => {
 export default CustomHeader
 
 const Options: FC = () => {
+    const logout = useAppStore((state) => state.logout)
     return (
         <>
-        Hola, cerrar sesion.
+        Hola, <Button type="link" onClick={logout}>Cerrar sesión</Button>.
         </>
     )
 }
