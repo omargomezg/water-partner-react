@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 import { useAppStore } from "../store/useAppStore";
 
-const BASE_URL = "https://api.pinotconsultores.cl/api/v1";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: BASE_URL,
