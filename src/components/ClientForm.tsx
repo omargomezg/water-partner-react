@@ -1,25 +1,18 @@
-import { Button, Col, Divider, Form, Input, message, Radio, Row, Select, Space } from "antd";
+import { Button, Col, Divider, Form, Input, message, Radio, Row, Space } from "antd";
 import { useAppStore } from "../store/useAppStore";
-import React, { useEffect, useState } from "react";
+import { FC } from "react";
 import { Client } from "../types/Client";
-import { ClientType } from "../types";
 import FormInputRut from "./FormInputRut";
+import SelectClientsType from "./SelectClientsType";
 
 interface ClientFormProps {
 	client?: Client;
 }
 
-const ClientForm: React.FC<ClientFormProps>= ({client}) => {
+const ClientForm: FC<ClientFormProps> = ({ client }) => {
 	const [form] = Form.useForm();
-	const [clientTypes, setClientTypes] = useState<ClientType[]>([]);
 	const createClient = useAppStore((state) => state.createClient);
-	const getClientTypes = useAppStore((state) => state.getClientTypes);
 	const setClientOpenForm = useAppStore((state) => state.setClientOpenForm);
-
-useEffect(() => {
-	getClientTypes().then(setClientTypes);
-}, [getClientTypes]);
-
 
 	const onCancel = () => {
 		form.resetFields();
@@ -57,7 +50,7 @@ useEffect(() => {
 			<Form.Item name={["clientType", "id"]}
 				label="Tipo de cliente"
 				rules={[{ required: true }]}>
-				<Select options={clientTypes.map(x => ({ label: x.description, value: x.id }))} />
+				<SelectClientsType />
 			</Form.Item>
 			<Divider />
 			<Form.Item name="fullName" label="Nombre" rules={[{ required: true }]}>

@@ -85,7 +85,7 @@ const ClientProfile = () => {
                             <Divider />
                             <ul className={styles.requestList}>
                                 {items.map(x => <li key={x.key}>
-                                    <a>{x.label}: {x.children}</a>
+                                    <Typography.Link >{x.label}: {x.children}</Typography.Link>
                                     </li>)}
                             </ul>
                         </Card>

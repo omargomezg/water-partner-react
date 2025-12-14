@@ -1,6 +1,7 @@
 import {Button, Form, Input, Select, Space} from "antd";
 import {Tariff} from "../types";
 import {useAppStore} from "../store/useAppStore";
+import SelectClientsType from "./SelectClientsType";
 
 interface TariffFormProps {
     onCancel: () => void;
@@ -12,6 +13,7 @@ const TariffForm: React.FC<TariffFormProps> = ({onCancel}) => {
         create(values);
         onCancel();
     }
+
     return (
         <Form layout={'vertical'} onFinish={onFinish}>
             <Form.Item name="diameter" label="Medida del medidor" rules={[{required: true}]}>
@@ -22,12 +24,8 @@ const TariffForm: React.FC<TariffFormProps> = ({onCancel}) => {
                     {value: "THIRTY_EIGHT", label: "38 mm"}
                 ]}/>
             </Form.Item>
-            <Form.Item name="clientType" label="Tipo de cliente" rules={[{required: true}]}>
-                <Select options={[
-                    {value: "PUBLIC", label: "Publico"},
-                    {value: "RESIDENT_PARTNER", label: "Socio"},
-                    {value: "PRIVATE", label: "Privado"}
-                ]}/>
+            <Form.Item name="clientType" label="Tipo de cliente" rules={[{ required: true }]}>
+                <SelectClientsType />
             </Form.Item>
             <Form.Item name="flatFee" label="Carjo fijo" rules={[{required: true}]}>
                 <Input/>
