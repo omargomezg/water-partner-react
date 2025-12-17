@@ -8,3 +8,6 @@ export * from './WaterMeter';
 export * from './WaterMeterFilter';
 export * from './PageResponse';
 export * from './Account';
+export * from './AccountFilter';
+export * from './GenericResponse';
+export * from './PageFilter';

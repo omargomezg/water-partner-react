@@ -1,7 +1,7 @@
-import {Button, Space, Table, TableProps} from "antd";
+import {Button, Space, Table, TableProps, Typography} from "antd";
 import dayjs from "dayjs";
 import {EditOutlined} from "@ant-design/icons";
-import {Tariff} from "../../types";
+import {ClientType, Tariff} from "../../types";
 import {useAppStore} from "../../store/useAppStore";
 import {useEffect} from "react";
 
@@ -25,6 +25,7 @@ const columns: TableProps<Tariff>['columns'] = [
         title: 'Tipo de cliente',
         dataIndex: 'clientType',
         key: 'clientType',
+        render: (clientType: ClientType) => <Typography.Text>{clientType.description}</Typography.Text>
     },
     {
         title: 'Última actualización',

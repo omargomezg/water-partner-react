@@ -1,4 +1,4 @@
-import {Button, Form, Input, Select, Space} from "antd";
+import {Button, Form, Input, message, Select, Space} from "antd";
 import {Tariff} from "../types";
 import {useAppStore} from "../store/useAppStore";
 import SelectClientsType from "./SelectClientsType";
@@ -9,9 +9,16 @@ interface TariffFormProps {
 
 const TariffForm: React.FC<TariffFormProps> = ({onCancel}) => {
     const create = useAppStore((state) => state.createTariff);
+    const fetchTariff = useAppStore((state) => state.fetchTariff);
     const onFinish = async (values: Tariff) => {
-        create(values);
-        onCancel();
+        const status = await create(values);
+        if(status.success) {
+            message.success("Tarifa creada");
+            fetchTariff();
+            onCancel();
+        } else {
+            message.error(status.message);
+        }
     }
 
     return (
@@ -24,7 +31,7 @@ const TariffForm: React.FC<TariffFormProps> = ({onCancel}) => {
                     {value: "THIRTY_EIGHT", label: "38 mm"}
                 ]}/>
             </Form.Item>
-            <Form.Item name="clientType" label="Tipo de cliente" rules={[{ required: true }]}>
+            <Form.Item name={["clientType", "id"]} label="Tipo de cliente" rules={[{ required: true }]}>
                 <SelectClientsType />
             </Form.Item>
             <Form.Item name="flatFee" label="Carjo fijo" rules={[{required: true}]}>
