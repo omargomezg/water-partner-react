@@ -56,9 +56,10 @@ export const createTariffSlice: ImmerStateCreator<TariffSlice> = (set) => ({
         return response;
     },
     updateTariff: async (tariff: Tariff) => {
+        console.log("Actualizando tarifa", tariff);
         const response: GenericResponse<Tariff> = new GenericResponse<Tariff>();
         try {
-            const res = await apiClient.put<Tariff>('/tariff', tariff);
+            const res = await apiClient.put<Tariff>(`/tariff/${tariff.id}`, tariff);
             const {status} = res;
             response.success = status === 200;
         } catch (err: any) {

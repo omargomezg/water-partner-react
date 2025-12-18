@@ -17,11 +17,13 @@ const columns: TableProps<Tariff>['columns'] = [
         title: 'Cargo fijo',
         dataIndex: 'flatFee',
         key: 'flatFee',
+        render: (value: number) => <Typography.Text>{value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' })}</Typography.Text>
     },
     {
         title: '$ m3',
         dataIndex: 'cubicMeter',
         key: 'cubicMeter',
+        render: (value: number) => <Typography.Text>{value.toLocaleString('es-CL', { style: 'currency', currency: 'CLP' })}</Typography.Text>
     },
     {
         title: 'Tipo de cliente',

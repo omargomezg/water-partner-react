@@ -1,5 +1,5 @@
 import { Button, Form, Input, message, Select, Space } from "antd";
-import { Tariff } from "../types";
+import { GenericResponse, Tariff } from "../types";
 import { useAppStore } from "../store/useAppStore";
 import SelectClientsType from "./SelectClientsType";
 import { useEffect } from "react";
@@ -11,21 +11,37 @@ interface TariffFormProps {
 const TariffForm: React.FC<TariffFormProps> = ({ onCancel }) => {
     const [form] = Form.useForm();
     const create = useAppStore((state) => state.createTariff);
+    const update = useAppStore((state) => state.updateTariff);
     const fetchTariff = useAppStore((state) => state.fetchTariff);
     const tariff = useAppStore((state) => state.tariff);
     const onFinish = async (values: Tariff) => {
-        const status = await create(values);
-        if (status.success) {
-            message.success("Tarifa creada");
-            fetchTariff();
-            onCancel();
+        let result: GenericResponse<Tariff>;
+        if (tariff) {
+            values.id = tariff.id;
+            result = await update(values);
+            onResult(result, "actualizada");
         } else {
-            message.error(status.message);
+            result = await create(values);
+            onResult(result, "creada");
         }
     }
 
+    const onResult = async (result: GenericResponse<Tariff>, action: string) => {
+        console.log(result);
+        if (result.success) {
+            message.success(`Tarifa ${action}`);
+            fetchTariff();
+            onCancel();
+        } else {
+            message.error(result.message);
+        }
+    };
+
     useEffect(() => {
-        form.setFieldsValue(tariff);
+        if (tariff)
+            form.setFieldsValue(tariff);
+        else 
+            form.resetFields();
     }, [form, tariff]);
 
     return (
