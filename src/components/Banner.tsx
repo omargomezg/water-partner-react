@@ -16,6 +16,6 @@ const Banner: FC = () => {
             </Flex>
         </Flex>
     </Card>
-}
+};
 
 export default Banner;

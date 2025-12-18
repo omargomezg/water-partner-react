@@ -5,7 +5,7 @@ import {useAppStore} from "../../store/useAppStore";
 const TariffFilter = () => {
     const setOpenFormTariff = useAppStore((state) => state.setOpenFormTariff);
     return (
-         <Button type="default" onClick={setOpenFormTariff}><PlusOutlined />Crear</Button>
+         <Button type="default" onClick={() => setOpenFormTariff(null)}><PlusOutlined />Crear</Button>
 
     )
  }

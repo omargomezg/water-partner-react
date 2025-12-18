@@ -3,12 +3,13 @@ import apiClient from "../services/apiClient";
 import {ImmerStateCreator} from "./useAppStore";
 
 interface TariffState {
+    tariff: Tariff | null;
     tariffs: Tariff[];
     openFormTariff: boolean;
 }
 
 interface TariffActions {
-  setOpenFormTariff: () => void;
+  setOpenFormTariff: (tariff: Tariff | null) => void;
   fetchTariff: () => Promise<boolean>;
   createTariff: (tariff: Tariff) => Promise<GenericResponse<Tariff>>;
   updateTariff: (tariff: Tariff) => Promise<GenericResponse<Tariff>>;
@@ -18,12 +19,13 @@ interface TariffActions {
 export type TariffSlice = TariffState & TariffActions;
 
 export const createTariffSlice: ImmerStateCreator<TariffSlice> = (set) => ({
+    tariff: null,
     tariffs: [],
     openFormTariff: false,
-    setOpenFormTariff: () => {
+    setOpenFormTariff: (tariff: Tariff | null) => {
         set((state) => ({
-            openFormTariff: !state.openFormTariff
-        }))
+            openFormTariff: !state.openFormTariff, tariff: tariff
+        }));
     },
     fetchTariff: async () => {
         try {

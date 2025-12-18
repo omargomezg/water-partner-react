@@ -7,8 +7,8 @@ const TariffDrawer = () => {
     const openFormTariff = useAppStore((state) => state.openFormTariff);
     return (<Drawer title='Editar/Crear tarifa'
                     width={350}
-                    open={openFormTariff} onClose={setOpenFormTariff}>
-        <TariffForm onCancel={setOpenFormTariff}></TariffForm>
+                    open={openFormTariff} onClose={() => setOpenFormTariff(null)}>
+        <TariffForm onCancel={() => setOpenFormTariff(null)}></TariffForm>
     </Drawer>)
 }
 export default TariffDrawer

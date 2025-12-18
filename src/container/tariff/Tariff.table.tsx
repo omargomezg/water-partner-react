@@ -4,12 +4,14 @@ import {EditOutlined} from "@ant-design/icons";
 import {ClientType, Tariff} from "../../types";
 import {useAppStore} from "../../store/useAppStore";
 import {useEffect} from "react";
+import DiameterText from "../../components/DiameterText";
 
 const columns: TableProps<Tariff>['columns'] = [
     {
         title: 'Diametro',
         dataIndex: 'diameter',
         key: 'diameter',
+        render: (diameter: string) => <DiameterText diameter={diameter}/>,
     },
     {
         title: 'Cargo fijo',
@@ -61,8 +63,11 @@ const TariffTable = () => {
 
 const RowButtons = ({tariff}: any) => {
     const setOpenFormTariff = useAppStore((state) => state.setOpenFormTariff);
+    const handleClick = () => {
+        setOpenFormTariff(tariff);
+    }
     return <Space>
-        <Button type="link" onClick={setOpenFormTariff}>
+        <Button type="link" onClick={handleClick}>
             <EditOutlined/>
         </Button>
     </Space>
