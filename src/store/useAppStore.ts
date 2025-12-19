@@ -7,7 +7,8 @@ import {ClientSlice, createClientSlice} from "./clientSlice";
 import {ClientTypeSlice, createClientTypeSlice} from "./clientTypeSlice";
 import {WaterMeterSlice, createWaterMeterSlice} from "./waterMeterSlice";
 import {AccountSlice, createAccountSlice} from "./accountSlice";
-export type RootState = AuthSlice & TariffSlice & ClientSlice & ClientTypeSlice & WaterMeterSlice & AccountSlice;
+import {PeriodSlice, createPeriodSlice} from "./periodSlice";
+export type RootState = AuthSlice & TariffSlice & ClientSlice & ClientTypeSlice & WaterMeterSlice & AccountSlice & PeriodSlice;
 
 export type ImmerStateCreator<T> = StateCreator<RootState, [["zustand/immer", never], never], [], T>;
 
@@ -20,7 +21,8 @@ export const useAppStore = create<RootState>()(
                 ...createClientSlice(...args),
                 ...createClientTypeSlice(...args),
                 ...createWaterMeterSlice(...args),
-                ...createAccountSlice(...args)
+                ...createAccountSlice(...args),
+                ...createPeriodSlice(...args)
             })), {
                 name: "app-store"
             }

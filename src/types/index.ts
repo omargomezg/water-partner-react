@@ -11,3 +11,5 @@ export * from './Account';
 export * from './AccountFilter';
 export * from './GenericResponse';
 export * from './PageFilter';
+export * from './Period';
+export * from './PeriodFilter';

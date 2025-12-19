@@ -1,12 +1,17 @@
 import {Button, Card} from "antd";
 import PeriodTable from "./Period.table";
 import {PlusOutlined} from "@ant-design/icons";
+import { useAppStore } from "../../store/useAppStore";
+import PeriodDrawer from "./Period.Drawer";
 
 const PeriodContainer = () => {
+    const setOpenFormPeriod = useAppStore((state) => state.setOpenFormPeriod);
+    const openFormPeriod = useAppStore((state) => state.openFormPeriod);
     return <Card title="Listado de tarifas" extra={
-        <Button type={'primary'}><PlusOutlined/>Crear</Button>
+        <Button type={'primary'} onClick={setOpenFormPeriod}><PlusOutlined/>Crear</Button>
     }>
         <PeriodTable/>
+        <PeriodDrawer />
     </Card>
 }
 export default PeriodContainer

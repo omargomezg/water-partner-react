@@ -8,7 +8,7 @@ import DiameterText from "../../components/DiameterText";
 
 const columns: TableProps<Tariff>['columns'] = [
     {
-        title: 'Diametro',
+        title: 'Diámetro',
         dataIndex: 'diameter',
         key: 'diameter',
         render: (diameter: string) => <DiameterText diameter={diameter}/>,

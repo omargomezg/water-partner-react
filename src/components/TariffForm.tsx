@@ -38,15 +38,16 @@ const TariffForm: React.FC<TariffFormProps> = ({ onCancel }) => {
     };
 
     useEffect(() => {
-        if (tariff)
+        if (tariff) {
             form.setFieldsValue(tariff);
-        else 
+        } else {
             form.resetFields();
+        }
     }, [form, tariff]);
 
     return (
         <Form layout={'vertical'} form={form} onFinish={onFinish}>
-            <Form.Item name="diameter" label="Medida del medidor" rules={[{ required: true }]}>
+            <Form.Item name="diameter" label="Diámetro del medidor" rules={[{ required: true }]}>
                 <Select options={[
                     { value: "THIRTEEN", label: "13 mm" },
                     { value: "NINETEEN", label: "19 mm" },

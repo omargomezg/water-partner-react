@@ -34,7 +34,7 @@ export const createWaterMeterSlice: ImmerStateCreator<WaterMeterSlice> = (set, g
                 state.waterMeter = null
             });
         } else {
-            set((state) => ({openFormWaterMeter: true}))
+            set((state) => {state.openFormWaterMeter = true})
         }
     },
     setWaterMeterFilter: (filter: WaterMeterFilter) => {

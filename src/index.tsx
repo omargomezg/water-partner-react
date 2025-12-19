@@ -5,7 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import DashboardPage from "./pages/Dashboard";
 import ClientPage from "./pages/ClientPage";
-import ConfigurationPage from "./pages/Configuration";
+import ConfigurationPage from "./pages/ConfigurationPage";
 import ReportPage from "./pages/Report";
 import MeterReadingPage from "./pages/MeterReading";
 import LoginPage from "./pages/Login";
