@@ -6,7 +6,7 @@ import PeriodForm from "./Period.Form";
 const PeriodDrawer: FC = () => {
     const openFormPeriod = useAppStore((state) => state.openFormPeriod);
     const setOpenFormPeriod = useAppStore((state) => state.setOpenFormPeriod);
-    return <Drawer open={openFormPeriod} onClose={setOpenFormPeriod}>
+    return <Drawer open={openFormPeriod} onClose={() => setOpenFormPeriod(null)}>
         <PeriodForm />
     </Drawer>
 }

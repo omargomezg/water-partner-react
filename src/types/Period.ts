@@ -1,6 +1,6 @@
 
 export interface Period {
-  id: string;
+  id: number;
   name: string;
   startDate: string;
   endDate: string;

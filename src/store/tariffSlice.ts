@@ -1,6 +1,7 @@
 import {GenericResponse, Tariff, Tariffs} from "../types";
 import apiClient from "../services/apiClient";
 import {ImmerStateCreator} from "./useAppStore";
+import { get } from "http";
 
 interface TariffState {
     tariff: Tariff | null;
@@ -14,11 +15,12 @@ interface TariffActions {
   createTariff: (tariff: Tariff) => Promise<GenericResponse<Tariff>>;
   updateTariff: (tariff: Tariff) => Promise<GenericResponse<Tariff>>;
   getTariffById: (id: number) => Promise<GenericResponse<Tariff>>;
+  deleteTariff: (id: number) => Promise<GenericResponse<void>>;
 }
 
 export type TariffSlice = TariffState & TariffActions;
 
-export const createTariffSlice: ImmerStateCreator<TariffSlice> = (set) => ({
+export const createTariffSlice: ImmerStateCreator<TariffSlice> = (set, get) => ({
     tariff: null,
     tariffs: [],
     openFormTariff: false,
@@ -74,6 +76,19 @@ export const createTariffSlice: ImmerStateCreator<TariffSlice> = (set) => ({
             const res = await apiClient.get<Tariff>(`/tariff/${id}`);
             const {status} = res;
             response.success = status === 200;
+        } catch (err: any) {
+            response.success = false;
+            response.message = err?.response?.data?.message;
+        }
+        return response;
+    },
+    deleteTariff: async (id: number) => {
+        const response: GenericResponse<void> = new GenericResponse<void>();
+        try {
+            const res = await apiClient.delete<void>(`/tariff/${id}`);
+            const {status} = res;
+            response.success = status === 200;
+            get().fetchTariff();
         } catch (err: any) {
             response.success = false;
             response.message = err?.response?.data?.message;

@@ -10,10 +10,11 @@ interface PeriodState {
 }
 
 interface PeriodActions {
-    setOpenFormPeriod: () => void;
+    setPeriodFilter: (filter: PeriodFilter) => void;
+    setOpenFormPeriod: (period: Period | null) => void;
     fetchPeriods: () => Promise<GenericResponse<Period[]>>;
     createPeriod: (period: Period) => Promise<GenericResponse<Period>>;
-
+    deletePeriod: (id: number) => Promise<GenericResponse<void>>;
 }
 
 export type PeriodSlice = PeriodState & PeriodActions;
@@ -23,7 +24,10 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
     periodFilter: { page: 0, size: 10 },
     period: null,
     periods: null,
-    setOpenFormPeriod: () => {
+    setPeriodFilter: (filter: PeriodFilter) => {
+        set((state) => { state.periodFilter = filter });
+    },
+    setOpenFormPeriod: (period: Period | null) => {
         const openFormPeriod = get().openFormPeriod;
         if (openFormPeriod === true) {
             set((state) => {
@@ -37,7 +41,7 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
     fetchPeriods: async () => {
         const response: GenericResponse<Period[]> = new GenericResponse<Period[]>();
         try {
-            const res = await apiClient.get<PageResponse<Period>>('/api/period');
+            const res = await apiClient.get<PageResponse<Period>>('/period');
             const { data} = res;
                 set((state) => { state.periods = data });
                 response.success = true;
@@ -51,10 +55,24 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
     createPeriod: async (period: Period) => {
         const response: GenericResponse<Period> = new GenericResponse<Period>();
         try {
-            const res = await apiClient.post<Period>('/api/period', period);
+            const res = await apiClient.post<Period>('/period', period);
             const { status, data } = res;
             response.success = status === 201
             response.content = data
+            get().fetchPeriods();
+            return response;
+        } catch (err) {
+            response.message = (err as Error).message;
+            return response;
+        }
+    },
+    deletePeriod: async (id: number) => {
+        const response: GenericResponse<void> = new GenericResponse<void>();
+        try {
+            const res = await apiClient.delete<void>(`/period/${id}`);
+            const {status} = res;
+            response.success = status === 200;
+            get().fetchPeriods();
             return response;
         } catch (err) {
             response.message = (err as Error).message;

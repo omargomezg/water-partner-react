@@ -1,15 +1,22 @@
 import { Form, Input, DatePicker, Space, Button } from "antd";
 import { FC } from "react";
 import { useAppStore } from "../../store/useAppStore";
+import { Period } from "../../types";
 
 const { RangePicker  } = DatePicker;
 
 const PeriodForm: FC = () => {
 
     const setOpenFormPeriod = useAppStore((state) => state.setOpenFormPeriod);
-    const onFinish = (values: any) => {
+    const create = useAppStore((state) => state.createPeriod);
+    const onFinish = async (values: any) => {
         const [start, end] = values.period;
-        console.log(start.format("YYYY-MM-DD"), end.format("YYYY-MM-DD"));
+        const startDate = start.format("YYYY-MM-DD");
+        const endDate = end.format("YYYY-MM-DD");
+        const result = await create({name: values.name, startDate: startDate, endDate: endDate} as Period);
+        if (result) {
+            setOpenFormPeriod(null);
+        }
     }
     return <>
         <Form layout="vertical" onFinish={onFinish}>
@@ -17,12 +24,13 @@ const PeriodForm: FC = () => {
                 <Input />
             </Form.Item>
             <Form.Item name="period" label="Rango de fechas">
-                <RangePicker placeholder={['Inicio', 'Fin']}
+                <RangePicker style={{ width: '100%' }}
+                    placeholder={['Inicio', 'Fin']}
                 format="DD/MM/YYYY"
                 />
             </Form.Item>
             <Space style={{ float: 'right' }}>
-                <Button type="default" onClick={setOpenFormPeriod}>Cancelar</Button>
+                <Button type="default" onClick={() => setOpenFormPeriod(null)}>Cancelar</Button>
                 <Button type="primary" htmlType="submit">
                     Guardar
                 </Button>
