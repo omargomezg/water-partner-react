@@ -1,7 +1,6 @@
 import {GenericResponse, Tariff, Tariffs} from "../types";
 import apiClient from "../services/apiClient";
 import {ImmerStateCreator} from "./useAppStore";
-import { get } from "http";
 
 interface TariffState {
     tariff: Tariff | null;

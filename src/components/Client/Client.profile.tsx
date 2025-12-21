@@ -1,12 +1,13 @@
 import { Button, Card, Col, Divider, Flex, Row, Space, Typography } from "antd";
 import styles from './Client.module.css';
-import Medidores from "./Client.medidores";
+import ClientAssociatedMeters from "./Client.associatedMeters";
 import ClientReadingRecords from "./Client.readingRecords";
 import ClientBoletas from "./Client.boletas";
 import ClientSubsidyForm from "./Client.subsidyForm";
 import ClientModalPdf from "./Client.modalPdf";
 import ClientReadingRecordForm from "./Client.readingRecordForm";
 import { useAppStore } from "../../store/useAppStore";
+import ClientMetersDrawer from "./Client.metersDrawer";
 
 const items = [
     {
@@ -23,6 +24,7 @@ const items = [
 
 const ClientProfile = () => {
     const client = useAppStore((state) => state.client);
+    const setClientMeterDrawerOpen = useAppStore((state) => state.setClientMeterDrawerOpen);
     const setProfile = useAppStore((state) => state.setProfile);
     //TODO Editar para abrir el formulario de edicion de usuario y no el de cliente
     const setClientOpenForm = useAppStore((state) => state.setClientOpenForm);
@@ -59,22 +61,15 @@ const ClientProfile = () => {
                         <Button type="default" onClick={setClientOpenForm}>Editar antecedentes</Button>
                     </Flex>
                 </Card>
-                <Card>
-                    <Typography.Title level={4}>
-                        Subsidios
-                    </Typography.Title>
-                    <Divider />
+                <Card title="Subsidios" extra={<Button type="link" onClick={setClientOpenForm}>+</Button>}>
                     <p>Una lista de subsidios...</p>
                 </Card>
             </Col>
             <Col span={18}>
                 <Row gutter={16}>
                     <Col span={18}>
-                        <Card style={{ marginBottom: '10px' }}>
-                            <Typography.Title level={4}>
-                                Medidores
-                            </Typography.Title>
-                            <Medidores></Medidores>
+                        <Card style={{ marginBottom: '10px' }} title="Medidores" extra={<Button type="link" onClick={setClientMeterDrawerOpen}>+</Button>}>
+                            <ClientAssociatedMeters></ClientAssociatedMeters>
                         </Card>
                     </Col>
                     <Col span={6}>
@@ -114,6 +109,7 @@ const ClientProfile = () => {
         <ClientSubsidyForm></ClientSubsidyForm>
         <ClientModalPdf></ClientModalPdf>
         <ClientReadingRecordForm></ClientReadingRecordForm>
+        <ClientMetersDrawer></ClientMetersDrawer>
     </>
     )
 }

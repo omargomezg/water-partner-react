@@ -5,5 +5,6 @@ export interface WaterMeterFilter extends PageFilter {
     trademark?: string;
     diameter?: string;
     sector?: string;
-
+    isAssigned?: boolean;
+    text?: string;
 }

@@ -47,7 +47,7 @@ const columns: TableProps<WaterMeter>['columns'] = [
 	},
 ];
 
-const Medidores = () => {
+const ClientAssociatedMeters = () => {
 	const client = useAppStore((state) => state.client);
 	const [meters, setMeters] = useState<WaterMeter[]>([]);
 	useEffect(() => {
@@ -62,7 +62,7 @@ const Medidores = () => {
 		dataSource={meters} />
 }
 
-export default Medidores
+export default ClientAssociatedMeters;
 
 const ActionButtons = ({ meter }: any) => {
 	const setOpenSubsidyForm = useAppStore((state) => state.setOpenSubsidyForm);

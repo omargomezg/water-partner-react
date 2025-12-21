@@ -6,6 +6,7 @@ import { cleanFilter, constants } from "../utils/Utils";
 type ClientState = {
 	openClientForm: boolean;
 	openSubsidyForm: boolean;
+	openClientMeterDrawer: boolean;
 	openReadingRecordForm: boolean;
 	openModalPdf: boolean;
 	meterForSubsidy: any,
@@ -16,6 +17,7 @@ type ClientState = {
 }
 
 interface ClientActions {
+	setClientMeterDrawerOpen: () => void;
 	setClientFilter: (filter: ClientFilter) => void;
 	setOpenSubsidyForm: (meter: any) => void;
 	setClientOpenForm: () => void;
@@ -30,6 +32,7 @@ interface ClientActions {
 export type ClientSlice = ClientState & ClientActions;
 
 export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => ({
+	openClientMeterDrawer: false,
 	openClientForm: false,
 	openSubsidyForm: false,
 	openReadingRecordForm: false,
@@ -39,6 +42,9 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 	client: null,
 	clients: null,
 	loadingClients: false,
+	setClientMeterDrawerOpen: () => {
+		set((state) => ({ openClientMeterDrawer: !state.openClientMeterDrawer }))
+	},
 	setClientFilter: (filter: ClientFilter) => {
 		set((state) => {
 			state.clientFilter = filter;
