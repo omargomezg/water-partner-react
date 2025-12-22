@@ -1,7 +1,6 @@
 import { Button, Table, TableProps } from "antd";
 import dayjs from "dayjs";
 import { useAppStore } from "../../store/useAppStore";
-import { useState, useEffect } from "react";
 import { WaterMeter } from "../../types";
 import DiameterText from "../DiameterText";
 import NumericText from "../NumericText";
