@@ -7,4 +7,6 @@ export interface WaterMeter {
     sector: string;
     createdAt: string;
     updatedAt: string;
+    cubicMeter?: number;
+    flatFee?: number;
 }

@@ -4,6 +4,7 @@ import { useAppStore } from "../../store/useAppStore";
 import { useState, useEffect } from "react";
 import { WaterMeter } from "../../types";
 import DiameterText from "../DiameterText";
+import NumericText from "../NumericText";
 
 const columns: TableProps<WaterMeter>['columns'] = [
 	{
@@ -32,13 +33,15 @@ const columns: TableProps<WaterMeter>['columns'] = [
 	},
 	{
 		title: 'Cargo fijo',
-		key: 'fixedTariff',
-		dataIndex: 'fixedTariff',
+		key: 'flatFee',
+		dataIndex: 'flatFee',
+		render: (flatFee) => <NumericText value={flatFee} />
 	},
 	{
 		title: '$ m3',
-		key: 'amountPerM3',
-		dataIndex: 'amountPerM3',
+		key: 'cubicMeter',
+		dataIndex: 'cubicMeter',
+		render: (cubicMeter) => <NumericText value={cubicMeter} />
 	},
 	{
 		title: '',
