@@ -96,3 +96,6 @@
 .card {
     background-image: linear-gradient(to bottom, #4c7f79, #87e8de);
 }
+.x-small-row-font td {
+    font-size: x-small !important;
+}

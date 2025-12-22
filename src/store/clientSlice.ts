@@ -1,6 +1,6 @@
 import { ImmerStateCreator } from "./useAppStore";
 import apiClient from "../services/apiClient";
-import { Client, ClientFilter, PageResponse } from "../types";
+import { Client, ClientFilter, GenericResponse, PageResponse, WaterMeter } from "../types";
 import { cleanFilter, constants } from "../utils/Utils";
 
 type ClientState = {
@@ -27,6 +27,7 @@ interface ClientActions {
 	getClients: () => Promise<boolean>;
 	createClient: (client: Client) => Promise<boolean>;
 	deleteClient: (id: string) => Promise<boolean>;
+	addWaterMeterToClient: (dni: string, meter: any) => Promise<GenericResponse<void>>;
 }
 
 export type ClientSlice = ClientState & ClientActions;
@@ -113,6 +114,19 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 		} catch (err) {
 			return false;
 		}
+	},
+	addWaterMeterToClient: async (dni: string, meter: WaterMeter) => {
+		const response: GenericResponse<void> = new GenericResponse<void>();
+		try {
+			const res = await apiClient.post<Client>(`/client/${dni}/water-meter`, meter);
+			const { status, data } = res;
+			if (status === 201) {
+				set({client: data});
+				response.success = true;
+			}
+		} catch (err) {
+			response.message = (err as Error).message;
+		}
+		return response;
 	}
-
 })

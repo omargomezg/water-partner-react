@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { useAppStore } from "../../store/useAppStore";
 import { useState, useEffect } from "react";
 import { WaterMeter } from "../../types";
+import DiameterText from "../DiameterText";
 
 const columns: TableProps<WaterMeter>['columns'] = [
 	{
@@ -14,6 +15,7 @@ const columns: TableProps<WaterMeter>['columns'] = [
 		title: 'Milímetros',
 		dataIndex: 'diameter',
 		key: 'diameter',
+		render: (diameter) => <DiameterText diameter={diameter} />
 	},
 	{
 		title: 'Alta',
@@ -39,7 +41,7 @@ const columns: TableProps<WaterMeter>['columns'] = [
 		dataIndex: 'amountPerM3',
 	},
 	{
-		title: 'Action',
+		title: '',
 		key: 'action',
 		render: (_, record) => (
 			<ActionButtons meter={record} />
@@ -49,17 +51,12 @@ const columns: TableProps<WaterMeter>['columns'] = [
 
 const ClientAssociatedMeters = () => {
 	const client = useAppStore((state) => state.client);
-	const [meters, setMeters] = useState<WaterMeter[]>([]);
-	useEffect(() => {
-		if (client?.waterMeters) {
-			setMeters(client.waterMeters);
-		}
-	}, [client]);
 	
 	return <Table<WaterMeter> style={{ width: '100%' }}
 		columns={columns}
 		rowKey="code"
-		dataSource={meters} />
+		rowClassName="x-small-row-font"
+		dataSource={client?.waterMeters} />
 }
 
 export default ClientAssociatedMeters;

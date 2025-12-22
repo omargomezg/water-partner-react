@@ -36,9 +36,30 @@ const columns: TableProps<WaterMeter>['columns'] = [
     },{
         title: 'Acciones',
         key: 'actions',
-        render: () => <Button type="text"><PlusSquareOutlined /></Button>
+        render: (_, record) => <ActionButtons meter={record} />
     }
 ];
+
+const ActionButtons = ({ meter }: { meter: WaterMeter }) => {
+    const addWaterMeterToClient = useAppStore((state) => state.addWaterMeterToClient);
+    const client = useAppStore((state) => state.client);
+    const setClientMeterDrawerOpen = useAppStore((state) => state.setClientMeterDrawerOpen);
+
+    const onAddMeter = async () => {
+        if (client) {
+            const res = await addWaterMeterToClient(client.dni, meter);
+            if (res.success) {
+                setClientMeterDrawerOpen();
+            }
+        }
+    }
+
+    return (
+        <Button type="text" onClick={onAddMeter}>
+            <PlusSquareOutlined />
+        </Button>
+    )
+};
 
 const ResultTable = () => {
     const getWaterMeters = useAppStore((state) => state.getWaterMeters);
@@ -47,7 +68,7 @@ const ResultTable = () => {
     useEffect(() => { 
         setWaterMeterFilter({ isAssigned: false, page: 0, size: 10 });
         getWaterMeters();
-    }, [getWaterMeters]);
+    }, [getWaterMeters, setWaterMeterFilter]);
     return (
         <Table<WaterMeter> style={{width: '100%'}}
                       rowKey="id"
