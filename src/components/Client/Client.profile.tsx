@@ -73,11 +73,7 @@ const ClientProfile = () => {
                         </Card>
                     </Col>
                     <Col span={6}>
-                        <Card style={{ marginBottom: '10px' }}>
-                            <Typography.Title level={4}>
-                                Últimas solicitudes
-                            </Typography.Title>
-                            <Divider />
+                        <Card title="Últimas solicitudes" style={{ marginBottom: '10px' }}>
                             <ul className={styles.requestList}>
                                 {items.map(x => <li key={x.key}>
                                     <Typography.Link >{x.label}: {x.children}</Typography.Link>

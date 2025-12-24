@@ -1,9 +1,11 @@
-import { Button, Table, TableProps } from "antd";
+import { Button, Table, TableProps, message, Popconfirm } from "antd";
 import dayjs from "dayjs";
 import { useAppStore } from "../../store/useAppStore";
 import { WaterMeter } from "../../types";
 import DiameterText from "../DiameterText";
 import NumericText from "../NumericText";
+import { DeleteOutlined } from "@ant-design/icons";
+import type { PopconfirmProps } from 'antd';
 
 const columns: TableProps<WaterMeter>['columns'] = [
 	{
@@ -53,10 +55,10 @@ const columns: TableProps<WaterMeter>['columns'] = [
 
 const ClientAssociatedMeters = () => {
 	const client = useAppStore((state) => state.client);
-	
+
 	return <Table<WaterMeter> style={{ width: '100%' }}
 		columns={columns}
-		rowKey="code"
+		rowKey="id"
 		rowClassName="x-small-row-font"
 		dataSource={client?.waterMeters} />
 }
@@ -64,8 +66,22 @@ const ClientAssociatedMeters = () => {
 export default ClientAssociatedMeters;
 
 const ActionButtons = ({ meter }: any) => {
+	const [messageApi, holder] = message.useMessage();
 	const setOpenSubsidyForm = useAppStore((state) => state.setOpenSubsidyForm);
-	return (
+	const removeClientWaterMeter = useAppStore((state) => state.removeClientWaterMeter);
+	const dni = useAppStore((state) => state.client?.dni);
+	const handleClickDelete = async () => {
+		await removeClientWaterMeter(dni as string, meter.id);
+	 }
+	return (<>
+		{holder}
+		<Popconfirm
+			title="Mensaje de confirmación"
+			description="Vas a remover el medidor asociado al cliente. ¿Estás seguro?"
+			onConfirm={handleClickDelete}
+		>
+			<Button type="text" title="Remover medidor"><DeleteOutlined /></Button>
+		</Popconfirm>
 		<Button title="Agregar subsidio" onClick={() => setOpenSubsidyForm(meter)}>+ Subsidio</Button>
-	)
+	</>);
 }

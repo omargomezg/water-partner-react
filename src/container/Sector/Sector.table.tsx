@@ -1,5 +1,6 @@
 import {Table, TableProps} from "antd";
 import dayjs from "dayjs";
+import DiameterText from "../../components/DiameterText";
 
 const SectorTable = () => {
     interface DataType {
@@ -15,6 +16,7 @@ const SectorTable = () => {
             title: 'Diametro',
             dataIndex: 'diameter',
             key: 'diameter',
+            render: (diameter: string) => <DiameterText diameter={diameter} />,
         },{
             title: 'Cargo fijo',
             dataIndex: 'fixedCharge',

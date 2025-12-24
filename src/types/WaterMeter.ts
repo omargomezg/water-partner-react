@@ -1,6 +1,6 @@
 export interface WaterMeter {
     id: number;
-    serial: number;
+    serial: string;
     trademark: string;
     diameter: string;
     comment: string;

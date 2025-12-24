@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { useAppStore } from "../../store/useAppStore";
 import { Period, PeriodFilter } from "../../types";
 import { FC, useEffect } from "react";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlaySquareOutlined } from "@ant-design/icons";
 import { constants } from "../../utils/Utils";
 
 
@@ -74,10 +74,13 @@ interface RowButtonsProps {
 const RowButtons: FC<RowButtonsProps> = ({ period }) => {
     const setOpenFormPeriod = useAppStore((state) => state.setOpenFormPeriod);
     const deletePeriod = useAppStore((state) => state.deletePeriod);
+    const initPeriod = useAppStore((state) => state.initPeriod);
     const handleClick = () => {
         setOpenFormPeriod(period);
     }
     return <Space>
+        <Button type="link" onClick={() => initPeriod(period.id)}>
+            <PlaySquareOutlined /></Button>
         <Button type="link" onClick={() => deletePeriod(period.id)}>
             <DeleteOutlined />
         </Button>

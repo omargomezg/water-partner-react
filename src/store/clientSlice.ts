@@ -28,6 +28,7 @@ interface ClientActions {
 	createClient: (client: Client) => Promise<boolean>;
 	deleteClient: (id: string) => Promise<boolean>;
 	addWaterMeterToClient: (dni: string, meter: any) => Promise<GenericResponse<void>>;
+	removeClientWaterMeter: (dni: string, id: string) => Promise<GenericResponse<void>>;
 }
 
 export type ClientSlice = ClientState & ClientActions;
@@ -121,6 +122,20 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 			const res = await apiClient.post<Client>(`/client/${dni}/water-meter`, meter);
 			const { status, data } = res;
 			if (status === 201) {
+				set({client: data});
+				response.success = true;
+			}
+		} catch (err) {
+			response.message = (err as Error).message;
+		}
+		return response;
+	},
+	removeClientWaterMeter: async (dni: string, id: string) => {
+		const response: GenericResponse<void> = new GenericResponse<void>();
+		try {
+			const res = await apiClient.delete<Client>(`/client/${dni}/water-meter/${id}`);
+			const { status, data } = res;
+			if (status === 200) {
 				set({client: data});
 				response.success = true;
 			}

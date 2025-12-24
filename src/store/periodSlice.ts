@@ -15,6 +15,7 @@ interface PeriodActions {
     fetchPeriods: () => Promise<GenericResponse<Period[]>>;
     createPeriod: (period: Period) => Promise<GenericResponse<Period>>;
     deletePeriod: (id: number) => Promise<GenericResponse<void>>;
+    initPeriod: (id: number) => Promise<GenericResponse<void>>;
 }
 
 export type PeriodSlice = PeriodState & PeriodActions;
@@ -78,5 +79,18 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
             response.message = (err as Error).message;
             return response;
         }
-    }
+    },
+    initPeriod: async (id: number) => {
+        const response: GenericResponse<void> = new GenericResponse<void>();
+        try {
+            const res = await apiClient.post<void>(`/period/${id}/init`);
+            const {status} = res;
+            response.success = status === 200;
+            get().fetchPeriods();
+            return response;
+        } catch (err) {
+            response.message = (err as Error).message;
+            return response;
+        }
+    },
 });

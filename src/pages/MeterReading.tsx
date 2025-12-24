@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import {useMeterReadingStore} from "../store/MeterReading.store";
 import MeterReadingDrawer from "../container/MeterReading/MeterReading.drawer";
 import CheckAuthentication from "../components/CheckAuthentication";
+import DiameterText from "../components/DiameterText";
 
 interface DataType {
     key: string;
@@ -33,6 +34,7 @@ const columns: TableProps<DataType>['columns'] = [
         title: 'Diametro',
         dataIndex: 'diameter',
         key: 'diameter',
+        render: (diameter: string) => <DiameterText diameter={diameter} />,
     },
     {
         title: 'Sector',

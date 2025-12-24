@@ -1,32 +1,36 @@
-import { ImmerStateCreator} from "./useAppStore";
+import {ImmerStateCreator} from "./useAppStore";
 import apiClient from "../services/apiClient";
-import { WaterMeter, WaterMeterFilter, PageResponse } from "../types";
-import { cleanFilter, constants } from "../utils/Utils";
+import {PageResponse, WaterMeter, WaterMeterFilter} from "../types";
+import {cleanFilter, constants} from "../utils/Utils";
 
 type WaterMeterState = {
     openFormWaterMeter: boolean,
     waterMeter: WaterMeter | null,
     waterMeters: PageResponse<WaterMeter> | null,
     loadingWaterMeters: boolean,
-    waterMeterFilter: WaterMeterFilter
+    waterMeterClientAssociatedFilter: WaterMeterFilter;
+    waterMeterConfigurationFilter: WaterMeterFilter;
 }
 
 interface WaterMeterActions {
     setOpenFormWaterMeter: () => void;
-    setWaterMeterFilter: (filter: WaterMeterFilter) => void;
-    getWaterMeters: () => Promise<boolean>;
+    setWaterMeterFilterForClientAssociated: (filter: WaterMeterFilter) => void;
+    setWaterMeterConfigurationFilter: (filter: WaterMeterFilter) => void;
+    getWaterMetersForConfiguration: () => Promise<boolean>;
+    getWaterMetersForClientAssociated: () => Promise<boolean>;
     createWaterMeter: (waterMeter: WaterMeter) => Promise<boolean>;
-    deleteWaterMeter: (id: string) => Promise<boolean>;
+    deleteAssociatedWaterMeter: (id: string) => Promise<boolean>;
 }
 
 export type WaterMeterSlice = WaterMeterState & WaterMeterActions
 
 export const createWaterMeterSlice: ImmerStateCreator<WaterMeterSlice> = (set, get) => ({
+    openFormWaterMeter: false,
     waterMeter: null,
     waterMeters: null,
     loadingWaterMeters: false,
-    openFormWaterMeter: false,
-    waterMeterFilter: { page: 0, size: constants.PAGE_SIZE },
+    waterMeterClientAssociatedFilter: {page: 0, size: constants.PAGE_SIZE},
+    waterMeterConfigurationFilter: {page: 0, size: constants.PAGE_SIZE},
     setOpenFormWaterMeter: () => {
         if (get().openFormWaterMeter === true) {
             set((state) => {
@@ -34,22 +38,32 @@ export const createWaterMeterSlice: ImmerStateCreator<WaterMeterSlice> = (set, g
                 state.waterMeter = null
             });
         } else {
-            set((state) => {state.openFormWaterMeter = true})
+            set((state) => {
+                state.openFormWaterMeter = true
+            })
         }
     },
-    setWaterMeterFilter: (filter: WaterMeterFilter) => {
+    setWaterMeterConfigurationFilter: (filter: WaterMeterFilter) => {
         set((state) => {
-            state.waterMeterFilter = filter;
+            state.waterMeterConfigurationFilter = filter;
         });
-        get().getWaterMeters();
+        get().getWaterMetersForConfiguration();
     },
-    getWaterMeters: async () => {
-        set((state) => { state.loadingWaterMeters = true });
+    setWaterMeterFilterForClientAssociated: (filter: WaterMeterFilter) => {
+        set((state) => {
+            state.waterMeterClientAssociatedFilter = filter;
+        });
+        get().getWaterMetersForConfiguration();
+    },
+    getWaterMetersForConfiguration: async () => {
+        set((state) => {
+            state.loadingWaterMeters = true
+        });
         try {
-            const filter = get().waterMeterFilter;
+            const filter = get().waterMeterConfigurationFilter;
             const params = new URLSearchParams(cleanFilter(filter)).toString();
             const response = await apiClient.get<PageResponse<WaterMeter>>(`/water-meter?${params}`);
-            const { status, data } = response;
+            const {status, data} = response;
             if (status !== 200) {
                 return false;
             }
@@ -60,30 +74,57 @@ export const createWaterMeterSlice: ImmerStateCreator<WaterMeterSlice> = (set, g
         } catch (err) {
             return false;
         } finally {
-            set((state) => { state.loadingWaterMeters = false });
+            set((state) => {
+                state.loadingWaterMeters = false
+            });
+        }
+    },
+    getWaterMetersForClientAssociated: async () => {
+        set((state) => {
+            state.loadingWaterMeters = true
+        });
+        try {
+            const filter = get().waterMeterClientAssociatedFilter;
+            const params = new URLSearchParams(cleanFilter(filter)).toString();
+            const response = await apiClient.get<PageResponse<WaterMeter>>(`/water-meter?${params}`);
+            const {status, data} = response;
+            if (status !== 200) {
+                return false;
+            }
+            set((state) => {
+                state.waterMeters = data;
+            });
+            return true;
+        } catch (err) {
+            return false;
+        } finally {
+            set((state) => {
+                state.loadingWaterMeters = false
+            });
         }
     },
     createWaterMeter: async (waterMeter: WaterMeter) => {
         try {
             const response = await apiClient.post<WaterMeter>(`/water-meter`, waterMeter);
-            const { status } = response;
+            const {status} = response;
             if (status !== 201) {
                 return false;
             }
-            await get().getWaterMeters();
+            await get().getWaterMetersForConfiguration();
             return true;
         } catch (err) {
             return false;
         }
     },
-    deleteWaterMeter: async (id: string) => {
+    deleteAssociatedWaterMeter: async (id: string) => {
         try {
             const response = await apiClient.delete<void>(`/water-meter/${id}`);
-            const { status } = response;
+            const {status} = response;
             if (status !== 204) {
                 return false;
             }
-            get().getWaterMeters();
+            get().setWaterMeterFilterForClientAssociated({page: 0, size: constants.PAGE_SIZE});
+            await get().getWaterMetersForClientAssociated();
             return true;
         } catch (err) {
             return false;
