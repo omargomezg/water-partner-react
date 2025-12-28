@@ -38,7 +38,7 @@ const ClientTypeContainer = () => {
         clearFormClientType();
     }
     return <Card title="Listado de tarifas" extra={
-        <Button type={'primary'}><PlusOutlined/>Crear</Button>
+        <Button type={'primary'}><PlusOutlined/></Button>
     }>
         <Row gutter={[16, 16]} style={{width: '100%'}}>
             <Col span={18}>

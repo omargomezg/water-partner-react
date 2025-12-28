@@ -6,7 +6,7 @@ import PeriodDrawer from "./Period.Drawer";
 
 const PeriodContainer = () => {
     const setOpenFormPeriod = useAppStore((state) => state.setOpenFormPeriod);
-    return <Card title="Listado de tarifas" extra={
+    return <Card title="Periodos de lectura" extra={
         <Button type={'primary'} onClick={() => setOpenFormPeriod(null)}><PlusOutlined/>Crear</Button>
     }>
         <PeriodTable/>

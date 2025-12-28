@@ -5,6 +5,7 @@ import { Period, PeriodFilter } from "../../types";
 import { FC, useEffect } from "react";
 import { DeleteOutlined, EditOutlined, PlaySquareOutlined } from "@ant-design/icons";
 import { constants } from "../../utils/Utils";
+import BadgePeriodStatus from "../../components/BadgePeriodStatus";
 
 
 const columns: TableProps<Period>['columns'] = [
@@ -13,6 +14,13 @@ const columns: TableProps<Period>['columns'] = [
         dataIndex: 'id',
         key: 'id',
     }, {
+        title: "Estado",
+        dataIndex: 'status',
+        key: 'status',
+        render: (status) => {
+            return <BadgePeriodStatus status={status} />
+        }
+    },{
         title: 'Inicio',
         dataIndex: 'startDate',
         key: 'startDate',
@@ -55,6 +63,13 @@ const PeriodTable = () => {
         fetchPeriods();
     }
     return <>
+        <div style={{ marginBottom: '16px', textAlign: 'right' }}>
+            <Space>
+            <BadgePeriodStatus status="ACTIVE" />
+                <BadgePeriodStatus status="CLOSED" />
+                <BadgePeriodStatus status="PREPARED" />
+            </Space>
+        </div>
         <Table<Period> style={{ width: '100%' }}
             rowKey="id"
             columns={columns}
