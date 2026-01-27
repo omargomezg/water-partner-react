@@ -9,8 +9,9 @@ const DrawerForm = () => {
         await create(values);
     }
     return (
-        <Drawer open={open} onClose={setOpen}>
-            <Form layout="vertical" onFinish={onFinish}>
+        <Drawer open={open} onClose={setOpen} >
+            { open &&
+            <Form layout="vertical" onFinish={onFinish} initialValues={{name: ''}}>
                 <Form.Item name="name" label="Nombre">
                     <Input />
                 </Form.Item>
@@ -20,7 +21,7 @@ const DrawerForm = () => {
                         Guardar
                     </Button>
                 </Flex>
-            </Form>
+            </Form>}
         </Drawer>
     );
 };
