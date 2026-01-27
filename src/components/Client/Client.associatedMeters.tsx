@@ -5,7 +5,7 @@ import { WaterMeter } from "../../types";
 import DiameterText from "../DiameterText";
 import NumericText from "../NumericText";
 import { DeleteOutlined } from "@ant-design/icons";
-import type { PopconfirmProps } from 'antd';
+
 
 const columns: TableProps<WaterMeter>['columns'] = [
 	{
@@ -66,13 +66,13 @@ const ClientAssociatedMeters = () => {
 export default ClientAssociatedMeters;
 
 const ActionButtons = ({ meter }: any) => {
-	const [messageApi, holder] = message.useMessage();
+	const [, holder] = message.useMessage();
 	const setOpenSubsidyForm = useAppStore((state) => state.setOpenSubsidyForm);
 	const removeClientWaterMeter = useAppStore((state) => state.removeClientWaterMeter);
 	const dni = useAppStore((state) => state.client?.dni);
 	const handleClickDelete = async () => {
 		await removeClientWaterMeter(dni as string, meter.id);
-	 }
+	}
 	return (<>
 		{holder}
 		<Popconfirm

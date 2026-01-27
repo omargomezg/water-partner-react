@@ -13,7 +13,7 @@ function App() {
     const [collapsed, setCollapsed] = useState(false);
 
     return (
-        <Layout style={{height: "100vh"}} hasSider>
+        <Layout style={{minHeight: "100vh"}} hasSider>
             <Sider
                 theme="light"
                 trigger={null}
