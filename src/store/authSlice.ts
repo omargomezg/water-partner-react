@@ -1,4 +1,4 @@
-import {ImmerStateCreator} from "./useAppStore";
+import { ImmerStateCreator } from "./useAppStore";
 import apiClient from "../services/apiClient";
 
 type AuthState = {
@@ -21,8 +21,8 @@ export const createAuthSlice: ImmerStateCreator<AuthSlice> = (set) => ({
     fullName: undefined,
     openModalSessionExpired: false,
     login: async (email: string, password: string) => {
-        const response = await apiClient.post('/public/auth/signup', {email, password});
-        const {status, data} = response;
+        const response = await apiClient.post('/public/auth/signup', { email, password });
+        const { status, data } = response;
         if (status !== 200) {
             console.error('Login failed');
             return false;
@@ -41,6 +41,8 @@ export const createAuthSlice: ImmerStateCreator<AuthSlice> = (set) => ({
             state.fullName = undefined;
             state.openModalSessionExpired = false;
         });
+        // Save current path before logout
+        localStorage.setItem('redirectAfterLogin', window.location.pathname);
         window.location.href = '/login'
     }
 });

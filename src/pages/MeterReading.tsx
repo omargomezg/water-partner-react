@@ -1,8 +1,8 @@
 import ContentLayout from "../components/Layout/ContentLayout";
-import {Button, Card, Form, Input, Select, Space, Table, TableProps, Typography} from "antd";
-import {FileExcelOutlined, FilterOutlined, PlusOutlined} from "@ant-design/icons";
+import { Button, Card, Form, Input, Select, Space, Table, TableProps, Typography } from "antd";
+import { FileExcelOutlined, FilterOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import {useMeterReadingStore} from "../store/MeterReading.store";
+import { useMeterReadingStore } from "../store/MeterReading.store";
 import MeterReadingDrawer from "../container/MeterReading/MeterReading.drawer";
 import CheckAuthentication from "../components/CheckAuthentication";
 import DiameterText from "../components/DiameterText";
@@ -240,64 +240,118 @@ const MeterReadingPage = () => {
     return (
         <CheckAuthentication>
             <ContentLayout>
-                <Card style={{marginBottom: '10px'}}>
-                    <Form layout="inline">
-                        <Form.Item name="telefono"
-                                   label="Medidor">
-                            <Input placeholder="Número del medidor"/>
-                        </Form.Item>
-                        <Form.Item name="telefono" label="Rut">
-                            <Input/>
-                        </Form.Item>
-                        <Form.Item label="Periodo">
-                            <Select placeholder="Seleccione un periodo"
-                                    style={{width: 200}}
-                                    options={[
-                                        {value: 1, label: "Enero"},
-                                        {value: 2, label: "Febrero"},
-                                        {value: 3, label: "Marzo"},
-                                        {value: 4, label: "Abril"},
-                                        {value: 5, label: "Mayo"},
-                                        {value: 6, label: "Junio"},
-                                        {value: 7, label: "Julio"},
-                                        {value: 8, label: "Agosto"},
-                                        {value: 9, label: "Septiembre"},
-                                        {value: 10, label: "Octubre"},
-                                        {value: 11, label: "Noviembre"},
-                                        {value: 12, label: "Diciembre"}
-                                    ]}/>
-                        </Form.Item>
-                        <Form.Item label="Sector">
-                            <Select style={{width: 180}} defaultValue={1}
-                                    options={data
-                                        .map(d => d.sector)
-                                        .filter((sector, index, array) => array.indexOf(sector) === index)
-                                        .map(sector => ({value: sector, label: sector}))
-                                    }
-                            />
-                        </Form.Item>
-                        <Form.Item label="Estado">
-                            <Select style={{width: 180}} defaultValue={1}
-                                    options={[
-                                        {value: 1, label: "Todos"},
-                                        {value: 2, label: "Pendiente"},
-                                        {value: 3, label: "Lectura ingresada"}
-                                    ]}/>
-                        </Form.Item>
-                        <Button type="primary"><FilterOutlined/> Filtar</Button>
+                <Card
+                    style={{ marginBottom: '20px' }}
+                    styles={{ body: { padding: '24px' } }}
+                >
+                    <Typography.Title level={5} style={{ marginBottom: '20px', color: '#4f6f52' }}>
+                        <FilterOutlined /> Filtros de Búsqueda
+                    </Typography.Title>
+                    <Form layout="vertical">
+                        <Space direction="vertical" size="large" style={{ width: '100%' }}>
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+                                gap: '16px'
+                            }}>
+                                <Form.Item
+                                    name="medidor"
+                                    label={<span style={{ fontWeight: 500 }}>Medidor</span>}
+                                    style={{ marginBottom: 0 }}
+                                >
+                                    <Input
+                                        placeholder="Número del medidor"
+                                        size="large"
+                                        allowClear
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    name="rut"
+                                    label={<span style={{ fontWeight: 500 }}>Rut</span>}
+                                    style={{ marginBottom: 0 }}
+                                >
+                                    <Input
+                                        placeholder="Ingrese RUT"
+                                        size="large"
+                                        allowClear
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    label={<span style={{ fontWeight: 500 }}>Periodo</span>}
+                                    style={{ marginBottom: 0 }}
+                                >
+                                    <Select
+                                        placeholder="Seleccione un periodo"
+                                        size="large"
+                                        allowClear
+                                        options={[
+                                            { value: 1, label: "Enero" },
+                                            { value: 2, label: "Febrero" },
+                                            { value: 3, label: "Marzo" },
+                                            { value: 4, label: "Abril" },
+                                            { value: 5, label: "Mayo" },
+                                            { value: 6, label: "Junio" },
+                                            { value: 7, label: "Julio" },
+                                            { value: 8, label: "Agosto" },
+                                            { value: 9, label: "Septiembre" },
+                                            { value: 10, label: "Octubre" },
+                                            { value: 11, label: "Noviembre" },
+                                            { value: 12, label: "Diciembre" }
+                                        ]}
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    label={<span style={{ fontWeight: 500 }}>Sector</span>}
+                                    style={{ marginBottom: 0 }}
+                                >
+                                    <Select
+                                        defaultValue="Las Lomas"
+                                        size="large"
+                                        allowClear
+                                        options={data
+                                            .map(d => d.sector)
+                                            .filter((sector, index, array) => array.indexOf(sector) === index)
+                                            .map(sector => ({ value: sector, label: sector }))
+                                        }
+                                    />
+                                </Form.Item>
+                                <Form.Item
+                                    label={<span style={{ fontWeight: 500 }}>Estado</span>}
+                                    style={{ marginBottom: 0 }}
+                                >
+                                    <Select
+                                        defaultValue={1}
+                                        size="large"
+                                        options={[
+                                            { value: 1, label: "Todos" },
+                                            { value: 2, label: "Pendiente" },
+                                            { value: 3, label: "Lectura ingresada" }
+                                        ]}
+                                    />
+                                </Form.Item>
+                            </div>
+                            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                                <Button size="large">
+                                    Limpiar
+                                </Button>
+                                <Button type="primary" size="large" icon={<FilterOutlined />}>
+                                    Aplicar Filtros
+                                </Button>
+                            </div>
+                        </Space>
                     </Form>
                 </Card>
                 <Card title="Listado de lecturas"
-                      extra={
-                          <Space>
-                              <Button type="default"><FileExcelOutlined/>Exportar</Button>
-                          </Space>
-                      }>
-                    <Table<DataType> style={{width: '100%'}}
-                                     rowKey="key"
-                                     size="small"
-                                     columns={columns}
-                                     dataSource={data}/>
+                    extra={
+                        <Space>
+                            <Button type="default"><FileExcelOutlined />Exportar</Button>
+                        </Space>
+                    }>
+                    <Table<DataType> style={{ width: '100%' }}
+                        rowKey="key"
+                        size="small"
+                        columns={columns}
+                        dataSource={data} />
                 </Card>
                 <MeterReadingDrawer></MeterReadingDrawer>
             </ContentLayout>
@@ -305,20 +359,20 @@ const MeterReadingPage = () => {
     )
 }
 
-const ReadingBox = ({client}: any) => {
-    const {setOpenForm} = useMeterReadingStore()
+const ReadingBox = ({ client }: any) => {
+    const { setOpenForm } = useMeterReadingStore()
     if (client.value) {
         return (<Space direction="vertical" size={0}>
-                <Typography.Text type="secondary">
-                    {client.value}
-                </Typography.Text>
-                <Typography.Text type="secondary">
-                    <small>{dayjs(client.createdAt).format('MMMM DD, YYYY')}</small>
-                </Typography.Text>
-            </Space>
+            <Typography.Text type="secondary">
+                {client.value}
+            </Typography.Text>
+            <Typography.Text type="secondary">
+                <small>{dayjs(client.createdAt).format('MMMM DD, YYYY')}</small>
+            </Typography.Text>
+        </Space>
         )
     }
-    return <Button onClick={setOpenForm} block type="default"><PlusOutlined/> Agregar</Button>
+    return <Button onClick={setOpenForm} block type="default"><PlusOutlined /> Agregar</Button>
 }
 
 export default MeterReadingPage
