@@ -1,16 +1,23 @@
-import React from 'react';
-import { Card, Col, Row, Statistic } from 'antd';
+import React, { useEffect } from 'react';
+import { Card, Col, Row, Statistic, Spin, Alert } from 'antd';
 import { UserOutlined, WarningOutlined, FileTextOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import { useAppStore } from '../../store/useAppStore';
 
 interface StatCardProps {
     title: string;
     value: number;
     icon: React.ReactNode;
     color: string;
+    onClick?: () => void;
 }
 
-const StatCard: React.FC<StatCardProps> = ({ title, value, icon, color }) => (
-    <Card hoverable style={{ height: '100%' }}>
+const StatCard: React.FC<StatCardProps> = ({ title, value, icon, color, onClick }) => (
+    <Card
+        hoverable
+        style={{ height: '100%', cursor: onClick ? 'pointer' : 'default' }}
+        onClick={onClick}
+    >
         <Statistic
             title={title}
             value={value}
@@ -21,11 +28,52 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon, color }) => (
 );
 
 const DashboardStats: React.FC = () => {
-    // Mock data
+    const navigate = useNavigate();
+    const { dashboardData, isLoadingDashboard, dashboardError, fetchDashboardData } = useAppStore();
+
+    useEffect(() => {
+        fetchDashboardData();
+    }, [fetchDashboardData]);
+
+    if (isLoadingDashboard) {
+        return (
+            <div style={{ textAlign: 'center', padding: '50px' }}>
+                <Spin size="large" tip="Cargando datos del dashboard..." />
+            </div>
+        );
+    }
+
+    if (dashboardError) {
+        return (
+            <Alert
+                message="Error"
+                description={dashboardError}
+                type="error"
+                showIcon
+            />
+        );
+    }
+
     const stats = [
-        { title: 'Total Clientes', value: 1250, icon: <UserOutlined />, color: '#3f8600' },
-        { title: 'Servicios para Corte', value: 15, icon: <WarningOutlined />, color: '#cf1322' }, // Red for warning
-        { title: 'Lecturas Pendientes', value: 45, icon: <FileTextOutlined />, color: '#faad14' }, // Orange for pending
+        {
+            title: 'Total Clientes',
+            value: dashboardData?.totalClients ?? 0,
+            icon: <UserOutlined />,
+            color: '#3f8600',
+            onClick: () => navigate('/client')
+        },
+        {
+            title: 'Servicios para Corte',
+            value: dashboardData?.servicesForCut ?? 0,
+            icon: <WarningOutlined />,
+            color: '#cf1322'
+        },
+        {
+            title: 'Lecturas Pendientes',
+            value: dashboardData?.pendingReadings ?? 0,
+            icon: <FileTextOutlined />,
+            color: '#faad14'
+        },
     ];
 
     return (
