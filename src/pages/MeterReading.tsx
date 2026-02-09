@@ -1,242 +1,91 @@
 import ContentLayout from "../components/Layout/ContentLayout";
-import { Button, Card, Form, Input, Select, Space, Table, TableProps, Typography } from "antd";
+import { Button, Card, Form, Input, Select, Space, Table, TableProps, Typography, Popconfirm, message } from "antd";
 import { FileExcelOutlined, FilterOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { useMeterReadingStore } from "../store/MeterReading.store";
+import { useAppStore } from "../store/useAppStore";
 import MeterReadingDrawer from "../container/MeterReading/MeterReading.drawer";
 import CheckAuthentication from "../components/CheckAuthentication";
 import DiameterText from "../components/DiameterText";
-
-interface DataType {
-    key: string;
-    code: string;
-    client: string;
-    diameter: string;
-    createdAt: string | null;
-    sector: string;
-    address: string;
-    lastValue: number;
-    value: number | null;
-}
-
-const columns: TableProps<DataType>['columns'] = [
-    {
-        title: 'Medidor',
-        dataIndex: 'code',
-        key: 'code'
-    },
-    {
-        title: 'Cliente',
-        dataIndex: 'client',
-        key: 'client',
-    },
-    {
-        title: 'Diametro',
-        dataIndex: 'diameter',
-        key: 'diameter',
-        render: (diameter: string) => <DiameterText diameter={diameter} />,
-    },
-    {
-        title: 'Sector',
-        dataIndex: 'sector',
-        key: 'sector',
-    },
-    {
-        title: 'Dirección',
-        dataIndex: 'address',
-        key: 'address',
-    },
-    {
-        title: 'Lecturas',
-        align: 'center',
-        children: [
-            {
-                title: 'Anterior',
-                dataIndex: 'lastValue',
-                key: 'lastValue',
-                align: 'center'
-            },
-            {
-                title: 'Actual',
-                key: 'value',
-                dataIndex: 'value',
-                align: 'center',
-                render: (_, record) =>
-                    <ReadingBox client={record}></ReadingBox>,
-            }
-        ]
-    }
-];
-
-const data: DataType[] = [
-    {
-        key: '1',
-        code: '1001-A',
-        client: 'Juan Pérez Díaz',
-        diameter: '20mm (1/2")',
-        createdAt: '2025-07-15T09:00:00Z',
-        sector: 'El Roble',
-        address: 'Av. Las Flores 123',
-        lastValue: 300,
-        value: 350,
-    },
-    {
-        key: '2',
-        code: '1002-B',
-        client: 'María López Sotomayor',
-        diameter: '25mm (3/4")',
-        createdAt: null,
-        sector: 'Las Lomas',
-        address: 'Calle Los Sauces 456',
-        lastValue: 750,
-        value: null,
-    },
-    {
-        key: '3',
-        code: '1003-C',
-        client: 'Carlos Gómez Torres',
-        diameter: '20mm (1/2")',
-        createdAt: '2025-07-17T11:00:00Z',
-        sector: 'Valle Verde',
-        address: 'Pje. Los Pinos 789',
-        lastValue: 100,
-        value: 120,
-    },
-    {
-        key: '4',
-        code: '1004-D',
-        client: 'Ana Fernández Rojas',
-        diameter: '25mm (3/4")',
-        createdAt: '2025-07-18T12:00:00Z',
-        sector: 'Altos del Sol',
-        address: 'Av. Principal 1011',
-        lastValue: 600,
-        value: 650,
-    },
-    {
-        key: '5',
-        code: '1005-E',
-        client: 'Pedro Castillo Morales',
-        diameter: '32mm (1")',
-        createdAt: null,
-        sector: 'Centro',
-        address: 'Calle San Martín 202',
-        lastValue: 1400,
-        value: null,
-    },
-    {
-        key: '6',
-        code: '1006-F',
-        client: 'Sofía Herrera Vidal',
-        diameter: '20mm (1/2")',
-        createdAt: '2025-07-20T14:00:00Z',
-        sector: 'El Roble',
-        address: 'Av. Las Flores 145',
-        lastValue: 390,
-        value: 410,
-    },
-    {
-        key: '7',
-        code: '1007-G',
-        client: 'Manuel Rodríguez Espinoza',
-        diameter: '25mm (3/4")',
-        createdAt: '2025-07-21T15:00:00Z',
-        sector: 'Las Lomas',
-        address: 'Calle Los Sauces 488',
-        lastValue: 700,
-        value: 725,
-    },
-    {
-        key: '8',
-        code: '1008-H',
-        client: 'Elena Soto Cáceres',
-        diameter: '20mm (1/2")',
-        createdAt: '2025-07-22T16:00:00Z',
-        sector: 'Valle Verde',
-        address: 'Pje. Los Pinos 790',
-        lastValue: 200,
-        value: 215,
-    },
-    {
-        key: '9',
-        code: '1009-I',
-        client: 'Pablo Vargas Silva',
-        diameter: '32mm (1")',
-        createdAt: null,
-        sector: 'Centro',
-        address: 'Calle San Martín 205',
-        lastValue: 1700,
-        value: null,
-    },
-    {
-        key: '10',
-        code: '1010-J',
-        client: 'Camila Reyes Castro',
-        diameter: '25mm (3/4")',
-        createdAt: '2025-07-24T18:00:00Z',
-        sector: 'Altos del Sol',
-        address: 'Av. Principal 1020',
-        lastValue: 900,
-        value: 930,
-    },
-    {
-        key: '11',
-        code: '1011-K',
-        client: 'Ricardo Morales Pinto',
-        diameter: '20mm (1/2")',
-        createdAt: '2025-07-25T19:00:00Z',
-        sector: 'El Roble',
-        address: 'Av. Las Flores 150',
-        lastValue: 350,
-        value: 380,
-    },
-    {
-        key: '12',
-        code: '1012-L',
-        client: 'Daniela Olivares Fuentes',
-        diameter: '25mm (3/4")',
-        createdAt: null,
-        sector: 'Las Lomas',
-        address: 'Calle Los Sauces 500',
-        lastValue: 650,
-        value: null,
-    },
-    {
-        key: '13',
-        code: '1013-M',
-        client: 'Francisco Muñoz Araya',
-        diameter: '32mm (1")',
-        createdAt: '2025-07-27T21:00:00Z',
-        sector: 'Valle Verde',
-        address: 'Pje. Los Pinos 810',
-        lastValue: 1400,
-        value: 1420,
-    },
-    {
-        key: '14',
-        code: '1014-N',
-        client: 'Valeria Rojas Medina',
-        diameter: '20mm (1/2")',
-        createdAt: '2025-07-28T22:00:00Z',
-        sector: 'Altos del Sol',
-        address: 'Av. Principal 1035',
-        lastValue: 270,
-        value: 290,
-    },
-    {
-        key: '15',
-        code: '1015-O',
-        client: 'Andrés Castro Rivas',
-        diameter: '25mm (3/4")',
-        createdAt: '2025-07-29T23:00:00Z',
-        sector: 'Centro',
-        address: 'Calle San Martín 210',
-        lastValue: 700,
-        value: 750,
-    },
-];
+import { useEffect } from "react";
+import { ReadingRecord } from "../types/ReadingRecord";
 
 const MeterReadingPage = () => {
+    const fetchPeriods = useAppStore((state) => state.fetchPeriods);
+    const periods = useAppStore((state) => state.periods);
+    const closePeriod = useAppStore((state) => state.closePeriod);
+
+    // Consumption Store
+    const fetchReadingRecords = useAppStore((state) => state.fetchReadingRecords);
+    const readingRecords = useAppStore((state) => state.readingRecords);
+    const loadingConsumption = useAppStore((state) => state.loadingConsumption);
+    const setOpenFormConsumption = useAppStore((state) => state.setOpenFormConsumption);
+
+    // Filters
+    const [form] = Form.useForm();
+
+    useEffect(() => {
+        fetchPeriods();
+        fetchReadingRecords(); // Default fetch (status=2/Pending maybe? no, fetchReadingRecords defaults to status=2)
+    }, [fetchPeriods, fetchReadingRecords]);
+
+    const activePeriod = periods?.content.find(p => p.status === 'ACTIVE');
+
+    const handleClosePeriod = async () => {
+        if (activePeriod) {
+            const response = await closePeriod(activePeriod);
+            if (response.success) {
+                message.success("Periodo cerrado correctamente");
+            } else {
+                message.error("Error al cerrar periodo: " + response.message);
+            }
+        }
+    }
+
+    const onFilter = (values: any) => {
+        // Implement filtering logic passing values to fetchReadingRecords
+        // We need to map form values to backend params
+        // backend params: waterMeterNumber, dni, sector, status, pageIndex, pageSize
+        const filters = {
+            waterMeterNumber: values.medidor,
+            dni: values.rut,
+            sector: values.sector,
+            status: values.status,
+            // period is not used in backend filter?
+        };
+        fetchReadingRecords(values.status, 0, 100); // simplify for now
+    }
+
+    const columns: TableProps<ReadingRecord>['columns'] = [
+        {
+            title: 'Medidor',
+            dataIndex: 'serial',
+            key: 'serial'
+        },
+        {
+            title: 'Cliente',
+            dataIndex: 'client',
+            key: 'client',
+        },
+        {
+            title: 'Diametro',
+            dataIndex: 'diameter',
+            key: 'diameter',
+            render: (diameter: string) => <DiameterText diameter={diameter} />,
+        },
+        {
+            title: 'Sector',
+            dataIndex: ['sector', 'name'],
+            key: 'sector',
+        },
+        {
+            title: 'Lectura',
+            key: 'reading',
+            dataIndex: 'reading',
+            align: 'center',
+            render: (value, record) => <ReadingBox record={record} />
+        }
+    ];
+
     return (
         <CheckAuthentication>
             <ContentLayout>
@@ -247,7 +96,7 @@ const MeterReadingPage = () => {
                     <Typography.Title level={5} style={{ marginBottom: '20px', color: '#4f6f52' }}>
                         <FilterOutlined /> Filtros de Búsqueda
                     </Typography.Title>
-                    <Form layout="vertical">
+                    <Form layout="vertical" form={form} onFinish={onFilter}>
                         <Space direction="vertical" size="large" style={{ width: '100%' }}>
                             <div style={{
                                 display: 'grid',
@@ -259,82 +108,35 @@ const MeterReadingPage = () => {
                                     label={<span style={{ fontWeight: 500 }}>Medidor</span>}
                                     style={{ marginBottom: 0 }}
                                 >
-                                    <Input
-                                        placeholder="Número del medidor"
-                                        size="large"
-                                        allowClear
-                                    />
+                                    <Input placeholder="Número del medidor" allowClear />
                                 </Form.Item>
                                 <Form.Item
                                     name="rut"
                                     label={<span style={{ fontWeight: 500 }}>Rut</span>}
                                     style={{ marginBottom: 0 }}
                                 >
-                                    <Input
-                                        placeholder="Ingrese RUT"
-                                        size="large"
-                                        allowClear
-                                    />
+                                    <Input placeholder="Ingrese RUT" allowClear />
                                 </Form.Item>
                                 <Form.Item
-                                    label={<span style={{ fontWeight: 500 }}>Periodo</span>}
-                                    style={{ marginBottom: 0 }}
-                                >
-                                    <Select
-                                        placeholder="Seleccione un periodo"
-                                        size="large"
-                                        allowClear
-                                        options={[
-                                            { value: 1, label: "Enero" },
-                                            { value: 2, label: "Febrero" },
-                                            { value: 3, label: "Marzo" },
-                                            { value: 4, label: "Abril" },
-                                            { value: 5, label: "Mayo" },
-                                            { value: 6, label: "Junio" },
-                                            { value: 7, label: "Julio" },
-                                            { value: 8, label: "Agosto" },
-                                            { value: 9, label: "Septiembre" },
-                                            { value: 10, label: "Octubre" },
-                                            { value: 11, label: "Noviembre" },
-                                            { value: 12, label: "Diciembre" }
-                                        ]}
-                                    />
-                                </Form.Item>
-                                <Form.Item
-                                    label={<span style={{ fontWeight: 500 }}>Sector</span>}
-                                    style={{ marginBottom: 0 }}
-                                >
-                                    <Select
-                                        defaultValue="Las Lomas"
-                                        size="large"
-                                        allowClear
-                                        options={data
-                                            .map(d => d.sector)
-                                            .filter((sector, index, array) => array.indexOf(sector) === index)
-                                            .map(sector => ({ value: sector, label: sector }))
-                                        }
-                                    />
-                                </Form.Item>
-                                <Form.Item
+                                    name="status"
                                     label={<span style={{ fontWeight: 500 }}>Estado</span>}
                                     style={{ marginBottom: 0 }}
                                 >
                                     <Select
-                                        defaultValue={1}
-                                        size="large"
+                                        defaultValue="pending"
                                         options={[
-                                            { value: 1, label: "Todos" },
-                                            { value: 2, label: "Pendiente" },
-                                            { value: 3, label: "Lectura ingresada" }
+                                            { value: "all", label: "Todos" },
+                                            { value: "pending", label: "Pendiente" },
+                                            { value: "no-pending", label: "Lectura ingresada" }
                                         ]}
                                     />
                                 </Form.Item>
                             </div>
                             <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-                                <Button size="large">
+                                <Button onClick={() => { form.resetFields(); fetchReadingRecords(); }}>
                                     Limpiar
                                 </Button>
-                                <Button type="primary" size="large" icon={<FilterOutlined />}>
+                                <Button type="primary" htmlType="submit" icon={<FilterOutlined />}>
                                     Aplicar Filtros
                                 </Button>
                             </div>
@@ -344,35 +146,56 @@ const MeterReadingPage = () => {
                 <Card title="Listado de lecturas"
                     extra={
                         <Space>
+                            {activePeriod && (
+                                <Popconfirm
+                                    title="¿Cerrar periodo actual?"
+                                    description={`Se cerrará el periodo ${activePeriod.name}`}
+                                    onConfirm={handleClosePeriod}
+                                    okText="Si"
+                                    cancelText="No"
+                                >
+                                    <Button type="primary" danger>Cerrar Periodo</Button>
+                                </Popconfirm>
+                            )}
                             <Button type="default"><FileExcelOutlined />Exportar</Button>
                         </Space>
                     }>
-                    <Table<DataType> style={{ width: '100%' }}
-                        rowKey="key"
+                    <Table<ReadingRecord>
+                        style={{ width: '100%' }}
+                        rowKey="id"
                         size="small"
                         columns={columns}
-                        dataSource={data} />
+                        dataSource={readingRecords?.records || []}
+                        loading={loadingConsumption}
+                        pagination={{
+                            total: readingRecords?.totalHits,
+                            pageSize: 10, // Assuming 10
+                            onChange: (page) => fetchReadingRecords(form.getFieldValue('status'), page - 1, 10)
+                        }}
+                    />
                 </Card>
-                <MeterReadingDrawer></MeterReadingDrawer>
+                <MeterReadingDrawer />
             </ContentLayout>
         </CheckAuthentication>
     )
 }
 
-const ReadingBox = ({ client }: any) => {
-    const { setOpenForm } = useMeterReadingStore()
-    if (client.value) {
-        return (<Space direction="vertical" size={0}>
-            <Typography.Text type="secondary">
-                {client.value}
-            </Typography.Text>
-            <Typography.Text type="secondary">
-                <small>{dayjs(client.createdAt).format('MMMM DD, YYYY')}</small>
-            </Typography.Text>
-        </Space>
+const ReadingBox = ({ record }: { record: ReadingRecord }) => {
+    const setOpenFormConsumption = useAppStore((state) => state.setOpenFormConsumption);
+
+    if (record.reading !== null && record.reading !== undefined) {
+        return (
+            <Space direction="vertical" size={0}>
+                <Typography.Text type="secondary">
+                    {record.reading} m³
+                </Typography.Text>
+                <Button type="link" size="small" onClick={() => setOpenFormConsumption(true, record)}>
+                    Editar
+                </Button>
+            </Space>
         )
     }
-    return <Button onClick={setOpenForm} block type="default"><PlusOutlined /> Agregar</Button>
+    return <Button onClick={() => setOpenFormConsumption(true, record)} block type="default" size="small"><PlusOutlined /> Agregar</Button>
 }
 
-export default MeterReadingPage
+export default MeterReadingPage;

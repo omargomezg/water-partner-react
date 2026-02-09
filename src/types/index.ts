@@ -14,3 +14,5 @@ export * from './PageFilter';
 export * from './Period';
 export * from './Sector';
 export * from './PeriodFilter';
+export * from './ReadingRecord';
+export * from './Reading';

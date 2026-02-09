@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Modal, Button, Table, Space, Tabs, Select, Form, Input, message, Popconfirm, List, Card, Tag } from 'antd';
+import { Modal, Button, Table, Space, Tabs, Select, Form, Input, message, Popconfirm, Card } from 'antd';
 import { useAppStore } from '../../store/useAppStore';
 import { WaterMeter } from '../../types';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';

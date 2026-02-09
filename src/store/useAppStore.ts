@@ -10,26 +10,30 @@ import { AccountSlice, createAccountSlice } from "./accountSlice";
 import { PeriodSlice, createPeriodSlice } from "./periodSlice";
 import { createSectorSliceL, SectorSlice } from "./sectorSlice";
 import { createDashboardSlice, DashboardSlice } from "./dashboardSlice";
-export type RootState = AuthSlice & TariffSlice & ClientSlice & ClientTypeSlice & WaterMeterSlice & AccountSlice & PeriodSlice & SectorSlice & DashboardSlice;
+import { ConsumptionSlice, createConsumptionSlice } from "./consumptionSlice";
+export type AppStore = AuthSlice & ClientTypeSlice & ClientSlice & AccountSlice & PeriodSlice & TariffSlice & WaterMeterSlice & SectorSlice & DashboardSlice & ConsumptionSlice;
 
-export type ImmerStateCreator<T> = StateCreator<RootState, [["zustand/immer", never], never], [], T>;
+export type ImmerStateCreator<T> = StateCreator<AppStore, [["zustand/immer", never], never], [], T>;
 
-export const useAppStore = create<RootState>()(
-    immer(
+export const useAppStore = create<AppStore>()(
+    devtools(
         persist(
-            devtools((...args) => ({
-                ...createAuthSlice(...args),
-                ...createTariffSlice(...args),
-                ...createClientSlice(...args),
-                ...createClientTypeSlice(...args),
-                ...createWaterMeterSlice(...args),
-                ...createAccountSlice(...args),
-                ...createPeriodSlice(...args),
-                ...createSectorSliceL(...args),
-                ...createDashboardSlice(...args),
-            })), {
-            name: "app-store"
-        }
+            immer((...a) => ({
+                ...createAuthSlice(...a),
+                ...createClientTypeSlice(...a),
+                ...createClientSlice(...a),
+                ...createAccountSlice(...a),
+                ...createPeriodSlice(...a),
+                ...createTariffSlice(...a),
+                ...createWaterMeterSlice(...a),
+                ...createSectorSliceL(...a),
+                ...createDashboardSlice(...a),
+                ...createConsumptionSlice(...a)
+            })),
+            {
+                name: "app-store",
+                partialize: (state) => ({ token: state.token }),
+            }
         )
     )
 );

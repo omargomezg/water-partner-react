@@ -16,6 +16,7 @@ interface PeriodActions {
     createPeriod: (period: Period) => Promise<GenericResponse<Period>>;
     deletePeriod: (id: number) => Promise<GenericResponse<void>>;
     initPeriod: (id: number) => Promise<GenericResponse<void>>;
+    closePeriod: (period: Period) => Promise<GenericResponse<void>>;
 }
 
 export type PeriodSlice = PeriodState & PeriodActions;
@@ -36,18 +37,18 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
                 state.period = null
             });
         } else {
-            set((state) => {state.openFormPeriod = true})
+            set((state) => { state.openFormPeriod = true })
         }
     },
     fetchPeriods: async () => {
         const response: GenericResponse<Period[]> = new GenericResponse<Period[]>();
         try {
             const res = await apiClient.get<PageResponse<Period>>('/period');
-            const { data} = res;
-                set((state) => { state.periods = data });
-                response.success = true;
-                response.content = data.content;
-                return response;
+            const { data } = res;
+            set((state) => { state.periods = data });
+            response.success = true;
+            response.content = data.content;
+            return response;
         } catch (error) {
             response.message = (error as Error).message;
             return response;
@@ -71,7 +72,7 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
         const response: GenericResponse<void> = new GenericResponse<void>();
         try {
             const res = await apiClient.delete<void>(`/period/${id}`);
-            const {status} = res;
+            const { status } = res;
             response.success = status === 200;
             get().fetchPeriods();
             return response;
@@ -84,7 +85,7 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
         const response: GenericResponse<void> = new GenericResponse<void>();
         try {
             const res = await apiClient.post<void>(`/period/${id}/init`);
-            const {status} = res;
+            const { status } = res;
             response.success = status === 200;
             get().fetchPeriods();
             return response;
@@ -93,4 +94,17 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
             return response;
         }
     },
+    closePeriod: async (period: Period) => {
+        const response: GenericResponse<void> = new GenericResponse<void>();
+        try {
+            const res = await apiClient.put<void>(`/closing-period/${period.id}`, period);
+            const { status } = res;
+            response.success = status === 200;
+            get().fetchPeriods();
+            return response;
+        } catch (err) {
+            response.message = (err as Error).message;
+            return response;
+        }
+    }
 });
