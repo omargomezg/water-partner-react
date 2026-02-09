@@ -3,7 +3,7 @@ import { SettingOutlined } from "@ant-design/icons";
 import { useEffect } from "react";
 import { useAppStore } from "../../store/useAppStore";
 import { Client, ClientFilter } from "../../types";
-import {constants } from '../../utils/Utils';
+import { constants } from '../../utils/Utils';
 
 const columns: TableProps<Client>['columns'] = [
 	{
@@ -70,12 +70,13 @@ const ClientTable = () => {
 const RowButtons = ({ client }: any) => {
 	const setProfile = useAppStore((state) => state.setProfile);
 	const deleteClient = useAppStore((state) => state.deleteClient);
+	const setOpenClientMetersModal = useAppStore((state) => state.setOpenClientMetersModal);
 	return (
 		<Space size="middle">
 			<Button type="link" onClick={() => {
 				setProfile(client)
 			}}>Ficha</Button>
-			<Button type="link">Medidores</Button>
+			<Button type="link" onClick={() => setOpenClientMetersModal(true, client)}>Medidores</Button>
 			<Button type="link" onClick={() => deleteClient(client.dni)}>Eliminar</Button>
 			<Button title="Editar"><SettingOutlined /></Button>
 		</Space>

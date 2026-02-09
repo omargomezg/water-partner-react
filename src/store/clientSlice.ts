@@ -7,17 +7,20 @@ type ClientState = {
 	openClientForm: boolean;
 	openSubsidyForm: boolean;
 	openClientMeterDrawer: boolean;
+	openClientMetersModal: boolean;
 	openReadingRecordForm: boolean;
 	openModalPdf: boolean;
 	meterForSubsidy: any,
 	clientFilter: ClientFilter,
 	client: Client | null,
+	clientForMeters: Client | null,
 	clients: PageResponse<Client> | null,
 	loadingClients: boolean,
 }
 
 interface ClientActions {
 	setClientMeterDrawerOpen: () => void;
+	setOpenClientMetersModal: (open: boolean, client?: Client) => void;
 	setClientFilter: (filter: ClientFilter) => void;
 	setOpenSubsidyForm: (meter: any) => void;
 	setClientOpenForm: () => void;
@@ -35,6 +38,7 @@ export type ClientSlice = ClientState & ClientActions;
 
 export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => ({
 	openClientMeterDrawer: false,
+	openClientMetersModal: false,
 	openClientForm: false,
 	openSubsidyForm: false,
 	openReadingRecordForm: false,
@@ -42,10 +46,17 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 	meterForSubsidy: null,
 	clientFilter: { page: 0, size: constants.PAGE_SIZE },
 	client: null,
+	clientForMeters: null,
 	clients: null,
 	loadingClients: false,
 	setClientMeterDrawerOpen: () => {
 		set((state) => ({ openClientMeterDrawer: !state.openClientMeterDrawer }))
+	},
+	setOpenClientMetersModal: (open: boolean, client?: Client) => {
+		set((state) => {
+			state.openClientMetersModal = open;
+			if (client) state.clientForMeters = client;
+		})
 	},
 	setClientFilter: (filter: ClientFilter) => {
 		set((state) => {
@@ -122,7 +133,7 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 			const res = await apiClient.post<Client>(`/client/${dni}/water-meter`, meter);
 			const { status, data } = res;
 			if (status === 201) {
-				set({client: data});
+				set({ client: data });
 				response.success = true;
 			}
 		} catch (err) {
@@ -136,7 +147,7 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 			const res = await apiClient.delete<Client>(`/client/${dni}/water-meter/${id}`);
 			const { status, data } = res;
 			if (status === 200) {
-				set({client: data});
+				set({ client: data });
 				response.success = true;
 			}
 		} catch (err) {

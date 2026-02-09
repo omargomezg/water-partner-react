@@ -6,6 +6,7 @@ import ClientProfile from "../components/Client/Client.profile";
 import CheckAuthentication from "../components/CheckAuthentication";
 import { useAppStore } from "../store/useAppStore";
 import ClientContainer from "../container/Client/Client.container";
+import ClientMetersModal from "../components/Client/ClientMeters.modal";
 
 const ClientPage: FC = () => {
 	const client = useAppStore((state) => state.client);
@@ -16,6 +17,7 @@ const ClientPage: FC = () => {
 				{client &&
 					<ClientProfile></ClientProfile>}
 				<ClientDrawerForm></ClientDrawerForm>
+				<ClientMetersModal />
 			</ContentLayout>
 		</CheckAuthentication>
 	)
