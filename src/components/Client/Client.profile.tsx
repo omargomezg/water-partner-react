@@ -1,4 +1,4 @@
-import { Button, Card, Col, Divider, Flex, Row, Space, Typography } from "antd";
+import { Button, Card, Col, Divider, Flex, Row, Space, Typography, Tag } from "antd";
 import styles from './Client.module.css';
 import ClientAssociatedMeters from "./Client.associatedMeters";
 import ClientReadingRecords from "./Client.readingRecords";
@@ -8,6 +8,7 @@ import ClientModalPdf from "./Client.modalPdf";
 import ClientReadingRecordForm from "./Client.readingRecordForm";
 import { useAppStore } from "../../store/useAppStore";
 import ClientMetersDrawer from "./Client.metersDrawer";
+import dayjs from "dayjs";
 
 const items = [
     {
@@ -30,6 +31,7 @@ const ClientProfile = () => {
     const setClientOpenForm = useAppStore((state) => state.setClientOpenForm);
     // if (!client) return (<>No cliente para editar</>);
 
+    const activeSubsidy = client?.waterMeters?.find(m => m.subsidy)?.subsidy;
 
     return (<>
         <Card style={{ marginBottom: '10px' }}>
@@ -55,14 +57,21 @@ const ClientProfile = () => {
                         <dd><a href={`tel:${client?.telephone}`}>{client?.telephone}</a></dd>
                         <dt>Correo electrónico</dt>
                         <dd><a href={`mailto:${client?.email}`}>{client?.email}</a></dd>
+                        {activeSubsidy && (
+                            <>
+                                <dt>Subsidio activo</dt>
+                                <dd>
+                                    <Tag color="green">
+                                        {activeSubsidy.percentage}% - Vence {dayjs(activeSubsidy.endingDate).format('DD/MM/YYYY')}
+                                    </Tag>
+                                </dd>
+                            </>
+                        )}
                     </dl>
                     <Divider />
                     <Flex justify="end">
                         <Button type="default" onClick={setClientOpenForm}>Editar antecedentes</Button>
                     </Flex>
-                </Card>
-                <Card title="Subsidios" extra={<Button type="link" onClick={setClientOpenForm}>+</Button>}>
-                    <p>Una lista de subsidios...</p>
                 </Card>
             </Col>
             <Col span={18}>
@@ -77,7 +86,7 @@ const ClientProfile = () => {
                             <ul className={styles.requestList}>
                                 {items.map(x => <li key={x.key}>
                                     <Typography.Link >{x.label}: {x.children}</Typography.Link>
-                                    </li>)}
+                                </li>)}
                             </ul>
                         </Card>
                     </Col>
@@ -86,7 +95,7 @@ const ClientProfile = () => {
                     <Col span={12}>
                         <Card>
                             <Typography.Title level={4}>
-                                Últimas 12 boletas  
+                                Últimas 12 boletas
                             </Typography.Title>
                             <ClientBoletas></ClientBoletas>
                         </Card>

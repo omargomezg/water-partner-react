@@ -9,4 +9,11 @@ export interface WaterMeter {
     updatedAt: string;
     cubicMeter?: number;
     flatFee?: number;
+    subsidy?: {
+        id: number;
+        startDate: string;
+        endingDate: string;
+        percentage: number;
+        observation: string;
+    };
 }

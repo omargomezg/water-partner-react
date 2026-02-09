@@ -72,7 +72,8 @@ const DashboardStats: React.FC = () => {
             title: 'Lecturas Pendientes',
             value: dashboardData?.pendingReadings ?? 0,
             icon: <FileTextOutlined />,
-            color: '#faad14'
+            color: '#faad14',
+            onClick: () => navigate('/meter-reading')
         },
     ];
 

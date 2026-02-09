@@ -1,8 +1,9 @@
 import { FC, useEffect, useState } from 'react';
-import { Modal, Button, Table, Space, Tabs, Select, Form, Input, message, Popconfirm, Card } from 'antd';
+import { Modal, Button, Table, Space, Tabs, Select, Form, Input, message, Popconfirm, Card, Tooltip } from 'antd';
 import { useAppStore } from '../../store/useAppStore';
 import { WaterMeter } from '../../types';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, PlusOutlined, FileProtectOutlined } from '@ant-design/icons';
+import SubsidyModal from './Subsidy.modal';
 
 const ClientMetersModal: FC = () => {
     const openClientMetersModal = useAppStore((state) => state.openClientMetersModal);
@@ -12,6 +13,9 @@ const ClientMetersModal: FC = () => {
     const getClients = useAppStore((state) => state.getClients);
 
     const [isAssociating, setIsAssociating] = useState(false);
+    const [subsidyModalOpen, setSubsidyModalOpen] = useState(false);
+    const [selectedMeterId, setSelectedMeterId] = useState<number | null>(null);
+    const [selectedMeterSerial, setSelectedMeterSerial] = useState<string>("");
 
     const closeModal = () => {
         setOpenClientMetersModal(false);
@@ -23,66 +27,81 @@ const ClientMetersModal: FC = () => {
             const response = await removeClientWaterMeter(clientForMeters.dni, meterId.toString());
             if (response.success) {
                 message.success('Medidor desasociado correctamente');
-                getClients(); // Refresh client list to update store
-                // We might need to refresh clientForMeters via getClients but clientForMeters is static in store unless updated.
-                // However, removeClientWaterMeter updates client in store (profile), but clientForMeters is separate.
-                // It's better simply reload the page or re-fetch the specific client.
-                // For simplicity, we assume the user will see updates next time or we handle it if meaningful.
+                getClients();
             } else {
                 message.error('Error al desasociar medidor: ' + response.message);
             }
         }
     };
 
+    const openSubsidyModal = (meter: WaterMeter) => {
+        setSelectedMeterId(meter.id);
+        setSelectedMeterSerial(meter.serial);
+        setSubsidyModalOpen(true);
+    };
+
     const columns = [
         { title: 'Serie', dataIndex: 'serial', key: 'serial' },
         { title: 'Marca', dataIndex: 'trademark', key: 'trademark' },
         { title: 'Diámetro', dataIndex: 'diameter', key: 'diameter' },
-        { title: 'Sector', dataIndex: 'sector', key: 'sector' }, // Assuming sector is a name/string in WaterMeter type
+        { title: 'Sector', dataIndex: 'sector', key: 'sector' },
         {
             title: 'Acciones',
             key: 'actions',
             render: (_: any, record: WaterMeter) => (
-                <Popconfirm title="¿Estás seguro de desasociar este medidor?" onConfirm={() => handleRemoveMeter(record.id)}>
-                    <Button type="link" danger icon={<DeleteOutlined />} />
-                </Popconfirm>
+                <Space>
+                    <Tooltip title="Administrar Subsidio">
+                        <Button type="default" icon={<FileProtectOutlined />} onClick={() => openSubsidyModal(record)} />
+                    </Tooltip>
+                    <Popconfirm title="¿Estás seguro de desasociar este medidor?" onConfirm={() => handleRemoveMeter(record.id)}>
+                        <Button type="link" danger icon={<DeleteOutlined />} />
+                    </Popconfirm>
+                </Space>
             )
         }
     ];
 
     return (
-        <Modal
-            title={`Medidores de ${clientForMeters?.fullName || ''}`}
-            open={openClientMetersModal}
-            onCancel={closeModal}
-            footer={[
-                <Button key="close" onClick={closeModal}>Cerrar</Button>
-            ]}
-            width={800}
-        >
-            <Table
-                dataSource={clientForMeters?.waterMeters || []}
-                columns={columns}
-                rowKey="id"
-                pagination={false}
-                locale={{ emptyText: 'No hay medidores asociados' }}
-            />
+        <>
+            <Modal
+                title={`Medidores de ${clientForMeters?.fullName || ''}`}
+                open={openClientMetersModal}
+                onCancel={closeModal}
+                footer={[
+                    <Button key="close" onClick={closeModal}>Cerrar</Button>
+                ]}
+                width={800}
+            >
+                <Table
+                    dataSource={clientForMeters?.waterMeters || []}
+                    columns={columns}
+                    rowKey="id"
+                    pagination={false}
+                    locale={{ emptyText: 'No hay medidores asociados' }}
+                />
 
-            <div style={{ marginTop: 16 }}>
-                {!isAssociating ? (
-                    <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsAssociating(true)}>
-                        Asociar Medidor
-                    </Button>
-                ) : (
-                    <AssociateMeterSection onCancel={() => setIsAssociating(false)} onSuccess={() => {
-                        setIsAssociating(false);
-                        getClients(); // Refresh to update list
-                        closeModal(); // Close modal to reflect changes (simplest)
-                        // Or we could fetch client details again to update proper state
-                    }} />
-                )}
-            </div>
-        </Modal>
+                <div style={{ marginTop: 16 }}>
+                    {!isAssociating ? (
+                        <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsAssociating(true)}>
+                            Asociar Medidor
+                        </Button>
+                    ) : (
+                        <AssociateMeterSection onCancel={() => setIsAssociating(false)} onSuccess={() => {
+                            setIsAssociating(false);
+                            getClients();
+                            closeModal();
+                        }} />
+                    )}
+                </div>
+            </Modal>
+
+            <SubsidyModal
+                meterId={selectedMeterId}
+                meterSerial={selectedMeterSerial}
+                open={subsidyModalOpen}
+                onClose={() => setSubsidyModalOpen(false)}
+            />
+        </>
     );
 };
 

@@ -1,44 +1,30 @@
-import { Button, Col, DatePicker, Drawer, Form, Input, InputNumber, message, Row, Space, Spin } from "antd";
-import { useAppStore } from "../../store/useAppStore";
-import { useEffect, useState } from "react";
-import dayjs from "dayjs";
-import apiClient from "../../services/apiClient";
-import { Subsidy, SubsidyRequest } from "../../types";
+import { FC, useEffect, useState } from 'react';
+import { Modal, Form, Input, InputNumber, DatePicker, Button, message, Spin } from 'antd';
+import dayjs from 'dayjs';
+import apiClient from '../../services/apiClient';
+import { Subsidy, SubsidyRequest } from '../../types';
 
-const ClientSubsidyForm = () => {
+interface SubsidyModalProps {
+    meterId: number | null;
+    meterSerial?: string;
+    onClose: () => void;
+    open: boolean;
+}
+
+const SubsidyModal: FC<SubsidyModalProps> = ({ meterId, meterSerial, onClose, open }) => {
     const [form] = Form.useForm();
-    const openSubsidyForm = useAppStore((state) => state.openSubsidyForm);
-    const meterForSubsidy = useAppStore((state) => state.meterForSubsidy); // Meter object
-    const setOpenSubsidyForm = useAppStore((state) => state.setOpenSubsidyForm); // Toggle
-
-    // Note: setOpenSubsidyForm implementation in slice might take meter or void?
-    // Usually it toggles boolean.
-    // If it takes meter, it sets meterForSubsidy.
-    // If called without args, it might close?
-
     const [loading, setLoading] = useState(false);
     const [fetching, setFetching] = useState(false);
     const [currentSubsidy, setCurrentSubsidy] = useState<Subsidy | null>(null);
 
-    const onClose = () => {
-        // We probably need to call setOpenSubsidyForm() or setOpenSubsidyForm(null)?
-        // Checking usage in Client.associatedMeters: onClick={() => setOpenSubsidyForm(meter)} -> opens
-        // onClick={() => setOpenSubsidyForm()} -> closes?
-        // Let's assume passing undefined/null closes or use a separate close action if slice differs.
-        // Assuming setOpenSubsidyForm handles toggling or accepts boolean/null.
-        // I will check slice later if needed, but for now assuming setOpenSubsidyForm() works.
-        // Or better: check `Client.subsidyForm.tsx` original code: calling `setOpenSubsidyForm` on cancel/close without args.
-        setOpenSubsidyForm(null);
-    };
-
     useEffect(() => {
-        if (openSubsidyForm && meterForSubsidy) {
-            fetchSubsidy(meterForSubsidy.id);
+        if (open && meterId) {
+            fetchSubsidy(meterId);
         } else {
             form.resetFields();
             setCurrentSubsidy(null);
         }
-    }, [openSubsidyForm, meterForSubsidy]);
+    }, [open, meterId]);
 
     const fetchSubsidy = async (id: number) => {
         setFetching(true);
@@ -47,6 +33,7 @@ const ClientSubsidyForm = () => {
             if (response.status === 200 && response.data.id) {
                 const data = response.data;
                 setCurrentSubsidy(data);
+                // Populate form
                 form.setFieldsValue({
                     decreeNumber: data.numberOfDecree,
                     decreeDate: data.approvedDateOfDecree ? dayjs(data.approvedDateOfDecree) : null,
@@ -55,11 +42,15 @@ const ClientSubsidyForm = () => {
                     observation: data.observation
                 });
             } else {
+                // No active subsidy or empty response
                 form.resetFields();
                 setCurrentSubsidy(null);
             }
         } catch (error) {
             console.error(error);
+            // Ignore 404/empty if purely not found? 
+            // API returns empty Subsidy entity logic in service: .orElse(new SubsidyEntity())
+            // So status is 200, but fields are null.
             form.resetFields();
             setCurrentSubsidy(null);
         } finally {
@@ -68,10 +59,11 @@ const ClientSubsidyForm = () => {
     };
 
     const onFinish = async (values: any) => {
-        if (!meterForSubsidy) return;
+        if (!meterId) return;
         setLoading(true);
+        // Construct request
         const request: SubsidyRequest = {
-            waterMeter: { id: meterForSubsidy.id },
+            waterMeter: { id: meterId },
             decree: {
                 number: values.decreeNumber,
                 publication: values.decreeDate.format('YYYY-MM-DD')
@@ -91,40 +83,29 @@ const ClientSubsidyForm = () => {
             onClose();
         } catch (error) {
             message.error('Error al guardar subsidio');
+            console.error(error);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <Drawer
-            title={`Administrar Subsidio - Medidor ${meterForSubsidy?.serial || ''}`}
-            width={600}
-            open={openSubsidyForm}
-            onClose={onClose}
-            extra={
-                <Space>
-                    <Button onClick={onClose}>Cancelar</Button>
-                    <Button onClick={form.submit} type="primary" loading={loading}>
-                        Guardar
-                    </Button>
-                </Space>
-            }
+        <Modal
+            title={`Administrar Subsidio - Medidor ${meterSerial || ''}`}
+            open={open}
+            onCancel={onClose}
+            footer={null}
         >
             <Spin spinning={fetching}>
                 <Form layout="vertical" form={form} onFinish={onFinish}>
-                    <Row gutter={16}>
-                        <Col span={12}>
-                            <Form.Item name="decreeNumber" label="Nro. Decreto" rules={[{ required: true, message: 'Requerido' }]}>
-                                <Input placeholder="Ej: 1234" />
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item name="decreeDate" label="Fecha Decreto" rules={[{ required: true, message: 'Requerido' }]}>
-                                <DatePicker style={{ width: '100%' }} format="DD/MM/YYYY" />
-                            </Form.Item>
-                        </Col>
-                    </Row>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                        <Form.Item name="decreeNumber" label="Nro. Decreto" rules={[{ required: true, message: 'Requerido' }]}>
+                            <Input placeholder="Ej: 1234" />
+                        </Form.Item>
+                        <Form.Item name="decreeDate" label="Fecha Decreto" rules={[{ required: true, message: 'Requerido' }]}>
+                            <DatePicker style={{ width: '100%' }} format="DD/MM/YYYY" />
+                        </Form.Item>
+                    </div>
 
                     <Form.Item name="dates" label="Vigencia (Inicio - Fin)" rules={[{ required: true, message: 'Requerido' }]}>
                         <DatePicker.RangePicker style={{ width: '100%' }} format="DD/MM/YYYY" />
@@ -137,10 +118,17 @@ const ClientSubsidyForm = () => {
                     <Form.Item name="observation" label="Observación">
                         <Input.TextArea rows={3} />
                     </Form.Item>
+
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+                        <Button onClick={onClose}>Cancelar</Button>
+                        <Button type="primary" htmlType="submit" loading={loading}>
+                            Guardar
+                        </Button>
+                    </div>
                 </Form>
             </Spin>
-        </Drawer>
+        </Modal>
     );
-}
+};
 
-export default ClientSubsidyForm
+export default SubsidyModal;
