@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from "react";
-import { Button, Layout } from "antd";
+import { Button, Flex, Layout } from "antd";
 import Sidebar from "../Sidebar";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import CustomHeader from "../Header";
@@ -15,6 +15,7 @@ interface ContentLayoutProps {
 const ContentLayout = ({ children }: ContentLayoutProps) => {
     const [collapsed, setCollapsed] = useState(false)
     return (
+        <Flex gap="medium" wrap>        
         <Layout style={{ minHeight: '100vh' }} hasSider>
             <Sider theme="light" trigger={null} collapsible collapsed={collapsed} className="sider">
                 <Sidebar />
@@ -33,6 +34,7 @@ const ContentLayout = ({ children }: ContentLayoutProps) => {
                 <ModalSessionExpired />
             </Layout>
         </Layout>
+        </Flex>
     )
 }
 

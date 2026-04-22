@@ -1,14 +1,35 @@
+@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
-* {
-  margin: 0;
-  padding: 0;
-  font-family: 'Poppins', sans-serif;
-}
-body {
-  background: #dde6ed;
+
+@theme {
+  --color-primary: #3a7ca5;
+  --color-secondary: #2c6e8a;
+  --color-warning: #ef9f27;
+  --color-error: #e24b4a;
+  --color-help: #7f77dd;
+  --color-success: #639922;
+  --font-sans: "Poppins", ui-sans-serif, system-ui;
+  --color-main-bg: #dde6ed;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    @apply bg-main-bg font-sans;
+  }
+
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  }
+}
+
+@layer components {
+  .btn-add {
+    @apply cursor-pointer bg-primary text-white px-4 py-2 rounded-lg
+    transition-all hover:bg-primary/90 active:scale-95 flex items-center gap-2;
+  }
 }

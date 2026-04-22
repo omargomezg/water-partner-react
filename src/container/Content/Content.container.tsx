@@ -1,5 +1,5 @@
 import ContentForm from "./Content.form";
-import {useState} from "react";
+import { useState } from "react";
 import ContentShowData from "./Content.ShowData";
 
 const ContentContainer = () => {
@@ -11,12 +11,12 @@ const ContentContainer = () => {
 
     return (
         <>
-            {openForm && <ContentShowData onSelect={onClickCreateOrEdit}/>}
+            {!openForm && <ContentShowData onSelect={onClickCreateOrEdit} />}
 
             <ContentForm open={openForm}
-                         initialValues={null}
-                         onClose={() => setOpenForm(false)}
-                         onSubmit={() => setOpenForm(false)}/>)
+                initialValues={null}
+                onClose={() => setOpenForm(false)}
+                onSubmit={() => setOpenForm(false)} />
         </>
     );
 }

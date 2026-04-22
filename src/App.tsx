@@ -24,6 +24,7 @@ function App() {
                 <Sidebar/>
                 <Button
                     type="text"
+                    classNames
                     icon={collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
                     onClick={() => {
                         setCollapsed(!collapsed);
