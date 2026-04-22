@@ -3,14 +3,15 @@ import ContentFilter from "./Content.filter";
 import ContentTable from "./Content.table";
 import MeterDrawer from "../meter/Meter.drawer";
 import { PlusOutlined } from "@ant-design/icons";
+import { Content } from "./types/types";
 
 type Props = {
-  onSelect: (id: string) => void;
+  onSelect: (content: Content) => void;
 };
 
 const ContentShowData = ({ onSelect }: Props) => {
   const setOpenForm = () => {
-    onSelect("null");
+    onSelect({} as Content);
   };
 
   return (
@@ -29,7 +30,7 @@ const ContentShowData = ({ onSelect }: Props) => {
           </Button>
         }
       >
-        <ContentTable />
+        <ContentTable onSelect={onSelect} />
       </Card>
       <MeterDrawer></MeterDrawer>
     </>

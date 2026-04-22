@@ -1,5 +1,5 @@
 import {Form, Input, Modal} from "antd";
-import {Content} from "./Content.model";
+import { Content } from "./types/types";
 
 type Props = {
     open: boolean;

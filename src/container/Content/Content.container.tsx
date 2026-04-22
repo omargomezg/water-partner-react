@@ -1,12 +1,16 @@
 import ContentForm from "./Content.form";
-import { useState } from "react";
 import ContentShowData from "./Content.ShowData";
+import { Content } from "./types/types";
+import useContentFormStore from "./store/ContentFormStore";
 
 const ContentContainer = () => {
 
-    const [openForm, setOpenForm] = useState(false);
+    //const [openForm, setOpenForm] = useState(false);
+    const openForm = useContentFormStore(state => state.open);
+    const setOpenForm = useContentFormStore(state => state.setContent);
 
-    const onClickCreateOrEdit = () => {
+    const onClickCreateOrEdit = (content: Content) => {
+        setOpenForm({} as Content, true);
     }
 
     return (
@@ -15,8 +19,8 @@ const ContentContainer = () => {
 
             <ContentForm open={openForm}
                 initialValues={null}
-                onClose={() => setOpenForm(false)}
-                onSubmit={() => setOpenForm(false)} />
+                onClose={() => setOpenForm(null, false)}
+                onSubmit={() => setOpenForm(null, false)} />
         </>
     );
 }

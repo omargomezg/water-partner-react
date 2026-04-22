@@ -4,6 +4,8 @@ import { EditOutlined } from "@ant-design/icons";
 import { useMeterStore } from "../../store/Meter.store";
 import { ApiResponse, Content } from "./types/types";
 import { useEffect, useState } from "react";
+import useContentStore from "./store/ContentFormStore";
+import useContentFormStore from "./store/ContentFormStore";
 
 
 const columns: TableProps<Content>["columns"] = [
@@ -30,11 +32,15 @@ const columns: TableProps<Content>["columns"] = [
   {
     title: "Action",
     key: "action",
-    render: (_, record: Content) => <RowButtons tariff={record} />,
+    render: (_, record: Content) => <RowButtons content={record} />,
   },
 ];
 
-const ContentTable = () => {
+type ContentTableProps = {
+    onSelect: (content: Content) => void;
+}
+
+const ContentTable = ({ onSelect }: ContentTableProps) => {
     const [content, setContent] = useState<ApiResponse<Content>>();
     const [pagination, setPagination] = useState({ current: 1, pageSize: 10, total: 0 });
 
@@ -80,11 +86,15 @@ const ContentTable = () => {
   );
 };
 
-const RowButtons = ({ tariff }: any) => {
-  const { setOpenForm } = useMeterStore();
+type RowButtonsProps = {
+    content: Content;
+}
+
+const RowButtons = ({ content }: RowButtonsProps) => {
+    const setContent = useContentFormStore(state => state.setContent);
   return (
     <Space>
-      <Button type="link" onClick={setOpenForm}>
+      <Button type="link" onClick={() => setContent(content, true)}>
         <EditOutlined />
       </Button>
     </Space>
