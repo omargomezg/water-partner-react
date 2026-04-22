@@ -1,134 +1,144 @@
-import {Button, Space, Table, TableProps} from "antd";
+import { Button, Col, Row, Space, Table, TablePaginationConfig, TableProps } from "antd";
 import dayjs from "dayjs";
-import {EditOutlined} from "@ant-design/icons";
-import {useMeterStore} from "../../store/Meter.store";
+import { EditOutlined } from "@ant-design/icons";
+import { useMeterStore } from "../../store/Meter.store";
+import { ApiResponse, Content } from "./types/types";
+import { useEffect, useState } from "react";
 
-interface DataType {
-    id: string,
-    title: string,
-    summary: string,
-    tags: string[],
-    category: string,
-    updatedAt: string
-}
 
-const columns: TableProps<DataType>['columns'] = [
-    {
-        title: 'Titulo',
-        dataIndex: 'title',
-        key: 'title',
-        render: (_: any, record: DataType) => (
-            TitleContent(record.title, record.summary)
-        )
+const columns: TableProps<Content>["columns"] = [
+  {
+    title: "Titulo",
+    dataIndex: "title",
+    key: "title",
+    render: (_: any, { title, summary, featureImage, tags }) =>
+      TitleContent(title, summary, featureImage.id, tags),
+  },
+  {
+    title: "Categoria",
+    dataIndex: "category",
+    key: "category",
+  },
+  {
+    title: "Última actualización",
+    key: "updatedAt",
+    dataIndex: "updatedAt",
+    render: (dateString) => {
+      return dayjs(dateString).format("MMMM DD, YYYY");
     },
-    {
-        title: 'Categoria',
-        dataIndex: 'category',
-        key: 'category',
-    },
-    {
-        title: 'Etiquetas',
-        dataIndex: 'tags',
-        key: 'tags',
-        render: (tags: string[]) => (
-            <>
-                {tags.map(tag => (
-                    <span key={tag} style={{
-                        backgroundColor: '#e0e0e0',
-                        borderRadius: '4px',
-                        padding: '2px 6px',
-                        marginRight: '4px',
-                        display: 'inline-block'
-                    }}>
-                        {tag}
-                    </span>
-                ))}
-            </>
-        )
-    },
-    {
-        title: 'Última actualización',
-        key: 'updatedAt',
-        dataIndex: 'updatedAt',
-        render: (dateString) => {
-            return dayjs(dateString).format('MMMM DD, YYYY');
-        },
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (_, record: DataType) => (
-            <RowButtons tariff={record}/>
-        ),
-    },
-];
-
-const data: DataType[] = [
-    {
-        id: "1",
-        title: "Introducción a React",
-        summary: "Una guía básica para comenzar con React y comprender sus conceptos principales.",
-        tags: ["react", "frontend", "javascript"],
-        category: "Programación",
-        updatedAt: "2025-08-25T10:15:00Z",
-    },
-    {
-        id: "2",
-        title: "Buenas prácticas con TypeScript",
-        summary: "Consejos prácticos para mantener tu código TypeScript limpio y escalable.",
-        tags: ["typescript", "buenas-practicas", "desarrollo"],
-        category: "Programación",
-        updatedAt: "2025-08-28T18:30:00Z",
-    },
-    {
-        id: "3",
-        title: "Patrones de diseño en JavaScript",
-        summary: "Exploramos patrones de diseño comunes como Singleton, Observer y Factory.",
-        tags: ["javascript", "design-patterns"],
-        category: "Arquitectura de Software",
-        updatedAt: "2025-07-10T09:45:00Z",
-    },
-    {
-        id: "4",
-        title: "Optimización de consultas en SQL",
-        summary: "Cómo mejorar el rendimiento de tus bases de datos con índices y buenas prácticas de queries.",
-        tags: ["sql", "database", "performance"],
-        category: "Bases de Datos",
-        updatedAt: "2025-08-05T14:20:00Z",
-    },
-    {
-        id: "5",
-        title: "Docker para principiantes",
-        summary: "Aprende a crear, ejecutar y administrar contenedores Docker de forma sencilla.",
-        tags: ["docker", "devops", "containers"],
-        category: "Infraestructura",
-        updatedAt: "2025-09-01T08:00:00Z",
-    },
+  },
+  {
+    title: "Action",
+    key: "action",
+    render: (_, record: Content) => <RowButtons tariff={record} />,
+  },
 ];
 
 const ContentTable = () => {
-    return (
-        <Table<DataType> style={{width: '100%'}}
-                         rowKey="id"
-                         columns={columns}
-                         dataSource={data}/>
-    )
-}
+    const [content, setContent] = useState<ApiResponse<Content>>();
+    const [pagination, setPagination] = useState({ current: 1, pageSize: 10, total: 0 });
 
-const RowButtons = ({tariff}: any) => {
-    const {setOpenForm} = useMeterStore()
-    return <Space>
-        <Button type="link" onClick={setOpenForm}>
-            <EditOutlined/>
-        </Button>
+    const fetchData = async (page: number = 0, pageSize: number = 10) => {
+            try {
+                const response = await fetch(`http://localhost:8080/article?page=${page - 1}&size=${pageSize}`);
+                const data: ApiResponse<Content> = await response.json();
+                setContent(data);
+                setPagination({
+                    ...pagination,
+                    current: page,
+                    pageSize: pageSize,
+                    total: data.totalElements
+                })
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+    useEffect(() => {        
+        fetchData(pagination.current, pagination.pageSize);
+    }, []);
+
+    const handleTableChange = (newPagination: TablePaginationConfig) => {
+        if (pagination.pageSize !== newPagination.pageSize) {
+            fetchData(Number(1), Number(newPagination.pageSize));
+        } else {
+            fetchData(Number(newPagination.current), Number(newPagination.pageSize));
+        }
+    };
+
+  return (
+    <>
+      <Table<Content>
+          columns={columns}
+          dataSource={content?.content}
+        style={{ width: "100%" }}
+        rowKey="id"
+        pagination={pagination}
+        onChange={handleTableChange}
+      />
+    </>
+  );
+};
+
+const RowButtons = ({ tariff }: any) => {
+  const { setOpenForm } = useMeterStore();
+  return (
+    <Space>
+      <Button type="link" onClick={setOpenForm}>
+        <EditOutlined />
+      </Button>
     </Space>
-}
+  );
+};
 
-const TitleContent = (title: string, summary: string) => {
-    return <div>
+const ContentTags = ({ tags }: { tags: string[] }) => {
+  return (
+    <>
+      {tags.map((tag) => (
+        <span
+          key={tag}
+          style={{
+            backgroundColor: "#e0e0e0",
+            borderRadius: "4px",
+            padding: "2px 6px",
+            marginRight: "4px",
+            fontSize: "10px",
+            display: "inline-block",
+          }}
+        >
+          {tag}
+        </span>
+      ))}
+    </>
+  );
+};
+
+const TitleContent = (
+  title: string,
+  summary: string,
+  imageUrl?: string | null,
+  tags?: string[],
+) => {
+  return (
+    <Row gutter={[16, 0]} align="middle">
+      {imageUrl && (
+        <Col xs={0} md={4}>
+          {imageUrl && (
+            <img
+              src={`http://localhost:8080/file/image/${imageUrl}?width=200`}
+              alt={title}
+              style={{ width: "100%", height: "auto", maxHeight: "140px", objectFit: "cover" }}
+            />
+          )}
+        </Col>
+      )}
+      <Col xs={24} md={imageUrl ? 20 : 24}>
         <b>{title}</b>
-        <p style={{margin: 0, color: '#888'}}>{summary}</p>
-    </div>
-}
+        <p style={{ margin: 0, color: "#888" }}>{summary}</p>
+        {tags && <ContentTags tags={tags} />}
+      </Col>
+    </Row>
+  );
+};
 
 export default ContentTable;
