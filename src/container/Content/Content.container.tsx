@@ -8,30 +8,21 @@ const ContentContainer = () => {
   const setOpenForm = useContentFormStore((state) => state.setContent);
   const content = useContentFormStore((state) => state.content);
 
-  /* const onClickCreateOrEdit = async (content: Content) => {
-        const response = await fetch(
-          `http://localhost:8080/article/${content.permalink}`,
-        );
-        const data: Content = await response.json();
-        setOpenForm(data, true);
-                    
-     
-  }; */
+    const openForm = useContentFormStore(state => state.open);
+    const setOpenForm = useContentFormStore(state => state.setContent);
 
 
-  return (
-    <>
-      {/* {!openForm && <ContentShowData  />} */}
-      {openForm && (
-        {/* <ContentForm
-          open={openForm}
-          initialValues={content}
-          onClose={() => setOpenForm({} as Content, false)}
-          onSubmit={() => setOpenForm({} as Content, false)}
-        /> */}
-      )}
-    </>
-  );
-};
+    return (
+        <>
+            {!openForm && <ContentShowData onSelect={onClickCreateOrEdit} />}
+            {openForm && (
+                <ContentForm open={openForm}
+                    initialValues={null}
+                    onClose={() => setOpenForm(null, false)}
+                    onSubmit={() => setOpenForm(null, false)} />
+            )}
+        </>
+    );
+}
 
 export default ContentContainer;
