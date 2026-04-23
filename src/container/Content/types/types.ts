@@ -27,9 +27,12 @@ export interface FeatureImage {
 }
 
 export interface Category {
+    id?: string;
+    parent?: string;
     keywords?: Array<string>;
     name: string;
     slug: string;
+    totalArticles: number;
 }
 
 export interface CreatedBy {

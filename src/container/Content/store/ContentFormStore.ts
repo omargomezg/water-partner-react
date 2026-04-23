@@ -2,20 +2,20 @@ import { create } from "zustand/react"
 import { Content } from "../types/types"
 
 type Store = {
-    content: Content | null
+    content: Content
     open: boolean
 }
 
 type Actions = {
-    setContent: (content: Content | null, open: boolean) => void
+    setContent: (content: Content, open: boolean) => void
 }
 
 const useContentFormStore = create<Store & Actions>()(
     (set) => ({
         open: false,
-        content: null,
-        setContent: (content: Content | null, open: boolean) => {
-            open ? set({ content, open }) : set({ content: null, open });
+        content: {} as Content,
+        setContent: (content: Content, open: boolean) => {
+            open ? set({ content, open }) : set({ content: {} as Content, open });
         }
     })
 )

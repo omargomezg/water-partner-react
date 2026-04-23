@@ -1,4 +1,12 @@
-import { Button, Col, Row, Space, Table, TablePaginationConfig, TableProps } from "antd";
+import {
+  Button,
+  Col,
+  Row,
+  Space,
+  Table,
+  TablePaginationConfig,
+  TableProps,
+} from "antd";
 import dayjs from "dayjs";
 import { EditOutlined } from "@ant-design/icons";
 import { useMeterStore } from "../../store/Meter.store";
@@ -6,7 +14,6 @@ import { ApiResponse, Content } from "./types/types";
 import { useEffect, useState } from "react";
 import useContentStore from "./store/ContentFormStore";
 import useContentFormStore from "./store/ContentFormStore";
-
 
 const columns: TableProps<Content>["columns"] = [
   {
@@ -37,46 +44,52 @@ const columns: TableProps<Content>["columns"] = [
 ];
 
 type ContentTableProps = {
-    onSelect: (content: Content) => void;
-}
+  onSelect: (content: Content) => void;
+};
 
 const ContentTable = ({ onSelect }: ContentTableProps) => {
-    const [content, setContent] = useState<ApiResponse<Content>>();
-    const [pagination, setPagination] = useState({ current: 1, pageSize: 10, total: 0 });
+  const [content, setContent] = useState<ApiResponse<Content>>();
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+    total: 0,
+  });
 
-    const fetchData = async (page: number = 0, pageSize: number = 10) => {
-            try {
-                const response = await fetch(`http://localhost:8080/article?page=${page - 1}&size=${pageSize}`);
-                const data: ApiResponse<Content> = await response.json();
-                setContent(data);
-                setPagination({
-                    ...pagination,
-                    current: page,
-                    pageSize: pageSize,
-                    total: data.totalElements
-                })
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
+  const fetchData = async (page: number = 0, pageSize: number = 10) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/article?page=${page - 1}&size=${pageSize}`,
+      );
+      const data: ApiResponse<Content> = await response.json();
+      setContent(data);
+      setPagination({
+        ...pagination,
+        current: page,
+        pageSize: pageSize,
+        total: data.totalElements,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-    useEffect(() => {        
-        fetchData(pagination.current, pagination.pageSize);
-    }, []);
+  useEffect(() => {
+    fetchData(pagination.current, pagination.pageSize);
+  }, []);
 
-    const handleTableChange = (newPagination: TablePaginationConfig) => {
-        if (pagination.pageSize !== newPagination.pageSize) {
-            fetchData(Number(1), Number(newPagination.pageSize));
-        } else {
-            fetchData(Number(newPagination.current), Number(newPagination.pageSize));
-        }
-    };
+  const handleTableChange = (newPagination: TablePaginationConfig) => {
+    if (pagination.pageSize !== newPagination.pageSize) {
+      fetchData(Number(1), Number(newPagination.pageSize));
+    } else {
+      fetchData(Number(newPagination.current), Number(newPagination.pageSize));
+    }
+  };
 
   return (
     <>
       <Table<Content>
-          columns={columns}
-          dataSource={content?.content}
+        columns={columns}
+        dataSource={content?.content}
         style={{ width: "100%" }}
         rowKey="id"
         pagination={pagination}
@@ -87,14 +100,19 @@ const ContentTable = ({ onSelect }: ContentTableProps) => {
 };
 
 type RowButtonsProps = {
-    content: Content;
-}
+  content: Content;
+};
 
 const RowButtons = ({ content }: RowButtonsProps) => {
-    const setContent = useContentFormStore(state => state.setContent);
+  const setContent = useContentFormStore((state) => state.setContent);
+  const handleChange = async () => {
+    const response = await fetch(`http://localhost:8080/article/${content.permalink}`);
+        const data: Content = await response.json();
+        setContent(data, true);
+  }
   return (
     <Space>
-      <Button type="link" onClick={() => setContent(content, true)}>
+      <Button type="link" onClick={handleChange}>
         <EditOutlined />
       </Button>
     </Space>
@@ -137,7 +155,12 @@ const TitleContent = (
             <img
               src={`http://localhost:8080/file/image/${imageUrl}?width=200`}
               alt={title}
-              style={{ width: "100%", height: "auto", maxHeight: "140px", objectFit: "cover" }}
+              style={{
+                width: "100%",
+                height: "auto",
+                maxHeight: "140px",
+                objectFit: "cover",
+              }}
             />
           )}
         </Col>
