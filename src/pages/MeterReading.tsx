@@ -1,7 +1,6 @@
 import ContentLayout from "../components/Layout/ContentLayout";
 import { Button, Card, Form, Input, Select, Space, Table, TableProps, Typography, Popconfirm, message } from "antd";
 import { FileExcelOutlined, FilterOutlined, PlusOutlined } from "@ant-design/icons";
-import dayjs from "dayjs";
 import { useAppStore } from "../store/useAppStore";
 import MeterReadingDrawer from "../container/MeterReading/MeterReading.drawer";
 import CheckAuthentication from "../components/CheckAuthentication";
@@ -88,7 +87,7 @@ const MeterReadingPage = () => {
 
     return (
         <CheckAuthentication>
-            <ContentLayout>
+            {/* <ContentLayout> */}
                 <Card
                     style={{ marginBottom: '20px' }}
                     styles={{ body: { padding: '24px' } }}
@@ -175,7 +174,7 @@ const MeterReadingPage = () => {
                     />
                 </Card>
                 <MeterReadingDrawer />
-            </ContentLayout>
+            {/* </ContentLayout> */}
         </CheckAuthentication>
     )
 }

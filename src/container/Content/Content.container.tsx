@@ -1,16 +1,14 @@
-import ContentForm from "./Form/Content.form";
+import ContentForm from "./views/form/Content.form";
 import ContentShowData from "./Content.ShowData";
 import { Content } from "./types/types";
-import useContentFormStore from "./store/ContentFormStore";
-import { useContentManager } from "./Content.hook";
+import useContentFormStore from "./store/useContentFormStore";
 
 const ContentContainer = () => {
   const openForm = useContentFormStore((state) => state.open);
   const setOpenForm = useContentFormStore((state) => state.setContent);
   const content = useContentFormStore((state) => state.content);
-  const {} = useContentManager();
 
-  const onClickCreateOrEdit = async (content: Content) => {
+  /* const onClickCreateOrEdit = async (content: Content) => {
         const response = await fetch(
           `http://localhost:8080/article/${content.permalink}`,
         );
@@ -18,19 +16,19 @@ const ContentContainer = () => {
         setOpenForm(data, true);
                     
      
-  };
+  }; */
 
 
   return (
     <>
-      {!openForm && <ContentShowData onSelect={onClickCreateOrEdit} />}
+      {/* {!openForm && <ContentShowData  />} */}
       {openForm && (
-        <ContentForm
+        {/* <ContentForm
           open={openForm}
           initialValues={content}
           onClose={() => setOpenForm({} as Content, false)}
           onSubmit={() => setOpenForm({} as Content, false)}
-        />
+        /> */}
       )}
     </>
   );

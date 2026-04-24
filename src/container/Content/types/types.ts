@@ -3,6 +3,7 @@ export interface Content {
     permalink: string;
     summary: string;
     content?: string | null;
+    referringSite?: string | null;
     category: Category;
     createdBy: CreatedBy;
     createdAt: number;

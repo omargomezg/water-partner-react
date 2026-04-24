@@ -7,7 +7,7 @@ import CheckAuthentication from "../components/CheckAuthentication";
 const ReportPage: FC = () => {
     return (
         <CheckAuthentication>
-            <ContentLayout>
+            {/* <ContentLayout>
                 <div style={{flex: 1}}>
                     <Flex vertical gap="2.3rem">
                         <Card style={{padding: '20px'}}>
@@ -22,7 +22,7 @@ const ReportPage: FC = () => {
                         </Card>
                     </Flex>
                 </div>
-            </ContentLayout>
+            </ContentLayout> */}
         </CheckAuthentication>
     )
 }

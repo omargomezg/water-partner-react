@@ -13,6 +13,9 @@ import ResetPassword from "./pages/ResetPassword";
 import PaymentPage from "./pages/Payment";
 import ContentPage from "./pages/Content";
 import PlantillaPage from './pages/Plantilla';
+import ContentLayout from './components/Layout/ContentLayout';
+import ContentTable from './container/Content/views/list/Content.table';
+import ContentForm from './container/Content/views/form/Content.form';
 
 const router = createBrowserRouter([
     {path: '/', element: <DashboardPage/>},
@@ -24,7 +27,15 @@ const router = createBrowserRouter([
     {path: '/meter-reading', element: <MeterReadingPage/>},
     {path: '/login', element: <LoginPage/>},
     {path: '/reset-password', element: <ResetPassword/>},
-    {path: '/content', element: <ContentPage/>},
+    {
+        path: '/content',
+        element: <ContentLayout />,
+        children: [
+                {path: '', element: <ContentTable />},
+                {path: 'new', element: <ContentForm />},
+                {path: ':permalink/edit', element: <ContentForm />}
+        ]
+    },
     {path: '/plantilla', element: <PlantillaPage/>},
 ])
 

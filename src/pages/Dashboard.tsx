@@ -6,9 +6,9 @@ import CheckAuthentication from "../components/CheckAuthentication";
 const DashboardPage: FC = () => {
     return (
         <CheckAuthentication>
-            <ContentLayout>
+            {/* <ContentLayout> */}
                 <MainContent />
-            </ContentLayout>
+            {/* </ContentLayout> */}
         </CheckAuthentication>
 
     )

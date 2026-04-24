@@ -12,13 +12,13 @@ const ClientPage: FC = () => {
 	const client = useAppStore((state) => state.client);
 	return (
 		<CheckAuthentication>
-			<ContentLayout>
+			{/* <ContentLayout> */}
 				{!client && (<ClientList></ClientList>)}
 				{client &&
 					<ClientProfile></ClientProfile>}
 				<ClientDrawerForm></ClientDrawerForm>
 				<ClientMetersModal />
-			</ContentLayout>
+			{/* </ContentLayout> */}
 		</CheckAuthentication>
 	)
 }

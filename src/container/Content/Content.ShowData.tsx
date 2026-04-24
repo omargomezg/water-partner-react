@@ -1,6 +1,6 @@
 import { Button, Card, Space } from "antd";
 import ContentFilter from "./Content.filter";
-import ContentTable from "./Table/Content.table";
+import ContentTable from "./views/list/Content.table";
 import MeterDrawer from "../meter/Meter.drawer";
 import { PlusOutlined } from "@ant-design/icons";
 import { Content } from "./types/types";
@@ -30,7 +30,7 @@ const ContentShowData = ({ onSelect }: Props) => {
           </Button>
         }
       >
-        <ContentTable onSelect={onSelect} />
+        {/* <ContentTable onSelect={onSelect} /> */}
       </Card>
       <MeterDrawer></MeterDrawer>
     </>

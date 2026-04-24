@@ -9,13 +9,17 @@ type Store = {
 
 type Actions = {
     setCategories: (category: Category[]) => void
+    fetchCategories: () => void
 }
 
 const useCategoryStore = create<Store & Actions>()(
     (set) => ({
         categories: [] as Category[],
         categoryForSelect: [] as SelectProps[],
-        setCategories: (categories: Category[]) => set({ categories, categoryForSelect: categories.map((category) => ({ label: category.name, value: category.id })) })
+        setCategories: (categories: Category[]) => set({ categories, categoryForSelect: categories.map((category) => ({ label: category.name, value: category.id })) }),
+        fetchCategories: async () => {
+            // Implementation for fetching categories
+        }
     })
 )
 

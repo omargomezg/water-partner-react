@@ -15,10 +15,10 @@ const items = [
 const ContentPage = () => {
     return (
         <CheckAuthentication>
-            <ContentLayout>
+            {/* <ContentLayout> */}
                 <Breadcrumb style={{ margin: '1px 0' }} items={items}></Breadcrumb>
                 <ContentContainer />
-            </ContentLayout>
+            {/* </ContentLayout> */}
         </CheckAuthentication>
     );
 }

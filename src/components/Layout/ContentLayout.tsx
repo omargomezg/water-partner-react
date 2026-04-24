@@ -7,12 +7,10 @@ import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import './ContentLayout.css'
 import ModalSessionExpired from "../ModalSessionExpired";
+import { Outlet } from "react-router-dom";
 
-interface ContentLayoutProps {
-    children: ReactNode
-}
 
-const ContentLayout = ({ children }: ContentLayoutProps) => {
+const ContentLayout = () => {
     const [collapsed, setCollapsed] = useState(false)
     return (
         <Flex gap="medium" wrap>        
@@ -29,7 +27,7 @@ const ContentLayout = ({ children }: ContentLayoutProps) => {
                     <CustomHeader />
                 </Header>
                 <Content className="content">
-                    {children}
+                    <Outlet />
                 </Content>
                 <ModalSessionExpired />
             </Layout>

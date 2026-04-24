@@ -1,42 +1,29 @@
-import { Card, Col, Form, Input, Row, Select, Space, Typography } from "antd";
-import { Content } from "../types/types";
-import RichEditor from "../../../components/RichEditor";
-import useCategoryStore from "../store/CategoryStore";
+import { Card, Col, Form, Input, Row, Select, Space, Spin, Typography } from "antd";
+import RichEditor from "../../../../components/RichEditor";
 import { ContentFormButtons } from "./Content.formButtons";
+import useCategoryStore from "../../store/useCategoryStore";
+import useContentFormManager from "./useContentFormManager";
+import { Content } from "../../types/types";
 
 const { Text } = Typography;
 
-type Props = {
-  open: boolean;
-  initialValues: Content;
-  onClose: () => void;
-  onSubmit: (content: Content) => void;
-};
 
-const ContentForm = ({ open, initialValues, onClose, onSubmit }: Props) => {
-  const [form] = Form.useForm();
+const ContentForm = () => {
+  const [form] = Form.useForm<Content>();
   const categories = useCategoryStore((state) => state.categoryForSelect);
-  const handleOk = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        onSubmit(values);
-        form.resetFields();
-      })
-      .catch((info) => {
-        console.log("Validate Failed:", info);
-      });
-  };
+  const {content, loading, handleSubmit, isValid} = useContentFormManager({ form });
 
   return (
+    <Spin spinning={loading}>
     <Card>
       <Form
         form={form}
         layout="vertical"
-        initialValues={initialValues ?? { title: "", description: "" }}
+        initialValues={content}
+        onFinish={handleSubmit}
       >
         <Space style={{ width: "100%", justifyContent: "end" }} direction={"horizontal"} size="small" wrap>
-          <ContentFormButtons />
+          <ContentFormButtons isValid={isValid} />
         </Space>
         <Form.Item
           name="title"
@@ -48,7 +35,7 @@ const ContentForm = ({ open, initialValues, onClose, onSubmit }: Props) => {
         <Row justify="space-between" align="top" gutter={8}>
           <Col xs={24} md={18}>
             <Form.Item
-              name="description"
+              name="summary"
               label="Descripción"
               rules={[
                 { required: true, message: "Please enter the description!" },
@@ -102,6 +89,7 @@ const ContentForm = ({ open, initialValues, onClose, onSubmit }: Props) => {
         </Row>
       </Form>
     </Card>
+    </Spin>
   );
 };
 

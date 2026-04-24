@@ -1,7 +1,8 @@
 import { CloudUploadOutlined, CloseOutlined, EyeOutlined, SaveOutlined, UserOutlined } from "@ant-design/icons";
 import { Space, Dropdown, Button, Grid } from "antd";
-import useContentFormStore from "../store/ContentFormStore";
-import { Content } from "../types/types";
+import useContentFormStore from "../../store/useContentFormStore";
+import { Content } from "../../types/types";
+import { useNavigate } from "react-router";
 const { useBreakpoint } = Grid;
 
 type ContentFormButtonsProps = {
@@ -9,14 +10,18 @@ type ContentFormButtonsProps = {
   onClickRemoveDraft?: () => void;
   onClickPublish?: () => void;
   onClickPreview?: () => void;
+  isValid: boolean;
 };
+
 
 export const ContentFormButtons = ({
   onClickSaveDraft,
   onClickRemoveDraft,
   onClickPublish,
   onClickPreview,
+  isValid
 }: ContentFormButtonsProps) => {
+    const navigate = useNavigate();
   const screens = useBreakpoint();
   const setContent = useContentFormStore((state) => state.setContent);
   const items = [
@@ -42,6 +47,7 @@ export const ContentFormButtons = ({
   ];
 
   const onClickClose = () => {
+    navigate(`/content`);
     setContent({} as Content, false);
   }
 
@@ -59,6 +65,7 @@ export const ContentFormButtons = ({
         menu={{ items }}
         onClick={onClickPublish}
         type="primary"
+        disabled={!isValid}
         htmlType={"button"}
       >
         <CloudUploadOutlined /> Publicar

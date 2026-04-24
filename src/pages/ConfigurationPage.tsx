@@ -45,9 +45,9 @@ const items: TabsProps['items'] = [
 const ConfigurationPage: FC = () => {
     return (
         <CheckAuthentication>
-            <ContentLayout>
+            {/* <ContentLayout> */}
                 <Tabs defaultActiveKey="1" items={items}/>
-            </ContentLayout>
+            {/* </ContentLayout> */}
         </CheckAuthentication>
     )
 }

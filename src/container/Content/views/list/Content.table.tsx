@@ -11,8 +11,9 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
-import useContentFormStore from "../store/ContentFormStore";
-import { ApiResponse, Category, Content } from "../types/types";
+import useContentFormStore from "../../store/useContentFormStore";
+import { ApiResponse, Category, Content } from "../../types/types";
+import { useNavigate } from "react-router-dom";
 
 const columns: TableProps<Content>["columns"] = [
   {
@@ -37,11 +38,7 @@ const columns: TableProps<Content>["columns"] = [
   },
 ];
 
-type ContentTableProps = {
-  onSelect: (content: Content) => void;
-};
-
-const ContentTable = ({ onSelect }: ContentTableProps) => {
+const ContentTable = () => {
   const [content, setContent] = useState<ApiResponse<Content>>();
   const [pagination, setPagination] = useState({
     current: 1,
@@ -98,8 +95,10 @@ type RowButtonsProps = {
 };
 
 const RowButtons = ({ content }: RowButtonsProps) => {
+  const navigate = useNavigate();
   const setContent = useContentFormStore((state) => state.setContent);
   const handleChange = async () => {
+    navigate(`/content/${content.permalink}/edit`);
     const response = await fetch(`http://localhost:8080/article/${content.permalink}`);
         const data: Content = await response.json();
         setContent(data, true);
