@@ -1,3 +1,4 @@
+import { EditOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -6,27 +7,20 @@ import {
   Table,
   TablePaginationConfig,
   TableProps,
+  Tag,
 } from "antd";
 import dayjs from "dayjs";
-import { EditOutlined } from "@ant-design/icons";
-import { useMeterStore } from "../../store/Meter.store";
-import { ApiResponse, Content } from "./types/types";
 import { useEffect, useState } from "react";
-import useContentStore from "./store/ContentFormStore";
-import useContentFormStore from "./store/ContentFormStore";
+import useContentFormStore from "../store/ContentFormStore";
+import { ApiResponse, Category, Content } from "../types/types";
 
 const columns: TableProps<Content>["columns"] = [
   {
     title: "Titulo",
     dataIndex: "title",
     key: "title",
-    render: (_: any, { title, summary, featureImage, tags }) =>
-      TitleContent(title, summary, featureImage.id, tags),
-  },
-  {
-    title: "Categoria",
-    dataIndex: "category",
-    key: "category",
+    render: (_: any, { title, summary, featureImage, tags, category }) =>
+      TitleContent(title, summary, featureImage.id, tags, category),
   },
   {
     title: "Última actualización",
@@ -146,6 +140,7 @@ const TitleContent = (
   summary: string,
   imageUrl?: string | null,
   tags?: string[],
+  category?: Category
 ) => {
   return (
     <Row gutter={[16, 0]} align="middle">
@@ -168,7 +163,10 @@ const TitleContent = (
       <Col xs={24} md={imageUrl ? 20 : 24}>
         <b>{title}</b>
         <p style={{ margin: 0, color: "#888" }}>{summary}</p>
-        {tags && <ContentTags tags={tags} />}
+        {category && (
+            <Tag>{category.name}</Tag>
+        )}
+        {tags && <ContentTags tags={tags} />}        
       </Col>
     </Row>
   );

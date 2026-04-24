@@ -1,6 +1,8 @@
-import { Card, Col, Form, Input, Row, Select, Typography } from "antd";
+import { Card, Col, Form, Input, Row, Select, Space, Typography } from "antd";
 import { Content } from "../types/types";
 import RichEditor from "../../../components/RichEditor";
+import useCategoryStore from "../store/CategoryStore";
+import { ContentFormButtons } from "./Content.formButtons";
 
 const { Text } = Typography;
 
@@ -13,6 +15,7 @@ type Props = {
 
 const ContentForm = ({ open, initialValues, onClose, onSubmit }: Props) => {
   const [form] = Form.useForm();
+  const categories = useCategoryStore((state) => state.categoryForSelect);
   const handleOk = () => {
     form
       .validateFields()
@@ -32,6 +35,9 @@ const ContentForm = ({ open, initialValues, onClose, onSubmit }: Props) => {
         layout="vertical"
         initialValues={initialValues ?? { title: "", description: "" }}
       >
+        <Space style={{ width: "100%", justifyContent: "end" }} direction={"horizontal"} size="small" wrap>
+          <ContentFormButtons />
+        </Space>
         <Form.Item
           name="title"
           label="Título"

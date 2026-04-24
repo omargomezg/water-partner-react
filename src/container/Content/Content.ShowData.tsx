@@ -1,6 +1,6 @@
 import { Button, Card, Space } from "antd";
 import ContentFilter from "./Content.filter";
-import ContentTable from "./Content.table";
+import ContentTable from "./Table/Content.table";
 import MeterDrawer from "../meter/Meter.drawer";
 import { PlusOutlined } from "@ant-design/icons";
 import { Content } from "./types/types";

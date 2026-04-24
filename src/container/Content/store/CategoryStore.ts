@@ -1,18 +1,21 @@
 import { create } from "zustand/react"
 import { Category } from "../types/types"
+import { SelectProps } from "antd"
 
 type Store = {
-    category: Category[]
+    categories: Category[],
+    categoryForSelect: SelectProps[]
 }
 
 type Actions = {
-    setCategory: (category: Category[]) => void
+    setCategories: (category: Category[]) => void
 }
 
 const useCategoryStore = create<Store & Actions>()(
     (set) => ({
-        category: [] as Category[],
-        setCategory: (category: Category[]) => set({ category })
+        categories: [] as Category[],
+        categoryForSelect: [] as SelectProps[],
+        setCategories: (categories: Category[]) => set({ categories, categoryForSelect: categories.map((category) => ({ label: category.name, value: category.id })) })
     })
 )
 
