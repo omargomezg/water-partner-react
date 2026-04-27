@@ -1,7 +1,6 @@
 import { Card, Col, Form, Input, Row, Select, Space, Spin, Typography } from "antd";
 import RichEditor from "../../../../components/RichEditor";
 import { ContentFormButtons } from "./Content.formButtons";
-import useCategoryStore from "../../store/useCategoryStore";
 import useContentFormManager from "./useContentFormManager";
 import { Content } from "../../types/types";
 
@@ -10,8 +9,7 @@ const { Text } = Typography;
 
 const ContentForm = () => {
   const [form] = Form.useForm<Content>();
-  const categories = useCategoryStore((state) => state.categoryForSelect);
-  const {content, loading, handleSubmit, isValid} = useContentFormManager({ form });
+  const {content, loading, handleSubmit, isValid, categoryForSelect} = useContentFormManager({ form });
 
   return (
     <Spin spinning={loading}>
@@ -83,7 +81,7 @@ const ContentForm = () => {
                 },
               ]}
             >
-              <Select options={categories} />
+              <Select options={categoryForSelect} />
             </Form.Item>
           </Col>
         </Row>

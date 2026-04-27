@@ -3,17 +3,28 @@ import { useParams } from "react-router-dom";
 import useContentFormStore from "../../store/useContentFormStore";
 import { FormInstance } from "antd";
 import { Content } from "../../types/types";
+import useCategoryStore from "../../store/useCategoryStore";
 
 type Props = {
-    form: FormInstance<Content>;
-}
+  form: FormInstance<Content>;
+};
 
-const useContentFormManager = ({form}: Props) => {
+const useContentFormManager = ({ form }: Props) => {
   const { permalink } = useParams<{ permalink: string }>();
   const fetchContent = useContentFormStore((state) => state.fetchContent);
   const content = useContentFormStore((state) => state.content);
   const loading = useContentFormStore((state) => state.loading);
+  const categoryForSelect = useCategoryStore(
+    (state) => state.categoryForSelect,
+  );
+  const fetchCategories = useCategoryStore((state) => state.fetchCategories);
   const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    if (categoryForSelect.length === 0) {
+      fetchCategories();
+    }
+  }, [categoryForSelect, fetchCategories]);
 
   useEffect(() => {
     if (permalink) {
@@ -23,7 +34,10 @@ const useContentFormManager = ({form}: Props) => {
 
   useEffect(() => {
     if (form) {
-      form.validateFields({ validateOnly: true }).then(() => setIsValid(true)).catch(() => setIsValid(false));
+      form
+        .validateFields({ validateOnly: true })
+        .then(() => setIsValid(true))
+        .catch(() => setIsValid(false));
     }
   }, [form]);
 
@@ -31,7 +45,13 @@ const useContentFormManager = ({form}: Props) => {
     // Implementation for handling form submission
   };
 
-  return { content, loading, handleSubmit, isValid};
+  return {
+    content,
+    loading,
+    handleSubmit,
+    isValid,
+    categoryForSelect,
+  };
 };
 
 export default useContentFormManager;

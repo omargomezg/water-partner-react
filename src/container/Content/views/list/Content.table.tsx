@@ -1,6 +1,7 @@
 import { EditOutlined } from "@ant-design/icons";
 import {
   Button,
+  Card,
   Col,
   Row,
   Space,
@@ -77,7 +78,7 @@ const ContentTable = () => {
   };
 
   return (
-    <>
+    <Card>
       <Table<Content>
         columns={columns}
         dataSource={content?.content}
@@ -86,7 +87,7 @@ const ContentTable = () => {
         pagination={pagination}
         onChange={handleTableChange}
       />
-    </>
+    </Card>
   );
 };
 
