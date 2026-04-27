@@ -14,9 +14,9 @@ const menuItems = [
         label: <Link to="/meter-reading">Lecturas</Link>,
     },
     {
-        key: '/content',
+        key: '/articles',
         icon: <FileDoneOutlined />,
-        label: <Link to="/content">Contenidos</Link>,
+        label: <Link to="/articles">Contenidos</Link>,
     },
     {
         key: '/client',

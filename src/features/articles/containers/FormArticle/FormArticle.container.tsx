@@ -3,6 +3,7 @@ import RichEditor from "../../../../components/RichEditor"
 import { useFormArticle } from "./useFormArticle"
 import { Content } from "./type/type"
 import { HeaderButtons } from "./components/HeaderButtons";
+import { HeaderInfo } from "./components/HeaderInfo";
 
 const { Text } = Typography;
 
@@ -19,6 +20,7 @@ export const FormArticleContainer = () => {
         <Space style={{ width: "100%", justifyContent: "end" }} direction={"horizontal"} size="small" wrap>
           <HeaderButtons isValid={isValid} />
         </Space>
+        <HeaderInfo createdAt={content.createdAt} updatedAt={content.updatedAt} />
         <Form.Item
           name="title"
           label="Título"
@@ -40,7 +42,7 @@ export const FormArticleContainer = () => {
             <Form.Item
               name="content"
               label="Contenido"
-              rules={[{ required: true, message: "Please enter the content!" }]}
+              rules={[{ required: true, message: "La noticia o artículo no puede estar vacío" }]}
             >
               <RichEditor />
             </Form.Item>

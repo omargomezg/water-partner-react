@@ -1,5 +1,4 @@
 import {
-  Card,
   Table,
   TableProps
 } from "antd";
@@ -15,7 +14,7 @@ const columns: TableProps<Content>["columns"] = [
     dataIndex: "title",
     key: "title",
     render: (_: any, { title, summary, featureImage, tags, category }) =>
-      CellTitle(title, summary, featureImage.id, tags, category),
+      CellTitle(title, summary, featureImage?.id, tags, category),
   },
   {
     title: "Última actualización",
@@ -36,7 +35,6 @@ export const ListOfArticlesContainer = () => {
   const { handleTableChange, content, pagination } = useListOfArticles();
 
   return (
-    <Card>
       <Table<Content>
         columns={columns}
         dataSource={content?.content}
@@ -45,6 +43,5 @@ export const ListOfArticlesContainer = () => {
         pagination={pagination}
         onChange={handleTableChange}
       />
-    </Card>
   );
 };

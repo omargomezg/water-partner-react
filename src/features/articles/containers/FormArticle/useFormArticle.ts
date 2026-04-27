@@ -21,10 +21,11 @@ export const useFormArticle = ({ form }: Props) => {
           `http://localhost:8080/article/${permalink}`,
         );
         setContent(data);
+        form.setFieldsValue(data);
       };
       fetchContent();
     }
-  }, [permalink]);
+  }, [permalink, form]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -52,7 +53,10 @@ export const useFormArticle = ({ form }: Props) => {
   }, [form]);
 
   const handleSubmit = () => {
-    // Implementation for handling form submission
+    if (form) {
+      console.log("submit");
+      form.submit();
+    }
   };
 
   return { content, handleSubmit, isValid, categories };

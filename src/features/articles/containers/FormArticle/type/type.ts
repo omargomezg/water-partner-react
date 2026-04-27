@@ -6,8 +6,8 @@ export interface Content {
     referringSite?: string | null;
     category: Category;
     createdBy: any;
-    createdAt: number;
-    updatedAt: number;
+    createdAt: Date;
+    updatedAt: Date;
     featureImage: any;
     listOfTags: Array<any>;
     tags: Array<string>;

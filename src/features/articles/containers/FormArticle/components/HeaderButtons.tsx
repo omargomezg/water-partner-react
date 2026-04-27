@@ -55,7 +55,7 @@ export const HeaderButtons = ({
         justifyContent: screens.xs ? "stretch" : "end",
         marginBottom: "16px",
       }}
-      direction={screens.xs ? "vertical" : "horizontal"}
+      orientation={ screens.xs ? "vertical" : "horizontal"}
       wrap
     >
       <Dropdown.Button
