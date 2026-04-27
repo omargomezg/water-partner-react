@@ -1,7 +1,7 @@
 import { Card, Typography } from "antd";
 import { FC } from "react";
 import "../App.css";
-import { ListOfArticlesContainer } from "../features/articles/components/ListOfArticles/ListOfArticles.container";
+import { ListOfArticlesContainer } from "../features/articles/containers/ListOfArticles/ListOfArticles.container";
 
 const { Title } = Typography;
 

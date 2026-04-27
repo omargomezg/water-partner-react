@@ -4,6 +4,7 @@ import useContentFormStore from "../../store/useContentFormStore";
 import { FormInstance } from "antd";
 import { Content } from "../../types/types";
 import useCategoryStore from "../../store/useCategoryStore";
+import { DefaultOptionType } from "antd/es/select";
 
 type Props = {
   form: FormInstance<Content>;
@@ -50,7 +51,7 @@ const useContentFormManager = ({ form }: Props) => {
     loading,
     handleSubmit,
     isValid,
-    categoryForSelect,
+    categoryForSelect
   };
 };
 

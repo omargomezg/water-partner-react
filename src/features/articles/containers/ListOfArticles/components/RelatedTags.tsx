@@ -1,0 +1,25 @@
+type Props = {
+    tags: string[];
+}
+
+export const RelatedTags = ({ tags }: Props) => {
+  return (
+    <>
+      {tags.map((tag) => (
+        <span
+          key={tag}
+          style={{
+            backgroundColor: "#e0e0e0",
+            borderRadius: "4px",
+            padding: "2px 6px",
+            marginRight: "4px",
+            fontSize: "10px",
+            display: "inline-block",
+          }}
+        >
+          {tag}
+        </span>
+      ))}
+    </>
+  );
+};
