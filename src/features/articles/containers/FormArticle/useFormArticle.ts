@@ -2,7 +2,8 @@ import { useParams } from "react-router-dom";
 import { Category, Content } from "./type/type";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { FormInstance, SelectProps } from "antd";
+import { FormInstance, Grid, SelectProps } from "antd";
+const { useBreakpoint } = Grid;
 
 type Props = {
   form: FormInstance<Content>;
@@ -13,15 +14,19 @@ export const useFormArticle = ({ form }: Props) => {
   const [content, setContent] = useState<Content>({} as Content);
   const [isValid, setIsValid] = useState(false);
   const [categories, setCategories] = useState([] as SelectProps[]);
+  const [loading, setLoading] = useState(false);
+  const screens = useBreakpoint();
 
   useEffect(() => {
     if (permalink) {
+      setLoading(true);
       const fetchContent = async () => {
         const { data } = await axios.get<Content>(
           `http://localhost:8080/article/${permalink}`,
         );
         setContent(data);
         form.setFieldsValue(data);
+        setLoading(false);
       };
       fetchContent();
     }
@@ -59,5 +64,5 @@ export const useFormArticle = ({ form }: Props) => {
     }
   };
 
-  return { content, handleSubmit, isValid, categories };
+  return { content, handleSubmit, isValid, categories, loading, screens };
 };

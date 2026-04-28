@@ -1,16 +1,19 @@
-import { Form, Space, Input, Row, Col, Typography, Select } from "antd"
+import { Form, Space, Input, Row, Col, Typography, Select, Spin } from "antd"
 import RichEditor from "../../../../components/RichEditor"
 import { useFormArticle } from "./useFormArticle"
 import { Content } from "./type/type"
 import { HeaderButtons } from "./components/HeaderButtons";
 import { HeaderInfo } from "./components/HeaderInfo";
+import { Permalink } from "./components/Permalink";
+import { InputFeatureImage } from "./components/InputFeatureImage";
 
 const { Text } = Typography;
 
 export const FormArticleContainer = () => {
     const [form] = Form.useForm<Content>();
-    const { content, handleSubmit, isValid, categories } = useFormArticle({ form });
+    const { content, loading, handleSubmit, isValid, categories, screens } = useFormArticle({ form });
     return (
+      <Spin spinning={loading}>
         <Form
         form={form}
         layout="vertical"
@@ -21,10 +24,14 @@ export const FormArticleContainer = () => {
           <HeaderButtons isValid={isValid} />
         </Space>
         <HeaderInfo createdAt={content.createdAt} updatedAt={content.updatedAt} />
+        {screens.xs && !screens.sm  && (
+          <InputFeatureImage featureImage={content.featureImage}
+           width={screens.sm || screens.xs ? "100%" : "200px"} />
+        )}
         <Form.Item
           name="title"
           label="Título"
-          rules={[{ required: true, message: "Please enter the title!" }]}
+          rules={[{ required: true, message: "Please enter the title!" }]} extra={<Permalink permalink={content.permalink} title={content.title} />}
         >
           <Input size="large" />
         </Form.Item>
@@ -37,7 +44,7 @@ export const FormArticleContainer = () => {
                 { required: true, message: "Please enter the description!" },
               ]}
             >
-              <Input.TextArea />
+              <Input.TextArea rows={5} />
             </Form.Item>
             <Form.Item
               name="content"
@@ -84,5 +91,6 @@ export const FormArticleContainer = () => {
           </Col>
         </Row>
       </Form>
+      </Spin>
     )
 }

@@ -12,7 +12,7 @@ export const HeaderInfo = ({ createdAt, updatedAt }: Props) => {
     month: "short",
     year: "numeric",
   };
-  
+
   return (
     <Space
       style={{ width: "100%", justifyContent: "end" }}
@@ -21,12 +21,12 @@ export const HeaderInfo = ({ createdAt, updatedAt }: Props) => {
       wrap
     >
       {createdAt && (
-        <Text>
+        <Text type="secondary">
           Cración: {Intl.DateTimeFormat("es-CL", format).format(createdAt)}
         </Text>
       )}
       {updatedAt && (
-        <Text>
+        <Text type="secondary">
           Actualización:{" "}
           {Intl.DateTimeFormat("es-CL", format).format(updatedAt)}
         </Text>

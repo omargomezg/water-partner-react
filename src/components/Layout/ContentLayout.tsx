@@ -88,7 +88,10 @@ const ContentLayout = () => {
             style={{ 
               margin: isMobile ? "12px 8px" : "24px 16px",
               padding: isMobile ? 12 : 24,
-              minHeight: 280 
+              minHeight: 280 ,
+              backgroundColor: "#fff",
+              borderRadius: 4,
+              boxShadow: "0 1px 3px rgba(0,0,0,0.1)"
             }}
           >
             <Outlet />

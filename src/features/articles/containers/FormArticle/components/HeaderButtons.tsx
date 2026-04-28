@@ -24,8 +24,8 @@ export const HeaderButtons = ({
   onClickPreview,
   isValid,
 }: Props) => {
-  const navigate = useNavigate();
-  const screens = useBreakpoint();
+    const navigate = useNavigate();
+    const screens = useBreakpoint();
   const items = [
     {
       label: "Guardar",
@@ -55,7 +55,7 @@ export const HeaderButtons = ({
         justifyContent: screens.xs ? "stretch" : "end",
         marginBottom: "16px",
       }}
-      orientation={ screens.xs ? "vertical" : "horizontal"}
+      orientation={"horizontal"}
       wrap
     >
       <Dropdown.Button

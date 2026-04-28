@@ -1,6 +1,7 @@
 import {
   Table,
-  TableProps
+  TableProps,
+  Breakpoint
 } from "antd";
 import dayjs from "dayjs";
 import { Content } from "../../../../container/Content/types/types";
@@ -20,6 +21,7 @@ const columns: TableProps<Content>["columns"] = [
     title: "Última actualización",
     key: "updatedAt",
     dataIndex: "updatedAt",
+    responsive: ["md"] as Breakpoint[],
     render: (dateString) => {
       return dayjs(dateString).format("MMMM DD, YYYY");
     },

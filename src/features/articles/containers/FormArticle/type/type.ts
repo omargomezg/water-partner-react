@@ -8,11 +8,17 @@ export interface Content {
     createdBy: any;
     createdAt: Date;
     updatedAt: Date;
-    featureImage: any;
+    featureImage: FeatureImage;
     listOfTags: Array<any>;
     tags: Array<string>;
     title: string;
     numberOfViews: number;
+}
+
+export interface FeatureImage {
+    id?: string;
+    alt?: string;
+    title?: string;
 }
 
 export interface Category {
