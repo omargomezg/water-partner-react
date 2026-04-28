@@ -64,7 +64,7 @@ export const InputTags = ({ tags, ...args }: Props) => {
   return (
     <Flex gap="small" wrap>
       {localTags?.map((t, i) => (
-        <Tag color="blue" closable key={i} onClose={() => handleOnClose(t)}>
+        <Tag color="navy" closable key={i} variant="outlined" onClose={() => handleOnClose(t)}>
           {t.name}
         </Tag>
       ))}
