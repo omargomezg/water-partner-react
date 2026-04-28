@@ -4,10 +4,10 @@ import {
   Breakpoint
 } from "antd";
 import dayjs from "dayjs";
-import { Content } from "../../../../container/Content/types/types";
 import { CellTitle } from "./components/CellTitle";
 import { RowButtons } from "./components/RowButtons";
 import { useListOfArticles } from "./useListOfArticles";
+import { Content } from "./types/types";
 
 const columns: TableProps<Content>["columns"] = [
   {
