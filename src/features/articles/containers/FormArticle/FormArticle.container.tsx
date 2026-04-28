@@ -6,6 +6,7 @@ import { HeaderButtons } from "./components/HeaderButtons";
 import { HeaderInfo } from "./components/HeaderInfo";
 import { Permalink } from "./components/Permalink";
 import { InputFeatureImage } from "./components/InputFeatureImage";
+import { InputTags } from "./components/InputTags";
 
 const { Text } = Typography;
 
@@ -88,6 +89,10 @@ export const FormArticleContainer = () => {
             >
               <Select options={categories} />
             </Form.Item>
+            <Form.Item
+              label="Tags">
+                <InputTags tags={content.listOfTags} />
+              </Form.Item>
           </Col>
         </Row>
       </Form>

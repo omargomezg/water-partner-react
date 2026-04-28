@@ -9,10 +9,16 @@ export interface Content {
     createdAt: Date;
     updatedAt: Date;
     featureImage: FeatureImage;
-    listOfTags: Array<any>;
+    listOfTags: Array<ListOfTags>;
     tags: Array<string>;
     title: string;
     numberOfViews: number;
+}
+
+export interface ListOfTags {
+    id?: string;
+    name?: string;
+    slug?: string;
 }
 
 export interface FeatureImage {
