@@ -12,7 +12,7 @@ const { Text } = Typography;
 
 export const FormArticleContainer = () => {
   const [form] = Form.useForm<Content>();
-  const { content, loading, handleSubmit, isValid, categories, screens, handleChangeTags } =
+  const { content, loading, handleSubmit, categories, screens, handleChangeTags } =
     useFormArticle({ form });
   return (
     <Spin spinning={loading}>
@@ -20,7 +20,7 @@ export const FormArticleContainer = () => {
         form={form}
         layout="vertical"
         initialValues={content}
-        onFinish={handleSubmit}
+        onFinish={()=> console.log("onFinish")}
       >
         <Space
           style={{ width: "100%", justifyContent: "end" }}
@@ -28,7 +28,7 @@ export const FormArticleContainer = () => {
           size="small"
           wrap
         >
-          <HeaderButtons isValid={isValid} />
+          <HeaderButtons onClickPublish={handleSubmit} />
         </Space>
         <HeaderInfo
           createdAt={content.createdAt}

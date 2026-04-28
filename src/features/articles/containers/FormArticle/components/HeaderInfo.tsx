@@ -22,7 +22,7 @@ export const HeaderInfo: React.FC<Props> = ({ createdAt, updatedAt }) => {
     >
       {createdAt && (
         <Text type="secondary">
-          Cración: {Intl.DateTimeFormat("es-CL", format).format(createdAt)}
+          Creación: {Intl.DateTimeFormat("es-CL", format).format(createdAt)}
         </Text>
       )}
       {updatedAt && (

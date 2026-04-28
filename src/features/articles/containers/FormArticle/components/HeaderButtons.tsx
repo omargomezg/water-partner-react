@@ -1,12 +1,13 @@
 import {
   CloseOutlined,
   CloudUploadOutlined,
+  DownOutlined,
   EyeOutlined,
   SaveOutlined,
   SettingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Button, Dropdown, Grid, Space } from "antd";
+import { Button, Dropdown, Grid, MenuProps, Space } from "antd";
 import { useNavigate } from "react-router-dom";
 const { useBreakpoint } = Grid;
 
@@ -15,7 +16,6 @@ type Props = {
   onClickRemoveDraft?: () => void;
   onClickPublish?: () => void;
   onClickPreview?: () => void;
-  isValid: boolean;
 };
 
 export const HeaderButtons: React.FC<Props> = ({
@@ -23,11 +23,10 @@ export const HeaderButtons: React.FC<Props> = ({
   onClickRemoveDraft,
   onClickPublish,
   onClickPreview,
-  isValid,
 }) => {
   const navigate = useNavigate();
   const screens = useBreakpoint();
-  const items = [
+  const items: MenuProps["items"] = [
     {
       label: "Guardar",
       key: "1",
@@ -47,6 +46,11 @@ export const HeaderButtons: React.FC<Props> = ({
       onClick: onClickPreview,
       //disabled: article?.status == STATES.PUBLISHED,
     },
+    {
+      label: "Configurar",
+      key: "4",
+      icon: <SettingOutlined />,
+    },
   ];
 
   return (
@@ -57,20 +61,13 @@ export const HeaderButtons: React.FC<Props> = ({
         marginBottom: "16px",
       }}
       orientation={"horizontal"}
-      wrap
     >
-      <Dropdown.Button
-        menu={{ items }}
-        onClick={onClickPublish}
-        type="primary"
-        disabled={!isValid}
-        htmlType={"button"}
-      >
-        <CloudUploadOutlined /> Publicar
-      </Dropdown.Button>
-      <Button>
-        <SettingOutlined /> Configurar
-      </Button>
+      <Space.Compact>
+        <Button icon={<CloudUploadOutlined />} type="primary" onClick={onClickPublish}>Publicar</Button>
+        <Dropdown menu={{ items }}>
+          <Button icon={<DownOutlined />} />
+        </Dropdown>
+      </Space.Compact>
       <Button
         block={screens.xs}
         type="default"

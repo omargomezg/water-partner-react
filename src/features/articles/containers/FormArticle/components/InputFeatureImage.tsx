@@ -8,8 +8,7 @@ type Props = {
 export const InputFeatureImage: React.FC<Props> = ({
   featureImage,
   width = "100%",
-}) => {
-  console.log("featureImage: ", featureImage);
+}) => {  
   return (
     <>
       {featureImage?.id && (

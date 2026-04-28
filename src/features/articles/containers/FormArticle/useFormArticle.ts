@@ -2,7 +2,8 @@ import { useParams } from "react-router-dom";
 import { Category, Content, ListOfTags } from "./type/type";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { FormInstance, Grid, SelectProps } from "antd";
+import { Form, FormInstance, Grid, SelectProps } from "antd";
+import apiClient from "./services/apiClient";
 const { useBreakpoint } = Grid;
 
 type Props = {
@@ -12,9 +13,9 @@ type Props = {
 export const useFormArticle = ({ form }: Props) => {
   const { permalink } = useParams<{ permalink: string }>();
   const [content, setContent] = useState<Content>({} as Content);
-  const [isValid, setIsValid] = useState(false);
   const [categories, setCategories] = useState([] as SelectProps[]);
   const [loading, setLoading] = useState(false);
+  const values = Form.useWatch([], form);
   const screens = useBreakpoint();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export const useFormArticle = ({ form }: Props) => {
       };
       fetchContent();
     }
-  }, [permalink, form]);
+  }, []);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -48,19 +49,25 @@ export const useFormArticle = ({ form }: Props) => {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    if (form) {
-      form
-        .validateFields({ validateOnly: true })
-        .then(() => setIsValid(true))
-        .catch(() => setIsValid(false));
-    }
-  }, [form]);
+  const handleSubmit = async () => {
+    try {
+      await form.validateFields({ validateOnly: true });
+      const tContent = {...content};
+      console.log(values);
+      tContent.category = values.category;
+      tContent.title = values.title;
+      tContent.summary = values.summary;
+      tContent.content = values.content;
+      tContent.referringSite = values.referringSite;
+      setContent(tContent);
+      if (content.id) {
+        await apiClient.put<Content>(`/article/${content.permalink}`, content);
+      } else {
+        await apiClient.post<Content>(`/article`,)
+      }
 
-  const handleSubmit = () => {
-    if (form) {
-      console.log("submit");
-      form.submit();
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -71,10 +78,8 @@ export const useFormArticle = ({ form }: Props) => {
     form.setFieldsValue(tempContent);
   };
 
-
   return {
     content,
-    isValid,
     categories,
     loading,
     screens,

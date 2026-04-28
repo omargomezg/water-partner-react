@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 
@@ -9,6 +9,15 @@ type RichEditorProps = {
 
 const RichEditor: React.FC<RichEditorProps> = ({ value, onChange }) => {
   const [localValue, setLocalValue] = useState<string>(value || "");
+
+  useEffect(() => {
+    setLocalValue(value || "");
+  }, [value]);
+
+  const handleChange = (newValue: string) => {
+    setLocalValue(newValue);
+    onChange?.(newValue);
+  };
 
   const modules = {
     toolbar: [
@@ -32,7 +41,7 @@ const RichEditor: React.FC<RichEditorProps> = ({ value, onChange }) => {
       <ReactQuill
         theme="snow"
         value={localValue}
-        onChange={setLocalValue}
+        onChange={handleChange}
         modules={modules}
         placeholder="Write something amazing..."
       />
