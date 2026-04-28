@@ -1,5 +1,6 @@
-import { Flex, Input, InputRef, Tag, theme } from "antd";
+import { Flex, Input, Tag, theme } from "antd";
 import { ListOfTags } from "../type/type";
+import type { InputRef} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
 
@@ -22,8 +23,10 @@ export const InputTags = ({ tags, ...args }: Props) => {
   };
 
   useEffect(() => {
-    editInputRef.current?.focus();
-  }, [editInputRef]);
+    if (inputVisible) {
+      editInputRef.current?.focus();
+    }
+  }, [inputVisible]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
