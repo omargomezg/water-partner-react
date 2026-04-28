@@ -1,7 +1,7 @@
-import { Form, Space, Input, Row, Col, Typography, Select, Spin } from "antd"
-import RichEditor from "../../../../components/RichEditor"
-import { useFormArticle } from "./useFormArticle"
-import { Content } from "./type/type"
+import { Form, Space, Input, Row, Col, Typography, Select, Spin } from "antd";
+import RichEditor from "../../../../components/RichEditor";
+import { useFormArticle } from "./useFormArticle";
+import { Content } from "./type/type";
 import { HeaderButtons } from "./components/HeaderButtons";
 import { HeaderInfo } from "./components/HeaderInfo";
 import { Permalink } from "./components/Permalink";
@@ -11,28 +11,42 @@ import { InputTags } from "./components/InputTags";
 const { Text } = Typography;
 
 export const FormArticleContainer = () => {
-    const [form] = Form.useForm<Content>();
-    const { content, loading, handleSubmit, isValid, categories, screens } = useFormArticle({ form });
-    return (
-      <Spin spinning={loading}>
-        <Form
+  const [form] = Form.useForm<Content>();
+  const { content, loading, handleSubmit, isValid, categories, screens, handleChangeTags } =
+    useFormArticle({ form });
+  return (
+    <Spin spinning={loading}>
+      <Form
         form={form}
         layout="vertical"
         initialValues={content}
         onFinish={handleSubmit}
       >
-        <Space style={{ width: "100%", justifyContent: "end" }} direction={"horizontal"} size="small" wrap>
+        <Space
+          style={{ width: "100%", justifyContent: "end" }}
+          direction={"horizontal"}
+          size="small"
+          wrap
+        >
           <HeaderButtons isValid={isValid} />
         </Space>
-        <HeaderInfo createdAt={content.createdAt} updatedAt={content.updatedAt} />
-        {screens.xs && !screens.sm  && (
-          <InputFeatureImage featureImage={content.featureImage}
-           width={screens.sm || screens.xs ? "100%" : "200px"} />
+        <HeaderInfo
+          createdAt={content.createdAt}
+          updatedAt={content.updatedAt}
+        />
+        {screens.xs && !screens.sm && (
+          <InputFeatureImage
+            featureImage={content.featureImage}
+            width={screens.sm || screens.xs ? "100%" : "200px"}
+          />
         )}
         <Form.Item
           name="title"
           label="Título"
-          rules={[{ required: true, message: "Please enter the title!" }]} extra={<Permalink permalink={content.permalink} title={content.title} />}
+          rules={[{ required: true, message: "Please enter the title!" }]}
+          extra={
+            <Permalink permalink={content.permalink} title={content.title} />
+          }
         >
           <Input size="large" />
         </Form.Item>
@@ -50,12 +64,17 @@ export const FormArticleContainer = () => {
             <Form.Item
               name="content"
               label="Contenido"
-              rules={[{ required: true, message: "La noticia o artículo no puede estar vacío" }]}
+              rules={[
+                {
+                  required: true,
+                  message: "La noticia o artículo no puede estar vacío",
+                },
+              ]}
             >
               <RichEditor />
             </Form.Item>
           </Col>
-          <Col xs={24} md={6} >
+          <Col xs={24} md={6}>
             <Form.Item
               label="Url externa"
               extra={
@@ -89,13 +108,12 @@ export const FormArticleContainer = () => {
             >
               <Select options={categories} />
             </Form.Item>
-            <Form.Item
-              label="Tags">
-                <InputTags tags={content.listOfTags} />
-              </Form.Item>
+            <Form.Item label="Etiquetas">
+              <InputTags tags={content.listOfTags} onChange={handleChangeTags} />
+            </Form.Item>
           </Col>
         </Row>
       </Form>
-      </Spin>
-    )
-}
+    </Spin>
+  );
+};

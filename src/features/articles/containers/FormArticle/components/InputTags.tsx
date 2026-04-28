@@ -9,10 +9,10 @@ type Props = {
 };
 
 export const InputTags = ({ tags, ...args }: Props) => {
-  console.log(args);
   const { token } = theme.useToken();
   const [inputVisible, setInputVisible] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
+  const [localTags, setLocalTags] = useState<ListOfTags[]>(tags || []);
   const editInputRef = useRef<InputRef>(null);
   const tagPlusStyle: React.CSSProperties = {
     height: 22,
@@ -25,26 +25,45 @@ export const InputTags = ({ tags, ...args }: Props) => {
     editInputRef.current?.focus();
   }, [editInputRef]);
 
-  const showInput = () => {
-    console.log("showInput");
-  };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
   const handlePressEnter = () => {
-    coonst
-    console.log("handlePressEnter");
-    console.log(inputValue);
+    if (inputValue.trim()) {
+      const newTags = [
+        ...localTags,
+        { name: inputValue.toLowerCase(), slug: cleanText(inputValue) },
+      ];
+      setLocalTags(newTags);
+      args.onChange?.(newTags);
+    }
+    setInputVisible(false);
+    setInputValue("");
   };
 
+  const cleanText = (text: string): string => {
+    return text
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-zA-Z0-9\s]/g, "")
+      .trim()
+      .replace(/\s+/g, "-")
+      .toLowerCase();
+  };
 
+  const handleOnClose = (a: ListOfTags) => {
+    const newTags = localTags.filter((t) => t.name !== a.name);
+    setLocalTags(newTags);
+    args.onChange?.(newTags);
+  };
 
   return (
     <Flex gap="small" wrap>
-      {tags?.map((t) => (
-        <Tag color="blue">{t.name}</Tag>
+      {localTags?.map((t, i) => (
+        <Tag color="blue" closable key={i} onClose={() => handleOnClose(t)}>
+          {t.name}
+        </Tag>
       ))}
       {inputVisible ? (
         <Input
@@ -54,6 +73,7 @@ export const InputTags = ({ tags, ...args }: Props) => {
           value={inputValue}
           onChange={handleInputChange}
           onPressEnter={handlePressEnter}
+          onBlur={handlePressEnter}
         />
       ) : (
         <Tag

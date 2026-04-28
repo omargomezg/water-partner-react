@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { Category, Content } from "./type/type";
+import { Category, Content, ListOfTags } from "./type/type";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { FormInstance, Grid, SelectProps } from "antd";
@@ -64,5 +64,22 @@ export const useFormArticle = ({ form }: Props) => {
     }
   };
 
-  return { content, handleSubmit, isValid, categories, loading, screens };
+  const handleChangeTags = (tags: ListOfTags[]) => {
+    const tempContent = { ...content };
+    tempContent.listOfTags = tags;
+    setContent(tempContent);
+    form.setFieldsValue(tempContent);
+  };
+
+
+  return {
+    content,
+    isValid,
+    categories,
+    loading,
+    screens,
+
+    handleSubmit,
+    handleChangeTags,
+  };
 };
