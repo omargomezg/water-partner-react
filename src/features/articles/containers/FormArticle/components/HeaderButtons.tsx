@@ -3,6 +3,7 @@ import {
   CloudUploadOutlined,
   EyeOutlined,
   SaveOutlined,
+  SettingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Button, Dropdown, Grid, Space } from "antd";
@@ -17,15 +18,15 @@ type Props = {
   isValid: boolean;
 };
 
-export const HeaderButtons = ({
+export const HeaderButtons: React.FC<Props> = ({
   onClickSaveDraft,
   onClickRemoveDraft,
   onClickPublish,
   onClickPreview,
   isValid,
-}: Props) => {
-    const navigate = useNavigate();
-    const screens = useBreakpoint();
+}) => {
+  const navigate = useNavigate();
+  const screens = useBreakpoint();
   const items = [
     {
       label: "Guardar",
@@ -67,6 +68,9 @@ export const HeaderButtons = ({
       >
         <CloudUploadOutlined /> Publicar
       </Dropdown.Button>
+      <Button>
+        <SettingOutlined /> Configurar
+      </Button>
       <Button
         block={screens.xs}
         type="default"

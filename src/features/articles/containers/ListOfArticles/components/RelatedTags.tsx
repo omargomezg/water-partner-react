@@ -1,8 +1,10 @@
+import React from "react";
+
 type Props = {
     tags: string[];
 }
 
-export const RelatedTags = ({ tags }: Props) => {
+export const RelatedTags: React.FC<Props> = ({ tags }) => {
   return (
     <>
       {tags.map((tag) => (

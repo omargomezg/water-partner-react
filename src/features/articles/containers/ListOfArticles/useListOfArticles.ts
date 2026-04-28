@@ -1,9 +1,12 @@
 import { TablePaginationConfig } from "antd";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { ApiResponse, Content } from "./types/types";
+import { useListOfArticlesStore } from "./store/useListOfArticlesStore";
 
 export const useListOfArticles = () => {
-  const [content, setContent] = useState<ApiResponse<Content>>();
+  const content = useListOfArticlesStore((state) => state.articles);
+  const setContent = useListOfArticlesStore((state) => state.setArticles);
+  const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
@@ -16,6 +19,7 @@ export const useListOfArticles = () => {
 
   const fetchData = async (page: number = 0, pageSize: number = 10) => {
     try {
+      setLoading(true);
       const response = await fetch(
         `http://localhost:8080/article?page=${page - 1}&size=${pageSize}`,
       );
@@ -29,6 +33,8 @@ export const useListOfArticles = () => {
       });
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,5 +45,5 @@ export const useListOfArticles = () => {
       fetchData(Number(newPagination.current), Number(newPagination.pageSize));
     }
   };
-  return { handleTableChange, content, pagination };
+  return { handleTableChange, content, pagination, loading };
 };

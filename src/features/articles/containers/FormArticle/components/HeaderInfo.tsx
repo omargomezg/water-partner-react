@@ -6,7 +6,7 @@ type Props = {
   createdAt?: Date;
   updatedAt?: Date;
 };
-export const HeaderInfo = ({ createdAt, updatedAt }: Props) => {
+export const HeaderInfo: React.FC<Props> = ({ createdAt, updatedAt }) => {
   const format: Intl.DateTimeFormatOptions = {
     day: "numeric",
     month: "short",

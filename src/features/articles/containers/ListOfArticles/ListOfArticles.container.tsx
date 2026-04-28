@@ -15,7 +15,13 @@ const columns: TableProps<Content>["columns"] = [
     dataIndex: "title",
     key: "title",
     render: (_: any, { title, summary, featureImage, tags, category }) =>
-      CellTitle(title, summary, featureImage?.id, tags, category),
+      <CellTitle 
+        title={title} 
+        summary={summary} 
+        imageUrl={featureImage?.id} 
+        tags={tags} 
+        category={category} 
+      />,
   },
   {
     title: "Última actualización",
@@ -34,7 +40,7 @@ const columns: TableProps<Content>["columns"] = [
 ];
 
 export const ListOfArticlesContainer = () => {
-  const { handleTableChange, content, pagination } = useListOfArticles();
+  const { handleTableChange, content, pagination, loading } = useListOfArticles();
 
   return (
       <Table<Content>
@@ -42,6 +48,7 @@ export const ListOfArticlesContainer = () => {
         dataSource={content?.content}
         style={{ width: "100%" }}
         rowKey="id"
+        loading={loading}
         pagination={pagination}
         onChange={handleTableChange}
       />

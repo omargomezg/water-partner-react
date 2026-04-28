@@ -1,6 +1,6 @@
 import { Flex, Input, Tag, theme } from "antd";
 import { ListOfTags } from "../type/type";
-import type { InputRef} from "antd";
+import type { InputRef } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
 
@@ -9,7 +9,7 @@ type Props = {
   onChange?: (tags: ListOfTags[]) => void;
 };
 
-export const InputTags = ({ tags, ...args }: Props) => {
+export const InputTags: React.FC<Props> = ({ tags, ...args }) => {
   const { token } = theme.useToken();
   const [inputVisible, setInputVisible] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
@@ -64,7 +64,13 @@ export const InputTags = ({ tags, ...args }: Props) => {
   return (
     <Flex gap="small" wrap>
       {localTags?.map((t, i) => (
-        <Tag color="navy" closable key={i} variant="outlined" onClose={() => handleOnClose(t)}>
+        <Tag
+          color="navy"
+          closable
+          key={i}
+          variant="outlined"
+          onClose={() => handleOnClose(t)}
+        >
           {t.name}
         </Tag>
       ))}

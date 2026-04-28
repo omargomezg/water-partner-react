@@ -6,14 +6,14 @@ type Props = {
   title?: string;
 };
 
-export const Permalink = ({ permalink, title }: Props) => {
+export const Permalink: React.FC<Props> = ({ permalink, title }) => {
   return (
     <Text
       type="secondary"
       ellipsis={{ tooltip: title }}
       style={{ fontSize: "0.8rem" }}
     >
-      Permalink: {permalink || window.location.pathname}
+      permalink: {permalink || window.location.pathname}
     </Text>
   );
 };
