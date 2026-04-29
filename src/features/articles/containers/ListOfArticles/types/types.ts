@@ -1,18 +1,12 @@
 export interface Content {
-    id?: string;
+    id: string;
     permalink: string;
-    summary: string;
-    content?: string | null;
-    referringSite?: string | null;
-    category: Category;
-    createdBy: CreatedBy;
-    createdAt: number;
-    updatedAt: number;
-    featureImage: FeatureImage;
-    listOfTags: Array<ListOfTags>;
-    tags: Array<string>;
     title: string;
-    numberOfViews: number;
+    summary: string;
+    imageId: string;
+    updatedAt: Date;
+    category: string;
+    tags: Array<string>;
 }
 
 export interface ListOfTags {

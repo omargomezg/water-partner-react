@@ -8,7 +8,7 @@ export const articleRoutes: RouteObject[] = [
     children: [
       { index: true, element: <ListOfArticlePage /> },
       { path: "new", element: <FormArticleContainer /> },
-      { path: ":permalink/edit", element: <FormArticleContainer /> },
+      { path: ":id/edit", element: <FormArticleContainer /> },
     ],
   },
 ];

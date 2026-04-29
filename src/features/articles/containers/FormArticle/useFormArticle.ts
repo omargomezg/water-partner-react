@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const useFormArticle = ({ form }: Props) => {
-  const { permalink } = useParams<{ permalink: string }>();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [content, setContent] = useState<Content>({} as Content);
   const [categories, setCategories] = useState([] as SelectProps[]);
@@ -19,11 +19,11 @@ export const useFormArticle = ({ form }: Props) => {
   const screens = useBreakpoint();
 
   useEffect(() => {
-    if (permalink) {
+    if (id) {
       setLoading(true);
       const fetchContent = async () => {
         const { data } = await apiClient.get<Content>(
-          `/article/${permalink}`,
+          `/api/auth/articles/${id}`,
         );
         setContent(data);
         form.setFieldsValue(data);

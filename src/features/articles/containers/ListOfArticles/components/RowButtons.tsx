@@ -10,7 +10,7 @@ import { Space, Button } from "antd";
   export const RowButtons: React.FC<Props> = ({ content }) => {
     const navigate = useNavigate();
     const handleChange = async () => {
-      navigate(`/articles/${content.permalink}/edit`);
+      navigate(`/articles/${content.id}/edit`);
     };
     return (
       <Space>

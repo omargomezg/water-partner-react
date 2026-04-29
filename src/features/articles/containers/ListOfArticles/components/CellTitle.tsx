@@ -1,6 +1,5 @@
 import { Col, Row, Tag, Typography } from "antd";
 import React from "react";
-import { Category } from "../types/types";
 import { RelatedTags } from "./RelatedTags";
 
 const { Title, Paragraph } = Typography;
@@ -8,26 +7,26 @@ const { Title, Paragraph } = Typography;
 interface CellTitleProps {
   title: string;
   summary: string;
-  imageUrl?: string | null;
+  imageId?: string | null;
   tags?: string[];
-  category?: Category;
+  category?: string;
 }
 
 export const CellTitle: React.FC<CellTitleProps> = ({
   title,
   summary,
-  imageUrl,
+  imageId,
   tags,
   category,
 }) => {
   return (
     <>
       <Row gutter={[16, 0]} align="middle">
-        {imageUrl && (
+        {imageId && (
           <Col xs={0} md={4}>
-            {imageUrl && (
+            {imageId && (
               <img
-                src={`http://localhost:8080/file/image/${imageUrl}?width=200`}
+                src={`http://localhost:8080/file/image/${imageId}?width=200`}
                 alt={title}
                 style={{
                   width: "100%",
@@ -39,7 +38,7 @@ export const CellTitle: React.FC<CellTitleProps> = ({
             )}
           </Col>
         )}
-        <Col xs={24} md={imageUrl ? 20 : 24}>
+        <Col xs={24} md={imageId ? 20 : 24}>
           <Title level={5}>
             {title}
           </Title>
@@ -49,7 +48,7 @@ export const CellTitle: React.FC<CellTitleProps> = ({
           >
             {summary}
           </Paragraph>
-          {category && <Tag>{category.name}</Tag>}
+          {category && <Tag>{category}</Tag>}
           {tags && <RelatedTags tags={tags} />}
         </Col>
       </Row>

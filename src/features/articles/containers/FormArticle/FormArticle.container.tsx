@@ -111,7 +111,7 @@ export const FormArticleContainer = () => {
             </Form.Item>
             <Form.Item
               label="Categoría"
-              name={["category", "id"]}
+              name={["categoryId"]}
               labelCol={{ span: 9 }}
               rules={[
                 {
