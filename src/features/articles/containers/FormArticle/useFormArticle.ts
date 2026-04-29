@@ -1,9 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Category, Content, ListOfTags } from "./type/type";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { Form, FormInstance, Grid, SelectProps } from "antd";
-import apiClient from "./services/apiClient";
+import apiClient from "../../../../services/apiClient";
 const { useBreakpoint } = Grid;
 
 type Props = {
@@ -12,6 +11,7 @@ type Props = {
 
 export const useFormArticle = ({ form }: Props) => {
   const { permalink } = useParams<{ permalink: string }>();
+  const navigate = useNavigate();
   const [content, setContent] = useState<Content>({} as Content);
   const [categories, setCategories] = useState([] as SelectProps[]);
   const [loading, setLoading] = useState(false);
@@ -22,8 +22,8 @@ export const useFormArticle = ({ form }: Props) => {
     if (permalink) {
       setLoading(true);
       const fetchContent = async () => {
-        const { data } = await axios.get<Content>(
-          `http://localhost:8080/article/${permalink}`,
+        const { data } = await apiClient.get<Content>(
+          `/article/${permalink}`,
         );
         setContent(data);
         form.setFieldsValue(data);
@@ -35,8 +35,8 @@ export const useFormArticle = ({ form }: Props) => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const { data } = await axios.get<Category[]>(
-        `http://localhost:8080/category`,
+      const { data } = await apiClient.get<Category[]>(
+        `/category`,
       );
       setCategories(
         data.map((category: Category) => ({
@@ -53,7 +53,6 @@ export const useFormArticle = ({ form }: Props) => {
     try {
       await form.validateFields({ validateOnly: true });
       const tContent = {...content};
-      console.log(values);
       tContent.category = values.category;
       tContent.title = values.title;
       tContent.summary = values.summary;
@@ -61,11 +60,11 @@ export const useFormArticle = ({ form }: Props) => {
       tContent.referringSite = values.referringSite;
       setContent(tContent);
       if (content.id) {
-        await apiClient.put<Content>(`/article/${content.permalink}`, content);
+        await apiClient.put<Content>(`/article/${content.id}`, content);
       } else {
         await apiClient.post<Content>(`/article`,)
       }
-
+navigate(`/articles`)
     } catch (err) {
       console.log(err);
     }

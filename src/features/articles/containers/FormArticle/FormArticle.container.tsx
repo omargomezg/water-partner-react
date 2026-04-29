@@ -7,20 +7,27 @@ import { HeaderInfo } from "./components/HeaderInfo";
 import { Permalink } from "./components/Permalink";
 import { InputFeatureImage } from "./components/InputFeatureImage";
 import { InputTags } from "./components/InputTags";
+import { ButtonSummaryIA } from "./components/ButtonSummaryIA";
 
 const { Text } = Typography;
 
 export const FormArticleContainer = () => {
   const [form] = Form.useForm<Content>();
-  const { content, loading, handleSubmit, categories, screens, handleChangeTags } =
-    useFormArticle({ form });
+  const {
+    content,
+    loading,
+    handleSubmit,
+    categories,
+    screens,
+    handleChangeTags,
+  } = useFormArticle({ form });
   return (
     <Spin spinning={loading}>
       <Form
         form={form}
         layout="vertical"
         initialValues={content}
-        onFinish={()=> console.log("onFinish")}
+        onFinish={() => console.log("onFinish")}
       >
         <Space
           style={{ width: "100%", justifyContent: "end" }}
@@ -55,6 +62,13 @@ export const FormArticleContainer = () => {
             <Form.Item
               name="summary"
               label="Descripción"
+              extra={
+                <ButtonSummaryIA
+                  id={content.id}
+                  permalink={content.permalink}
+                  onChange={(value) => form.setFieldsValue({ summary: value })}
+                />
+              }
               rules={[
                 { required: true, message: "Please enter the description!" },
               ]}
@@ -109,7 +123,10 @@ export const FormArticleContainer = () => {
               <Select options={categories} />
             </Form.Item>
             <Form.Item label="Etiquetas">
-              <InputTags tags={content.listOfTags} onChange={handleChangeTags} />
+              <InputTags
+                tags={content.listOfTags}
+                onChange={handleChangeTags}
+              />
             </Form.Item>
           </Col>
         </Row>

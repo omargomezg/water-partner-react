@@ -1,7 +1,8 @@
 import { TablePaginationConfig } from "antd";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { ApiResponse, Content } from "./types/types";
 import { useListOfArticlesStore } from "./store/useListOfArticlesStore";
+import apiClient from "../../../../services/apiClient";
 
 export const useListOfArticles = () => {
   const content = useListOfArticlesStore((state) => state.articles);
@@ -20,10 +21,9 @@ export const useListOfArticles = () => {
   const fetchData = async (page: number = 0, pageSize: number = 10) => {
     try {
       setLoading(true);
-      const response = await fetch(
-        `http://localhost:8080/article?page=${page - 1}&size=${pageSize}`,
+      const { data } = await apiClient.get<ApiResponse<Content>>(
+        `/article?page=${page - 1}&size=${pageSize}`,
       );
-      const data: ApiResponse<Content> = await response.json();
       setContent(data);
       setPagination({
         ...pagination,

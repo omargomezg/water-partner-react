@@ -35,3 +35,8 @@ export interface Category {
     keywords: string[];
     totalArticles: number;
 }
+
+export interface AiResponse {
+    text: string;
+    texts: string[];
+}
