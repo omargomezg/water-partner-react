@@ -22,7 +22,7 @@ export const useListOfArticles = () => {
     try {
       setLoading(true);
       const { data } = await apiClient.get<ApiResponse<Content>>(
-        `/api/auth/articles?page=${page - 1}&size=${pageSize}&sort=updatedAt,desc`,
+        `/api/auth/articles?page=${page - 1}&size=${pageSize}&sort=createdAt,desc`,
       );
       setContent(data);
       setPagination({

@@ -4,18 +4,17 @@ export interface Content {
     summary: string;
     content?: string | null;
     referringSite?: string | null;
-    category: Category;
+    category: string;
     createdBy: any;
     createdAt: Date;
     updatedAt: Date;
     featureImage: FeatureImage;
-    listOfTags: Array<ListOfTags>;
-    tags: Array<string>;
+    tags: Tags[];
     title: string;
     numberOfViews: number;
 }
 
-export interface ListOfTags {
+export interface Tags {
     id?: string;
     name?: string;
     slug?: string;

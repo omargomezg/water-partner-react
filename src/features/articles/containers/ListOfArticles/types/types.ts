@@ -3,7 +3,7 @@ export interface Content {
     permalink: string;
     title: string;
     summary: string;
-    imageId: string;
+    image: string;
     updatedAt: Date;
     category: string;
     tags: Array<string>;

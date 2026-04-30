@@ -7,7 +7,7 @@ const { Title, Paragraph } = Typography;
 interface CellTitleProps {
   title: string;
   summary: string;
-  imageId?: string | null;
+  image?: string;
   tags?: string[];
   category?: string;
 }
@@ -15,33 +15,29 @@ interface CellTitleProps {
 export const CellTitle: React.FC<CellTitleProps> = ({
   title,
   summary,
-  imageId,
+  image,
   tags,
   category,
 }) => {
+  const imageUrl = image  ?  `http://localhost:8080/file/image/${image}?width=200` :
+     "http://localhost:8080/img/Image-not-found.png";
   return (
     <>
       <Row gutter={[16, 0]} align="middle">
-        {imageId && (
-          <Col xs={0} md={4}>
-            {imageId && (
-              <img
-                src={`http://localhost:8080/file/image/${imageId}?width=200`}
-                alt={title}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  maxHeight: "140px",
-                  objectFit: "cover",
-                }}
-              />
-            )}
-          </Col>
-        )}
-        <Col xs={24} md={imageId ? 20 : 24}>
-          <Title level={5}>
-            {title}
-          </Title>
+        <Col xs={0} md={4}>
+          <img
+            src={imageUrl}
+            alt={title}
+            style={{
+              width: "100%",
+              height: "auto",
+              maxHeight: "140px",
+              objectFit: "cover",
+            }}
+          />
+        </Col>
+        <Col xs={24} md={20}>
+          <Title level={5}>{title}</Title>
           <Paragraph
             ellipsis={{ rows: 3, expandable: true, symbol: "Ver más" }}
             style={{ margin: 0, color: "secondary" }}

@@ -14,11 +14,11 @@ const columns: TableProps<Content>["columns"] = [
     title: "Titulo",
     dataIndex: "title",
     key: "title",
-    render: (_: any, { title, summary, imageId, tags, category }) =>
+    render: (_: any, { title, summary, image, tags, category }) =>
       <CellTitle 
         title={title} 
         summary={summary} 
-        imageId={imageId} 
+        image={image} 
         tags={tags} 
         category={category} 
       />,

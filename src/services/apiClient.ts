@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
-import { useAppStore } from "../store/useAppStore";
 import { useAuthStore } from "../features/auth/store/useAuthStore";
 
 const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
@@ -32,7 +31,7 @@ apiClient.interceptors.response.use(
         console.log(
           "Token expirado o inválido. Cerrando sesión automáticamente."
         );
-        useAppStore.getState().logout();
+        useAuthStore.getState().logout();
       }
     }
     return Promise.reject(error);

@@ -1,19 +1,19 @@
 import { Flex, Input, Tag, theme } from "antd";
-import { ListOfTags } from "../type/type";
+import { Tags } from "../type/type";
 import type { InputRef } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
 
 type Props = {
-  tags?: ListOfTags[];
-  onChange?: (tags: ListOfTags[]) => void;
+  value?: Tags[];
+  onChange?: (tags: Tags[]) => void;
 };
 
-export const InputTags: React.FC<Props> = ({ tags, ...args }) => {
+export const InputTags: React.FC<Props> = ({ value, onChange }) => {
   const { token } = theme.useToken();
   const [inputVisible, setInputVisible] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
-  const [localTags, setLocalTags] = useState<ListOfTags[]>(tags || []);
+  const [localTags, setLocalTags] = useState<Tags[]>(value || []);
   const editInputRef = useRef<InputRef>(null);
   const tagPlusStyle: React.CSSProperties = {
     height: 22,
@@ -21,6 +21,12 @@ export const InputTags: React.FC<Props> = ({ tags, ...args }) => {
     borderStyle: "dashed",
     cursor: "pointer",
   };
+
+  useEffect(() => {
+    if (value) {
+      setLocalTags(value);
+    }
+  }, [value]);
 
   useEffect(() => {
     if (inputVisible) {
@@ -39,7 +45,7 @@ export const InputTags: React.FC<Props> = ({ tags, ...args }) => {
         { name: inputValue.toLowerCase(), slug: cleanText(inputValue) },
       ];
       setLocalTags(newTags);
-      args.onChange?.(newTags);
+      onChange?.(newTags);
     }
     setInputVisible(false);
     setInputValue("");
@@ -55,10 +61,10 @@ export const InputTags: React.FC<Props> = ({ tags, ...args }) => {
       .toLowerCase();
   };
 
-  const handleOnClose = (a: ListOfTags) => {
+  const handleOnClose = (a: Tags) => {
     const newTags = localTags.filter((t) => t.name !== a.name);
     setLocalTags(newTags);
-    args.onChange?.(newTags);
+    onChange?.(newTags);
   };
 
   return (
@@ -67,7 +73,7 @@ export const InputTags: React.FC<Props> = ({ tags, ...args }) => {
         <Tag
           color="navy"
           closable
-          key={i}
+          key={`${t.slug}-${i}`}
           variant="outlined"
           onClose={() => handleOnClose(t)}
         >

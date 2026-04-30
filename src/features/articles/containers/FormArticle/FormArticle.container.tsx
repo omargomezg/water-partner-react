@@ -89,6 +89,11 @@ export const FormArticleContainer = () => {
             </Form.Item>
           </Col>
           <Col xs={24} md={6}>
+            <Form.Item>
+              {screens.sm && (
+                <InputFeatureImage featureImage={content.featureImage} />
+              )}
+            </Form.Item>
             <Form.Item
               label="Url externa"
               extra={
@@ -111,7 +116,7 @@ export const FormArticleContainer = () => {
             </Form.Item>
             <Form.Item
               label="Categoría"
-              name={["categoryId"]}
+              name={["category"]}
               labelCol={{ span: 9 }}
               rules={[
                 {
@@ -122,9 +127,8 @@ export const FormArticleContainer = () => {
             >
               <Select options={categories} />
             </Form.Item>
-            <Form.Item label="Etiquetas">
+            <Form.Item label="Etiquetas" name={["tags"]}>
               <InputTags
-                tags={content.listOfTags}
                 onChange={handleChangeTags}
               />
             </Form.Item>

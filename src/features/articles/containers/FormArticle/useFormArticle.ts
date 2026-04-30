@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Category, Content, ListOfTags } from "./type/type";
+import { Category, Content, Tags } from "./type/type";
 import { useState, useEffect } from "react";
 import { Form, FormInstance, Grid, SelectProps } from "antd";
 import apiClient from "../../../../services/apiClient";
@@ -35,9 +35,7 @@ export const useFormArticle = ({ form }: Props) => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const { data } = await apiClient.get<Category[]>(
-        `/category`,
-      );
+      const { data } = await apiClient.get<Category[]>(`/category`);
       setCategories(
         data.map((category: Category) => ({
           label: category.name,
@@ -52,7 +50,7 @@ export const useFormArticle = ({ form }: Props) => {
   const handleSubmit = async () => {
     try {
       await form.validateFields({ validateOnly: true });
-      const tContent = {...content};
+      const tContent = { ...content };
       tContent.category = values.category;
       tContent.title = values.title;
       tContent.summary = values.summary;
@@ -62,17 +60,17 @@ export const useFormArticle = ({ form }: Props) => {
       if (content.id) {
         await apiClient.put<Content>(`/article/${content.id}`, content);
       } else {
-        await apiClient.post<Content>(`/article`,)
+        await apiClient.post<Content>(`/article`);
       }
-navigate(`/articles`)
+      navigate(`/articles`);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleChangeTags = (tags: ListOfTags[]) => {
+  const handleChangeTags = (tags: Tags[]) => {
     const tempContent = { ...content };
-    tempContent.listOfTags = tags;
+    tempContent.tags = tags;
     setContent(tempContent);
     form.setFieldsValue(tempContent);
   };
