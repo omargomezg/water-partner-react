@@ -27,12 +27,7 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      if (useAuthStore.getState().token) {
-        console.log(
-          "Token expirado o inválido. Cerrando sesión automáticamente."
-        );
         useAuthStore.getState().logout();
-      }
     }
     return Promise.reject(error);
   }

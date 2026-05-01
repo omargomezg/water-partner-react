@@ -38,7 +38,7 @@ const menuItems = [
 const VerticalMenu = () => {
     const location = useLocation();
     const currentPath = location.pathname;
-    return <Menu
+    return <Menu theme="dark"
         mode="inline"
         defaultSelectedKeys={[currentPath]}
         className="menu-bar"

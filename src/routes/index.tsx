@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import ContentLayout from "../components/Layout/ContentLayout";
 import { articleRoutes } from "./ArticleRoutes";
-import { authRoutes } from "./AuthRoutes";
+import LoginContainer from "../features/auth/Login.container";
 
 export const router = createBrowserRouter([
     {
@@ -9,7 +9,7 @@ export const router = createBrowserRouter([
         element: <ContentLayout />,
         children: [
             ...articleRoutes,
-            ...authRoutes,
         ]
-    }
+    },
+        {path: "/login", element: <LoginContainer />}
 ]);
