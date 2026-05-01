@@ -75,6 +75,19 @@ export const useFormArticle = ({ form }: Props) => {
     form.setFieldsValue(tempContent);
   };
 
+  const setTitle = (title: string) => {
+    if (!content?.id) {
+      const permalink = title
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9\s]/g, "")
+        .replace(/\s+/g, "-")
+        .trim();
+      form.setFieldsValue({ permalink: permalink });
+    }
+  };
+
   return {
     content,
     categories,
@@ -83,5 +96,6 @@ export const useFormArticle = ({ form }: Props) => {
 
     handleSubmit,
     handleChangeTags,
+    setTitle
   };
 };

@@ -1,6 +1,6 @@
-import { TablePaginationConfig } from "antd";
+import { SelectProps, TablePaginationConfig } from "antd";
 import { useState, useEffect } from "react";
-import { ApiResponse, Content } from "./types/types";
+import { ApiResponse, Category, Content, Filter } from "./types/types";
 import { useListOfArticlesStore } from "./store/useListOfArticlesStore";
 import apiClient from "../../../../services/apiClient";
 
@@ -8,6 +8,8 @@ export const useListOfArticles = () => {
   const content = useListOfArticlesStore((state) => state.articles);
   const setContent = useListOfArticlesStore((state) => state.setArticles);
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState<SelectProps[]>([]);
+  const [filter, setFilter] = useState<Filter>({ sort: "createdAt,desc" });
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
@@ -16,13 +18,34 @@ export const useListOfArticles = () => {
 
   useEffect(() => {
     fetchData(pagination.current, pagination.pageSize);
+    const fetchCategories = async () => {
+      const { data } = await apiClient.get<Category[]>(`/category`);
+      const tempCategories: SelectProps[] = data.map((category: Category) => ({
+        label: category.name,
+        value: category.id,
+      }));
+      setCategories(tempCategories);
+    };
+
+    fetchCategories();
   }, []);
 
-  const fetchData = async (page: number = 0, pageSize: number = 10) => {
+  const fetchData = async (
+    page: number = 0,
+    pageSize: number = 10,
+    filter: Filter = { sort: "createdAt,desc" },
+  ) => {
     try {
       setLoading(true);
       const { data } = await apiClient.get<ApiResponse<Content>>(
-        `/api/auth/articles?page=${page - 1}&size=${pageSize}&sort=createdAt,desc`,
+        `/api/auth/articles`,
+        {
+          params: {
+            page: page - 1,
+            size: pageSize,
+            ...filter,
+          },
+        },
       );
       setContent(data);
       setPagination({
@@ -39,11 +62,23 @@ export const useListOfArticles = () => {
   };
 
   const handleTableChange = (newPagination: TablePaginationConfig) => {
-    if (pagination.pageSize !== newPagination.pageSize) {
-      fetchData(Number(1), Number(newPagination.pageSize));
-    } else {
-      fetchData(Number(newPagination.current), Number(newPagination.pageSize));
-    }
+    const p = newPagination.current || 1;
+    const s = newPagination.pageSize || 10;
+    fetchData(p, s, filter);
   };
-  return { handleTableChange, content, pagination, loading };
+
+  const handleApplyFilters = (filter: Filter) => {
+    setFilter(filter);
+    fetchData(1, pagination.pageSize, filter);
+  };
+
+  return {
+    handleTableChange,
+    handleApplyFilters,
+
+    content,
+    pagination,
+    loading,
+    categories,
+  };
 };

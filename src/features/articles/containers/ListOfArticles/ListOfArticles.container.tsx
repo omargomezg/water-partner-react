@@ -1,27 +1,25 @@
-import {
-  Table,
-  TableProps,
-  Breakpoint
-} from "antd";
+import { Table, TableProps, Breakpoint } from "antd";
 import dayjs from "dayjs";
 import { CellTitle } from "./components/CellTitle";
 import { RowButtons } from "./components/RowButtons";
 import { useListOfArticles } from "./useListOfArticles";
 import { Content } from "./types/types";
+import { Filters } from "./components/Filters";
 
 const columns: TableProps<Content>["columns"] = [
   {
     title: "Titulo",
     dataIndex: "title",
     key: "title",
-    render: (_: any, { title, summary, image, tags, category }) =>
-      <CellTitle 
-        title={title} 
-        summary={summary} 
-        image={image} 
-        tags={tags} 
-        category={category} 
-      />,
+    render: (_: any, { title, summary, image, tags, category }) => (
+      <CellTitle
+        title={title}
+        summary={summary}
+        image={image}
+        tags={tags}
+        category={category}
+      />
+    ),
   },
   {
     title: "Última actualización",
@@ -40,9 +38,12 @@ const columns: TableProps<Content>["columns"] = [
 ];
 
 export const ListOfArticlesContainer = () => {
-  const { handleTableChange, content, pagination, loading } = useListOfArticles();
+  const { handleTableChange, handleApplyFilters, content, pagination, loading, categories } =
+    useListOfArticles();
 
   return (
+    <>
+      <Filters categories={categories} onChange={handleApplyFilters}/>
       <Table<Content>
         columns={columns}
         dataSource={content?.content}
@@ -52,5 +53,6 @@ export const ListOfArticlesContainer = () => {
         pagination={pagination}
         onChange={handleTableChange}
       />
+    </>
   );
 };

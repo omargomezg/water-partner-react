@@ -44,3 +44,10 @@ export interface ApiResponse<T> {
     totalElements: number;
     totalPages: number;
 }
+
+export interface Filter {
+    category?: string;
+    text?: string;
+    status?: string;
+    sort: string;
+}
