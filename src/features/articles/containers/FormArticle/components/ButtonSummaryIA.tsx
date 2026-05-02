@@ -2,25 +2,22 @@ import { OpenAIFilled } from "@ant-design/icons";
 import { Tooltip, Button } from "antd";
 import { useState } from "react";
 import apiClient from "../../../../../services/apiClient";
-import { AiResponse } from "../type/type";
+import { AiRequest, AiResponse } from "../type/type";
 
 type Props = {
-  id?: string;
-  permalink?: string;
+  content: string;
   onChange: (text: string) => void;
 };
 
-export const ButtonSummaryIA: React.FC<Props> = ({
-  id,
-  permalink,
-  onChange,
-}) => {
+export const ButtonSummaryIA: React.FC<Props> = ({ content, onChange }) => {
   const [loadingSummaryIA, setLoadingSummaryIA] = useState(false);
   const handleSummaryIA = async () => {
     try {
       setLoadingSummaryIA(true);
-      const { data } = await apiClient.get<AiResponse>(
-        `/article/${permalink}/summary/ai`,
+      const body = { content } as AiRequest;
+      const { data } = await apiClient.post<AiResponse>(
+        `/api/auth/articles/summary/ai`,
+        body,
       );
       if (data.text) {
         onChange(data.text);
@@ -31,7 +28,7 @@ export const ButtonSummaryIA: React.FC<Props> = ({
       setLoadingSummaryIA(false);
     }
   };
-  if (!id) return null;
+  if (content?.length < 200) return null;
   return (
     <Tooltip title="Generar automáticamente con IA">
       <Button

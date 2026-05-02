@@ -96,7 +96,7 @@ const MeterReadingPage = () => {
                         <FilterOutlined /> Filtros de Búsqueda
                     </Typography.Title>
                     <Form layout="vertical" form={form} onFinish={onFilter}>
-                        <Space direction="vertical" size="large" style={{ width: '100%' }}>
+                        <Space orientation="vertical" size="large" style={{ width: '100%' }}>
                             <div style={{
                                 display: 'grid',
                                 gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
@@ -184,7 +184,7 @@ const ReadingBox = ({ record }: { record: ReadingRecord }) => {
 
     if (record.reading !== null && record.reading !== undefined) {
         return (
-            <Space direction="vertical" size={0}>
+            <Space orientation="vertical" size={0}>
                 <Typography.Text type="secondary">
                     {record.reading} m³
                 </Typography.Text>

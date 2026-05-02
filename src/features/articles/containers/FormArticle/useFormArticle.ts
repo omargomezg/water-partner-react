@@ -3,13 +3,18 @@ import { Category, Content, Tags } from "./type/type";
 import { useState, useEffect } from "react";
 import { Form, FormInstance, Grid, SelectProps } from "antd";
 import apiClient from "../../../../services/apiClient";
+import axios from "axios";
 const { useBreakpoint } = Grid;
 
-type Props = {
-  form: FormInstance<Content>;
-};
+interface FormArticleOptions {
+  onSuccess?: (message: string) => void;
+  onError: (message: string) => void;
+}
 
-export const useFormArticle = ({ form }: Props) => {
+export const useFormArticle = (
+  form: FormInstance<Content>,
+  { onSuccess, onError }: FormArticleOptions,
+) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [content, setContent] = useState<Content>({} as Content);
@@ -58,13 +63,18 @@ export const useFormArticle = ({ form }: Props) => {
       tContent.referringSite = values.referringSite;
       setContent(tContent);
       if (content.id) {
-        await apiClient.put<Content>(`/article/${content.id}`, content);
+        await apiClient.put<Content>(
+          `/api/auth/articles/${content.id}`,
+          tContent,
+        );
       } else {
-        await apiClient.post<Content>(`/article`);
+        await apiClient.post<Content>(`/api/auth/articles`, tContent);
       }
       navigate(`/articles`);
     } catch (err) {
-      console.log(err);
+      if (axios.isAxiosError(err)) {
+        onError(err.response?.data.message);
+      }
     }
   };
 
@@ -96,6 +106,6 @@ export const useFormArticle = ({ form }: Props) => {
 
     handleSubmit,
     handleChangeTags,
-    setTitle
+    setTitle,
   };
 };

@@ -1,4 +1,4 @@
-import { Form, Space, Input, Row, Col, Typography, Select, Spin } from "antd";
+import { Form, Space, Input, Row, Col, Typography, Select, Spin, message } from "antd";
 import RichEditor from "../../../../components/RichEditor";
 import { useFormArticle } from "./useFormArticle";
 import { Content } from "./type/type";
@@ -20,7 +20,10 @@ export const FormArticleContainer = () => {
     categories,
     screens,
     handleChangeTags,
-  } = useFormArticle({ form });
+  } = useFormArticle( form, {
+    onSuccess: (msg) => message.success(msg),
+    onError: (err) => message.error(err),
+  });
   return (
     <Spin spinning={loading}>
       <Form
@@ -31,7 +34,7 @@ export const FormArticleContainer = () => {
       >
         <Space
           style={{ width: "100%", justifyContent: "end" }}
-          direction={"horizontal"}
+          orientation={"horizontal"}
           size="small"
           wrap
         >
@@ -64,8 +67,7 @@ export const FormArticleContainer = () => {
               label="Descripción"
               extra={
                 <ButtonSummaryIA
-                  id={content.id}
-                  permalink={content.permalink}
+                  content={form.getFieldValue("content")}
                   onChange={(value) => form.setFieldsValue({ summary: value })}
                 />
               }
@@ -128,9 +130,7 @@ export const FormArticleContainer = () => {
               <Select options={categories} />
             </Form.Item>
             <Form.Item label="Etiquetas" name={["tags"]}>
-              <InputTags
-                onChange={handleChangeTags}
-              />
+              <InputTags onChange={handleChangeTags} />
             </Form.Item>
           </Col>
         </Row>

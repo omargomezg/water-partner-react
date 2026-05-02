@@ -1,4 +1,4 @@
-import { Image, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import { FeatureImage } from "../type/type";
 
 type Props = {

@@ -33,7 +33,7 @@ const PaymentFirstStep = ()=>{
                               }}
                           />
                       }>
-                    <Space direction="vertical" style={{width: '100%', alignItems: 'center'}}>
+                    <Space orientation="vertical" style={{width: '100%', alignItems: 'center'}}>
                         <Typography.Title style={{textAlign: 'center', width: '100%'}}>
                             Paga tus cuentas
                         </Typography.Title>

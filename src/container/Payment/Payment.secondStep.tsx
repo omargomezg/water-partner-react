@@ -100,7 +100,7 @@ const PaymentSecondStep = () => {
                                 value={paymentOption}
                                 style={{ width: '100%', marginTop: '24px' }}
                             >
-                                <Space direction="vertical" style={{ width: '100%' }}>
+                                <Space orientation="vertical" style={{ width: '100%' }}>
                                     <Radio value="anterior" style={{ display: 'flex', alignItems: 'center' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginLeft: '12px' }}>
                                             <Text style={{ color: '#555' }}>Saldo anterior (Deuda vencida)</Text>

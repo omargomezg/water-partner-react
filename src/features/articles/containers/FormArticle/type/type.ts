@@ -39,3 +39,7 @@ export interface AiResponse {
     text: string;
     texts: string[];
 }
+
+export interface AiRequest {
+    content: string;
+}
