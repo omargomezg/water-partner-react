@@ -1,4 +1,14 @@
-import { Form, Space, Input, Row, Col, Typography, Select, Spin, message } from "antd";
+import {
+  Form,
+  Space,
+  Input,
+  Row,
+  Col,
+  Typography,
+  Select,
+  Spin,
+  message,
+} from "antd";
 import RichEditor from "../../../../components/RichEditor";
 import { useFormArticle } from "./useFormArticle";
 import { Content } from "./type/type";
@@ -20,7 +30,7 @@ export const FormArticleContainer = () => {
     categories,
     screens,
     handleChangeTags,
-  } = useFormArticle( form, {
+  } = useFormArticle(form, {
     onSuccess: (msg) => message.success(msg),
     onError: (err) => message.error(err),
   });
@@ -46,6 +56,7 @@ export const FormArticleContainer = () => {
         />
         {screens.xs && !screens.sm && (
           <InputFeatureImage
+            articleId={content.id}
             featureImage={content.featureImage}
             width={screens.sm || screens.xs ? "100%" : "200px"}
           />
@@ -93,7 +104,10 @@ export const FormArticleContainer = () => {
           <Col xs={24} md={6}>
             <Form.Item>
               {screens.sm && (
-                <InputFeatureImage featureImage={content.featureImage} />
+                <InputFeatureImage
+                  articleId={content.id}
+                  featureImage={content.featureImage}
+                />
               )}
             </Form.Item>
             <Form.Item
