@@ -98,6 +98,10 @@ export const useFormArticle = (
     }
   };
 
+  const handleSaveDraft = async () => {
+    
+  }
+
   return {
     content,
     categories,
@@ -106,6 +110,7 @@ export const useFormArticle = (
 
     handleSubmit,
     handleChangeTags,
+    handleSaveDraft,
     setTitle,
   };
 };

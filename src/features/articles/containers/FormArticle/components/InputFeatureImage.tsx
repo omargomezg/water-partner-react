@@ -27,7 +27,7 @@ export const InputFeatureImage: React.FC<Props> = ({
     <>
       <Tooltip title={featureImage?.title}>
         <img
-          style={{ width, cursor: "pointer", borderRadius: "8px" }}
+          style={{ cursor: "pointer"}}
           onClick={handleClickImage}
           width={width}
           alt={featureImage?.alt}

@@ -9,9 +9,9 @@ const menuItems = [
         label: <Link to="/dashboard">Dashboard</Link>,
     },
     {
-        key: '/meter-reading',
+        key: '/meter-readings',
         icon: <FileDoneOutlined />,
-        label: <Link to="/meter-reading">Lecturas</Link>,
+        label: <Link to="/meter-readings">Lecturas</Link>,
     },
     {
         key: '/articles',
@@ -19,19 +19,19 @@ const menuItems = [
         label: <Link to="/articles">Contenidos</Link>,
     },
     {
-        key: '/client',
+        key: '/clients',
         icon: <UserOutlined/>,
-        label: <Link to="/client">Clientes</Link>,
+        label: <Link to="/clients">Clientes</Link>,
     },
     {
-        key: '/report',
+        key: '/reports',
         icon: <FilePdfOutlined/>,
-        label: <Link to="/report">Reportes</Link>,
+        label: <Link to="/reports">Reportes</Link>,
     },
     {
-        key: '/configuration',
+        key: '/configurations',
         icon: <ControlOutlined/>,
-        label: <Link to="/configuration">Configuración</Link>,
+        label: <Link to="/configurations">Configuración</Link>,
     },
 ];
 

@@ -28,7 +28,7 @@ export const HeaderButtons: React.FC<Props> = ({
   const screens = useBreakpoint();
   const items: MenuProps["items"] = [
     {
-      label: "Guardar",
+      label: "Guardar borrador",
       key: "1",
       icon: <SaveOutlined />,
       onClick: onClickSaveDraft,

@@ -30,6 +30,7 @@ export const FormArticleContainer = () => {
     categories,
     screens,
     handleChangeTags,
+    handleSaveDraft
   } = useFormArticle(form, {
     onSuccess: (msg) => message.success(msg),
     onError: (err) => message.error(err),
@@ -48,7 +49,7 @@ export const FormArticleContainer = () => {
           size="small"
           wrap
         >
-          <HeaderButtons onClickPublish={handleSubmit} />
+          <HeaderButtons onClickPublish={handleSubmit} onClickSaveDraft={handleSaveDraft} />
         </Space>
         <HeaderInfo
           createdAt={content.createdAt}
@@ -104,10 +105,34 @@ export const FormArticleContainer = () => {
           <Col xs={24} md={6}>
             <Form.Item>
               {screens.sm && (
-                <InputFeatureImage
-                  articleId={content.id}
-                  featureImage={content.featureImage}
-                />
+                <div
+                  style={{
+                    borderRadius: "8px",
+                    border: "1px solid #d9d9d9", // Un gris más suave para que no compita con la imagen
+                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)", // Sombra suave y moderna
+                    padding: "1px 1x", // Espacio interno para que el borde no esté pegado al contenido
+                    backgroundColor: "#fff", // Fondo blanco para que la sombra resalte
+                    marginBottom: "16px",
+                    overflow: "hidden",
+                  }}
+                >
+                  <InputFeatureImage
+                    articleId={content.id}
+                    featureImage={content.featureImage}
+                  />
+                  {content.featureImage?.title && (
+                    <span
+                      style={{
+                        display: "block",
+                        margin: "2px 0 2px 0",
+                        color: "#8c8c8c",
+                        textAlign: "center",
+                      }}
+                    >
+                      {content.featureImage?.title}
+                    </span>
+                  )}
+                </div>
               )}
             </Form.Item>
             <Form.Item

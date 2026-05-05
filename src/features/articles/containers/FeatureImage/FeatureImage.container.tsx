@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export const FeatureImageContainer: React.FC = () => {
   const { id: articleId } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [form] = Form.useForm();
   const [imageId, setImageId] = useState<string | null>(null);
   const [file, setFile] = useState({
     img: "",
@@ -36,8 +37,8 @@ export const FeatureImageContainer: React.FC = () => {
     if (file.img) {
       await apiClient.post(`/api/auth/articles/${articleId}/feature-image`, {
         dataURI: file.img,
-        alt: file.alt,
-        title: file.title,
+        alternativeText: form.getFieldValue("alt"),
+        description: form.getFieldValue("title"),
       });
       navigate(`/articles/${articleId}/edit`);
     }
@@ -45,12 +46,12 @@ export const FeatureImageContainer: React.FC = () => {
 
   const handleUpdate = async () => {
     if (file.img) {
-      await apiClient.post(
+      await apiClient.put(
         `/api/auth/articles/${articleId}/feature-image/${imageId}`,
         {
           dataURI: file.img,
-          alt: file.alt,
-          title: file.title,
+          alternativeText: form.getFieldValue("alt"),
+          description: form.getFieldValue("title"),
         },
       );
       navigate(`/articles/${articleId}/edit`);
@@ -89,11 +90,11 @@ export const FeatureImageContainer: React.FC = () => {
         <FileUpload value={file.img} onChange={onChange} />
         </Col>
         <Col span={12}>
-          <Form layout="vertical">
-            <Form.Item label="Título" name="title">
+          <Form layout="vertical" form={form}>
+            <Form.Item label="Texto alternativo" name="alt">
               <Input value={file.title} />
             </Form.Item>
-            <Form.Item label="Descripción" name="alt">
+            <Form.Item label="Texto descriptivo" name="title">
               <Input value={file.alt} />
             </Form.Item>
           </Form>
