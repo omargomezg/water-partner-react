@@ -29,6 +29,13 @@ export const FeatureImageContainer: React.FC = () => {
     }
   };
 
+  //TODO Terminar
+  const handleSave = () => {
+    if (file.img) {
+      await apiClient.post(`/api/auth/articles/${id}/feature-image`,
+    }
+  }
+
   return (
     <>
       <Flex
@@ -37,7 +44,7 @@ export const FeatureImageContainer: React.FC = () => {
         style={{ paddingBottom: "10px", borderBottom: "2px solid #bdc6cc" }}
       >
         <FileUpload value={file.img} onChange={onChange} />
-        <Button type={file.img ? "primary" : "default"}>Guardar</Button>
+        <Button type={file.img ? "primary" : "default"} onClick={handleSave}>Guardar</Button>
       </Flex>
       <Row gutter={16}>
         <Col span={12}>
