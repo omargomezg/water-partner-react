@@ -65,7 +65,7 @@ export const FileUpload: React.FC<Props> = ({value, onChange}) => {
     return true;
   };
     return (
-        <div>
+        <div style={{textAlign: "center"}}>
             <label
               htmlFor="file-upload"
               style={antdButtonStyle}
@@ -76,7 +76,7 @@ export const FileUpload: React.FC<Props> = ({value, onChange}) => {
                 (e.currentTarget.style.backgroundColor = "#1677ff")
               }
             >
-              {file ? "Cambiar imagen" : "Seleccionar imagen"}
+              {value ? "Cambiar imagen" : "Seleccionar imagen"}
             </label>
             <input
               type="file"

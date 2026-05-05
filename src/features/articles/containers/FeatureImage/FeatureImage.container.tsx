@@ -2,10 +2,12 @@ import { Button, Col, Flex, Form, Input, Row } from "antd";
 import { useEffect, useState } from "react";
 import { FileUpload } from "./components/FileUpload";
 import apiClient from "../../../../services/apiClient";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const FeatureImageContainer: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id: articleId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const [imageId, setImageId] = useState<string | null>(null);
   const [file, setFile] = useState({
     img: "",
     alt: "",
@@ -21,20 +23,39 @@ export const FeatureImageContainer: React.FC = () => {
   }, []);
 
   const fetchImage = async () => {
-    try{
-    const image = await apiClient.get(`/api/auth/articles/${id}/feature-image`);
-    setFile({...file, img: image.data.file});
-    } catch (error) {
-      console.log(error);
+    const response = await apiClient
+      .get(`/api/auth/articles/${articleId}/feature-image`)
+      .catch(() => null);
+    if (!response?.data) return;
+    const { data } = response;
+    setFile({ ...file, img: data.file, alt: data.alt, title: data.title });
+    setImageId(data.id);
+  };
+
+  const handleCreate = async () => {
+    if (file.img) {
+      await apiClient.post(`/api/auth/articles/${articleId}/feature-image`, {
+        dataURI: file.img,
+        alt: file.alt,
+        title: file.title,
+      });
+      navigate(`/articles/${articleId}/edit`);
     }
   };
 
-  //TODO Terminar
-  const handleSave = () => {
+  const handleUpdate = async () => {
     if (file.img) {
-      await apiClient.post(`/api/auth/articles/${id}/feature-image`,
+      await apiClient.post(
+        `/api/auth/articles/${articleId}/feature-image/${imageId}`,
+        {
+          dataURI: file.img,
+          alt: file.alt,
+          title: file.title,
+        },
+      );
+      navigate(`/articles/${articleId}/edit`);
     }
-  }
+  };
 
   return (
     <>
@@ -43,14 +64,29 @@ export const FeatureImageContainer: React.FC = () => {
         gap="middle"
         style={{ paddingBottom: "10px", borderBottom: "2px solid #bdc6cc" }}
       >
-        <FileUpload value={file.img} onChange={onChange} />
-        <Button type={file.img ? "primary" : "default"} onClick={handleSave}>Guardar</Button>
+        <Button type="link" onClick={() => navigate(`/articles/${articleId}/edit`)}>Cancelar</Button>
+        {!imageId ? (
+          <Button
+            type={file.img ? "primary" : "default"}
+            onClick={handleCreate}
+          >
+            Guardar
+          </Button>
+        ) : (
+          <Button
+            type={file.img ? "primary" : "default"}
+            onClick={handleUpdate}
+          >
+            Actualizar
+          </Button>
+        )}
       </Flex>
       <Row gutter={16}>
         <Col span={12}>
           {file.img && (
             <img src={file.img} alt={file.alt} style={{ width: "100%" }} />
           )}
+        <FileUpload value={file.img} onChange={onChange} />
         </Col>
         <Col span={12}>
           <Form layout="vertical">
