@@ -50,7 +50,8 @@ export const FormArticleContainer = () => {
           size="small"
           wrap
         >
-          <HeaderButtons onClickRemoveDraft={handleRemoveDraft} onClickPublish={handleSubmit} onClickSaveDraft={handleSaveDraft} />
+          <HeaderButtons 
+            isDraft={content.status === "DRAFT"} onClickRemoveDraft={handleRemoveDraft} onClickPublish={handleSubmit} onClickSaveDraft={handleSaveDraft} />
         </Space>
         <HeaderInfo
           status={content.status}

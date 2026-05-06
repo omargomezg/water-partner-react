@@ -107,6 +107,7 @@ export const useFormArticle = (
       content: form.getFieldValue("content"),
       referringSite: form.getFieldValue("referringSite"),
       categoryId: form.getFieldValue("category"),
+      tags: form.getFieldValue("tags"),
     };
     await apiClient.post<Content>(
       `/api/auth/articles/${content.id}/draft`,

@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 const { useBreakpoint } = Grid;
 
 type Props = {
+  isDraft: boolean;
   onClickSaveDraft?: () => void;
   onClickRemoveDraft?: () => void;
   onClickPublish?: () => void;
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export const HeaderButtons: React.FC<Props> = ({
+  isDraft,
   onClickSaveDraft,
   onClickRemoveDraft,
   onClickPublish,
@@ -38,6 +40,7 @@ export const HeaderButtons: React.FC<Props> = ({
       key: "2",
       icon: <UserOutlined />,
       onClick: onClickRemoveDraft,
+      disabled: !isDraft,
     },
     {
       label: "Vista previa",
