@@ -12,6 +12,7 @@ export interface Content {
     tags: Tags[];
     title: string;
     numberOfViews: number;
+    status: string;
 }
 
 export interface Tags {

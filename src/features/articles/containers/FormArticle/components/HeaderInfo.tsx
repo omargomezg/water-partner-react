@@ -3,10 +3,15 @@ import { Space, Typography } from "antd";
 const { Text } = Typography;
 
 type Props = {
+  status?: string;
   createdAt?: Date;
   updatedAt?: Date;
 };
-export const HeaderInfo: React.FC<Props> = ({ createdAt, updatedAt }) => {
+export const HeaderInfo: React.FC<Props> = ({
+  status,
+  createdAt,
+  updatedAt,
+}) => {
   const format: Intl.DateTimeFormatOptions = {
     day: "numeric",
     month: "short",
@@ -20,6 +25,19 @@ export const HeaderInfo: React.FC<Props> = ({ createdAt, updatedAt }) => {
       size="small"
       wrap
     >
+      <Text
+        style={{
+          color: status === "PUBLISHED" ? "green" : status === "DRAFT" ? "#414040" : "#411818",
+          fontWeight: "bold",
+        }}
+        color="red"
+      >
+        {status === "PUBLISHED"
+          ? "PUBLICADO"
+          : status === "DRAFT"
+            ? "BORRADOR"
+            : ""}
+      </Text>
       {createdAt && (
         <Text type="secondary">
           Creación: {Intl.DateTimeFormat("es-CL", format).format(createdAt)}

@@ -30,7 +30,8 @@ export const FormArticleContainer = () => {
     categories,
     screens,
     handleChangeTags,
-    handleSaveDraft
+    handleSaveDraft,
+    handleRemoveDraft
   } = useFormArticle(form, {
     onSuccess: (msg) => message.success(msg),
     onError: (err) => message.error(err),
@@ -49,9 +50,10 @@ export const FormArticleContainer = () => {
           size="small"
           wrap
         >
-          <HeaderButtons onClickPublish={handleSubmit} onClickSaveDraft={handleSaveDraft} />
+          <HeaderButtons onClickRemoveDraft={handleRemoveDraft} onClickPublish={handleSubmit} onClickSaveDraft={handleSaveDraft} />
         </Space>
         <HeaderInfo
+          status={content.status}
           createdAt={content.createdAt}
           updatedAt={content.updatedAt}
         />

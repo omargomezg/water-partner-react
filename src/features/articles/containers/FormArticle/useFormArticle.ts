@@ -7,7 +7,7 @@ import axios from "axios";
 const { useBreakpoint } = Grid;
 
 interface FormArticleOptions {
-  onSuccess?: (message: string) => void;
+  onSuccess: (message: string) => void;
   onError: (message: string) => void;
 }
 
@@ -25,15 +25,6 @@ export const useFormArticle = (
 
   useEffect(() => {
     if (id) {
-      setLoading(true);
-      const fetchContent = async () => {
-        const { data } = await apiClient.get<Content>(
-          `/api/auth/articles/${id}`,
-        );
-        setContent(data);
-        form.setFieldsValue(data);
-        setLoading(false);
-      };
       fetchContent();
     }
   }, []);
@@ -51,6 +42,14 @@ export const useFormArticle = (
 
     fetchCategories();
   }, []);
+
+  const fetchContent = async () => {
+    setLoading(true);
+    const { data } = await apiClient.get<Content>(`/api/auth/articles/${id}`);
+    setContent(data);
+    form.setFieldsValue(data);
+    setLoading(false);
+  };
 
   const handleSubmit = async () => {
     try {
@@ -100,21 +99,31 @@ export const useFormArticle = (
 
   const handleSaveDraft = async () => {
     const draft = {
+      title: form.getFieldValue("title"),
       contentId: content.id,
       permalink: content.permalink,
-      title: content.title,
-      summary: content.summary,
-      content: content.content,
-      referringSite: content.referringSite,
-      categoryId: content.category,
-
-    }
-    console.log("Draft > ",draft);
+      createdAt: content.createdAt,
+      summary: form.getFieldValue("summary"),
+      content: form.getFieldValue("content"),
+      referringSite: form.getFieldValue("referringSite"),
+      categoryId: form.getFieldValue("category"),
+    };
     await apiClient.post<Content>(
-          `/api/auth/articles/${content.id}/draft`,
-          draft,
-        );
-  }
+      `/api/auth/articles/${content.id}/draft`,
+      draft,
+    );
+    setContent((prev) => ({
+      ...prev,
+      status: "DRAFT",
+    }));
+    onSuccess("Borrador guardado");
+  };
+
+  const handleRemoveDraft = async () => {
+    await apiClient.delete<Content>(`/api/auth/articles/${content.id}/draft`);
+    fetchContent();
+    onSuccess("Borrador eliminado");
+  };
 
   return {
     content,
@@ -125,6 +134,7 @@ export const useFormArticle = (
     handleSubmit,
     handleChangeTags,
     handleSaveDraft,
+    handleRemoveDraft,
     setTitle,
   };
 };
