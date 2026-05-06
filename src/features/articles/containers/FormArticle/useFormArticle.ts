@@ -99,7 +99,21 @@ export const useFormArticle = (
   };
 
   const handleSaveDraft = async () => {
-    
+    const draft = {
+      contentId: content.id,
+      permalink: content.permalink,
+      title: content.title,
+      summary: content.summary,
+      content: content.content,
+      referringSite: content.referringSite,
+      categoryId: content.category,
+
+    }
+    console.log("Draft > ",draft);
+    await apiClient.post<Content>(
+          `/api/auth/articles/${content.id}/draft`,
+          draft,
+        );
   }
 
   return {
