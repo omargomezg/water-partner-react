@@ -8,8 +8,8 @@ import { constants } from '../../utils/Utils';
 const columns: TableProps<Client>['columns'] = [
 	{
 		title: 'RUT',
-		dataIndex: 'dni',
-		key: 'dni',
+		dataIndex: 'rut',
+		key: 'rut',
 	},
 	{
 		title: 'Nombre',
@@ -18,8 +18,8 @@ const columns: TableProps<Client>['columns'] = [
 	},
 	{
 		title: 'Teléfono',
-		dataIndex: 'telephone',
-		key: 'telephone',
+		dataIndex: 'phone',
+		key: 'phone',
 		render: (text) => <a href={`tel:${text}`}>{text}</a>
 	},
 	{

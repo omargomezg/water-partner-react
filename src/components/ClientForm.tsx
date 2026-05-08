@@ -4,6 +4,9 @@ import { FC } from "react";
 import { Client } from "../types/Client";
 import FormInputRut from "./FormInputRut";
 import SelectClientsType from "./SelectClientsType";
+import apiClient from "../services/apiClient";
+import axios from "axios";
+import { constants } from "../utils/Utils";
 
 interface ClientFormProps {
 	client?: Client;
@@ -11,8 +14,9 @@ interface ClientFormProps {
 
 const ClientForm: FC<ClientFormProps> = ({ client }) => {
 	const [form] = Form.useForm();
-	const createClient = useAppStore((state) => state.createClient);
 	const setClientOpenForm = useAppStore((state) => state.setClientOpenForm);
+	const setClientFilter = useAppStore((state) => state.setClientFilter);
+	const getClients = useAppStore((state) => state.getClients);
 
 	const onCancel = () => {
 		form.resetFields();
@@ -20,12 +24,19 @@ const ClientForm: FC<ClientFormProps> = ({ client }) => {
 	}
 
 	const onFinish = async (values: Client) => {
-		const status = await createClient(values);
-		if (status) {
-			message.success("Cliente creado");
-			setClientOpenForm();
-		} else {
-			message.error("Emm..");
+		try {
+			const response = await apiClient.post<Client>(`/api/clients`, values);
+			const { status } = response;
+			if (status === 201) {
+				setClientFilter({ page: 0, size: constants.PAGE_SIZE })				
+				getClients();
+				setClientOpenForm();
+				message.success('Cliente creado correctamente');
+			}
+		} catch (err) {
+			 if (axios.isAxiosError(err)) {
+        		message.error(err.response?.data.message);
+      		}
 		}
 	}
 
