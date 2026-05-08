@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Form, Input, message, Radio, Row, Space } from "antd";
+import { Button, Col, Divider, Form, Input, message, Radio, Row, Select, Space } from "antd";
 import { useAppStore } from "../store/useAppStore";
 import { FC } from "react";
 import { Client } from "../types/Client";
@@ -43,14 +43,19 @@ const ClientForm: FC<ClientFormProps> = ({ client }) => {
 					</Form.Item>
 				</Col>
 				<Col span={14}>
-					<FormInputRut name="dni" label="Identificador RUT" />
+					<FormInputRut name="rut" label="Identificador RUT" />
 				</Col>
 			</Row>
 			<Divider />
-			<Form.Item name={["clientType", "id"]}
+			<Form.Item name="clientType"
 				label="Tipo de cliente"
 				rules={[{ required: true }]}>
-				<SelectClientsType />
+				{/* <SelectClientsType /> */}
+				<Select>
+					<option value="SOCIO">Socio</option>
+					<option value="EMPRESA">Empresa</option>
+					<option value="PARTICULAR">Particular</option>
+				</Select>
 			</Form.Item>
 			<Divider />
 			<Form.Item name="fullName" label="Nombre" rules={[{ required: true }]}>
@@ -63,7 +68,7 @@ const ClientForm: FC<ClientFormProps> = ({ client }) => {
 					</Form.Item>
 				</Col>
 				<Col span={12}>
-					<Form.Item name="telephone" label="Teléfono" rules={[{ required: true }]}>
+					<Form.Item name="phone" label="Teléfono" rules={[{ required: true }]}>
 						<Input />
 					</Form.Item>
 				</Col>

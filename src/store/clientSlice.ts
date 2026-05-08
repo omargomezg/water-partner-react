@@ -81,7 +81,7 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 		try {
 			const clientFilter = get().clientFilter
 			const params = new URLSearchParams(cleanFilter(clientFilter)).toString();
-			const response = await apiClient.get<PageResponse<Client>>(`/client?${params}`);
+			const response = await apiClient.get<PageResponse<Client>>(`/api/clients?${params}`);
 			const { status, data } = response;
 			if (status === 200) {
 				set((state) => {
@@ -100,7 +100,7 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 	},
 	createClient: async (client: Client) => {
 		try {
-			const response = await apiClient.post<Client>(`/client`, client);
+			const response = await apiClient.post<Client>(`/api/clients`, client);
 			const { status } = response;
 			if (status === 201) {
 				set((state) => {
