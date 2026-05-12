@@ -68,6 +68,7 @@ const ClientTable = () => {
 }
 
 const RowButtons = ({ client }: any) => {
+	console.log("client >", client);
 	const setProfile = useAppStore((state) => state.setProfile);
 	const deleteClient = useAppStore((state) => state.deleteClient);
 	const setOpenClientMetersModal = useAppStore((state) => state.setOpenClientMetersModal);
@@ -77,7 +78,7 @@ const RowButtons = ({ client }: any) => {
 				setProfile(client)
 			}}>Ficha</Button>
 			<Button type="link" onClick={() => setOpenClientMetersModal(true, client)}>Medidores</Button>
-			<Button type="link" onClick={() => deleteClient(client.dni)}>Eliminar</Button>
+			<Button type="link" onClick={() => deleteClient(client.id)}>Eliminar</Button>
 			<Button title="Editar"><SettingOutlined /></Button>
 		</Space>
 	)

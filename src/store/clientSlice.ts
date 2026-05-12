@@ -28,7 +28,7 @@ interface ClientActions {
 	setOpenModalPdf: () => void;
 	setOpenReadingRecordForm: () => void;
 	getClients: () => Promise<boolean>;
-	deleteClient: (id: string) => Promise<boolean>;
+	deleteClient: (rut: string) => Promise<boolean>;
 	addWaterMeterToClient: (dni: string, meter: any) => Promise<GenericResponse<void>>;
 	removeClientWaterMeter: (dni: string, id: string) => Promise<GenericResponse<void>>;
 }
@@ -97,9 +97,9 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 			});
 		}
 	},
-	deleteClient: async (id: string) => {
+	deleteClient: async (rut: string) => {
 		try {
-			const response = await apiClient.delete(`/client/${id}`);
+			const response = await apiClient.delete(`/api/clients/${rut}`);
 			const { status } = response;
 			if (status === 200) {
 				get().getClients();

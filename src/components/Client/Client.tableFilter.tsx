@@ -1,5 +1,6 @@
 import { Button, Form, Input } from "antd";
 import { useAppStore } from "../../store/useAppStore";
+import FormInputRut from "../FormInputRut";
 
 const ClientTableFilter = () => {
     const setClientFilter = useAppStore((state) => state.setClientFilter);
@@ -7,7 +8,7 @@ const ClientTableFilter = () => {
     const onFinish = (values: any) => {
         setClientFilter({
             name: values.name === undefined ? null : values.name,
-            dni: values.dni === undefined ? null : values.dni,
+            rut: values.rut === undefined ? null : values.rut,
             page: 0,
             size: 2
         });
@@ -19,9 +20,7 @@ const ClientTableFilter = () => {
             <Form.Item label="Nombre" name={"name"}>
                 <Input />
             </Form.Item>
-            <Form.Item label="RUT" name={"dni"}>
-                <Input />
-            </Form.Item>
+            <FormInputRut name={"rut"} />
             <Form.Item>
                 <Button type="primary" htmlType="submit">
                     Filtrar

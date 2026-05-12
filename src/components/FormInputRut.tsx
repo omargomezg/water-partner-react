@@ -4,15 +4,16 @@ import { validateRut } from "../utils/Utils"; // Asumiendo que validateRut está
 import RutInput from "./RutInput";
 
 interface FormInputRutProps {
-    name: string;
+    name?: string;
     label?: string;
+    required?: boolean;
 }
 
-const FormInputRut: FC<FormInputRutProps> = ({ name, label = "RUT" }) => {
+const FormInputRut: FC<FormInputRutProps> = ({ name, label = "RUT", required = false }) => {
     return (
         <Form.Item label={label} name={name}
             rules={[
-                { required: true, message: `Por favor ingrese ${label}` },
+                { required: required, message: `Por favor ingrese ${label}` },
                 ({ getFieldValue }) => ({
                     validator(_, value) {
                         if (!value) {

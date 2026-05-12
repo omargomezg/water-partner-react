@@ -50,11 +50,11 @@ const ClientProfile = () => {
                     <Divider />
                     <dl>
                         <dt>Rut</dt>
-                        <dd>{client?.dni}</dd>
+                        <dd>{client?.rut}</dd>
                         <dt>Nombre</dt>
                         <dd>{client?.fullName}</dd>
                         <dt>Teléfono</dt>
-                        <dd><a href={`tel:${client?.telephone}`}>{client?.telephone}</a></dd>
+                        <dd><a href={`tel:${client?.phone}`}>{client?.phone}</a></dd>
                         <dt>Correo electrónico</dt>
                         <dd><a href={`mailto:${client?.email}`}>{client?.email}</a></dd>
                         {activeSubsidy && (

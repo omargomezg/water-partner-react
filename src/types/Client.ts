@@ -3,7 +3,7 @@ import {WaterMeter} from "./WaterMeter";
 
 export interface Client {
     typeOfDni: string;
-    dni: string;
+    rut: string;
     fullName: string;    
     businessActivity: string;
     birthDate: string;
@@ -13,7 +13,7 @@ export interface Client {
     clientNumber: number;
     clientType: ClientType;
     email: string;
-    telephone: string;
+    phone: string;
     isActive: boolean;
     waterMeters: WaterMeter[];
 }
