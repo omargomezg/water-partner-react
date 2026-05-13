@@ -31,7 +31,11 @@ const menuItems = [
     {
         key: '/configurations',
         icon: <ControlOutlined/>,
-        label: <Link to="/configurations">Configuración</Link>,
+        label: "Configuración",
+        children: [
+            {key: '/configurations/tariffs', label: <Link to="/configurations">Configuración</Link>},
+            {key: '/configurations/sites', label: <Link to="/configurations/sites">Sitios</Link>}
+        ],
     },
 ];
 
