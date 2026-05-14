@@ -16,11 +16,11 @@ export const TitleWithDescription: React.FC<Props> = ({name, description, url, g
     <Space orientation="vertical" size={0}>
           <Text strong>{name}</Text>
           <Text type="secondary">{description}</Text>
-          <Space>
-            <Button type="link" size="small" href={url} target="_blank" rel="noopener noreferrer">
+          <Space >
+            <a href={url} target="_blank" rel="noopener noreferrer">
               {url}
-            </Button>
-            <Text code>Google Tag ID: {googleTagID}</Text>
+            </a>
+            <Text style={{fontSize: "small", color: "#8c8c8c"}} >Google Tag ID: {googleTagID}</Text>
           </Space>
         </Space>
         );

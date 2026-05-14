@@ -13,3 +13,10 @@ export interface SocialNetwork {
     icon: string;
     name: string;
 }
+
+export interface Site {
+    id: string;
+    name: string
+    url: string;
+    homeTemplate: string;
+}
