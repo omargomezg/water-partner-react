@@ -16,7 +16,15 @@ export interface SocialNetwork {
 
 export interface Site {
     id: string;
-    name: string
+    name: string;
+    description: string;
     url: string;
+    logo: string;
+    favicon: string;
+    googleTagId: string;
+    mision: string;
+    vision: string;
+    keywords: string[];
+    relatedSites: string[];
     homeTemplate: string;
 }

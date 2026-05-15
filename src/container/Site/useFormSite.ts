@@ -32,7 +32,10 @@ export const useFormSite = (
     try {
       setLoading(true);
       const { data } = await apiClient.get(`/api/sites/${id}`);
-      setSite(data);
+      setCategories(data.listOfCategories);
+      setOtherSites(data.listOfSites);
+      const { listOfCategories, listOfSites, ...siteData } = data;
+      setSite(siteData);
       form.setFieldsValue(data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -46,7 +49,20 @@ export const useFormSite = (
   const handleSaveConfiguration = () => {};
   const handleSaveIdentity = () => {};
   const handleSaveMission = () => {};
-  const handleSubmit = () => {};
+
+  const handleSubmit = async () => {
+    try {
+      await form.validateFields({ validateOnly: true });
+      await apiClient.put(`/api/sites/${id}`, form.getFieldsValue());
+      onSuccess("Site updated successfully");
+      navigate("/configurations/sites");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        onError(error.response?.data.message);
+      }
+    }
+  };
+
   const handleCancel = () => {
     navigate("/configurations/sites");
   };

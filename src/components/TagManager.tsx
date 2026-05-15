@@ -7,11 +7,10 @@ interface Props {
 }
 
 export const TagManager: React.FC<Props> = ({ value = [], onChange }) => {
-  const [tags, setTags] = useState(value);
   const [currentTag, setCurrentTag] = useState("");
 
   const renderTags = () => {
-    return tags?.map((tag, index) => (
+    return value?.map((tag, index) => (
       <Tag
         closable
         onClose={(e) => {
@@ -27,21 +26,19 @@ export const TagManager: React.FC<Props> = ({ value = [], onChange }) => {
   };
 
   const handleRemoveTag = (tag: string) => {
-    const newTags = tags.filter((t) => t !== tag);
-    setTags(newTags);
+    const newTags = value.filter((t) => t !== tag);
     onChange?.(newTags);
   };
-  const handleInputChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentTag(e.target.value);
   };
   const handleAddTag = () => {
     if (currentTag.trim() !== "") {
-      if (tags.includes(currentTag.trim())) {
+      if (value.includes(currentTag.trim())) {
         setCurrentTag("");
         return;
       }
-      const newTags = [...tags, currentTag.trim()];
-      setTags(newTags);
+      const newTags = [...value, currentTag.trim()];
       onChange?.(newTags);
       setCurrentTag("");
     }

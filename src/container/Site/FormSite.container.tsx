@@ -46,7 +46,7 @@ export const FormSiteContainer: React.FC = () => {
   return (
     <Spin spinning={loading}>
       <Row>
-      <Col span={18} offset={3}>
+      <Col span={22} offset={1}>
         <Form onFinish={handleSubmit} autoComplete="off" form={form} layout="vertical">
           <Title level={2} title={site?.name}></Title>
           <CardStyle title="Configuración general">
@@ -191,10 +191,7 @@ export const FormSiteContainer: React.FC = () => {
                       <Select
                         mode="multiple"
                         style={{ width: "100%" }}
-                        options={categories?.map((category) => ({
-                          value: category.id,
-                          label: category.name,
-                        }))}
+                        options={categories}
                         placeholder="Selecciona categorías"
                       />
                     </Form.Item>

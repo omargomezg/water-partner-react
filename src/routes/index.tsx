@@ -7,6 +7,7 @@ import { reportRoutes } from "./ReportRoutes";
 import { clientRoutes } from "./ClientRoutes";
 import { meterReadingRoutes } from "./MeterReadingRoutes";
 import { siteRoutes } from "./SiteRoutes";
+import { categoryRoutes } from "./CategoryRoutes";
 
 export const router = createBrowserRouter([
     {
@@ -19,6 +20,7 @@ export const router = createBrowserRouter([
             ...clientRoutes,
             ...meterReadingRoutes,
             ...siteRoutes,
+            ...categoryRoutes,
         ]
     },
         {path: "/login", element: <LoginContainer />}

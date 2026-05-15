@@ -34,7 +34,8 @@ const menuItems = [
         label: "Configuración",
         children: [
             {key: '/configurations/tariffs', label: <Link to="/configurations">Configuración</Link>},
-            {key: '/configurations/sites', label: <Link to="/configurations/sites">Sitios</Link>}
+            {key: '/configurations/sites', label: <Link to="/configurations/sites">Sitios</Link>},
+            {key: '/configurations/category/list', label: <Link to="/configurations/category/list">Categorías</Link>}
         ],
     },
 ];
