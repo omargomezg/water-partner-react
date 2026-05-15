@@ -26,7 +26,7 @@ export const useFormSite = (
     if (id) {
       fetchContent();
     }
-  }, []);
+  }, [id]);
 
   const fetchContent = async () => {
     try {
