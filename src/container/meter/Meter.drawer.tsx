@@ -1,8 +1,14 @@
 import {Drawer} from "antd";
 import MeterForm from "./Meter.form";
 import {useAppStore} from "../../store/useAppStore";
+import { FC } from "react";
+import { WaterMeter } from "../../types";
 
-const MeterDrawer = () => {
+type Props = {
+    meter: WaterMeter
+}
+
+const MeterDrawer: FC<Props> = ({meter}) => {
     const setOpenForm = useAppStore((state) => state.setOpenFormWaterMeter);
     const openForm = useAppStore((state) => state.openFormWaterMeter);
 

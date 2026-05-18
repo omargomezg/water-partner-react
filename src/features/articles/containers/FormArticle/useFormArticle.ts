@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Form, FormInstance, Grid, SelectProps } from "antd";
 import apiClient from "../../../../services/apiClient";
 import axios from "axios";
+import { PageResponse } from "../../../../types";
 const { useBreakpoint } = Grid;
 
 interface FormArticleOptions {
@@ -28,12 +29,12 @@ export const useFormArticle = (
       fetchContent();
     }
   }, []);
-
+ 
   useEffect(() => {
     const fetchCategories = async () => {
-      const { data } = await apiClient.get<Category[]>(`/category`);
+      const { data } = await apiClient.get<PageResponse<Category>>(`/category`);
       setCategories(
-        data.map((category: Category) => ({
+        data.content?.map((category: Category) => ({
           label: category.name,
           value: category.id,
         })),

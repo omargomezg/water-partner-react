@@ -6,6 +6,7 @@ import {useAppStore} from "../../store/useAppStore";
 
 export const MeterContainer = () => {
     const setOpenForm = useAppStore((state) => state.setOpenFormWaterMeter);
+
     return (
         <>
             <Card style={{marginBottom: '10px'}}>
@@ -15,9 +16,9 @@ export const MeterContainer = () => {
             </Card>
             <Card title="Listado de medidores" extra={
                 <Button type={'primary'} onClick={setOpenForm}><PlusOutlined/>Crear</Button>}>
-                <MeterTable></MeterTable>
+                <MeterTable onSelect={setOpenForm} />
             </Card>
-            <MeterDrawer></MeterDrawer>
+            <MeterDrawer />
         </>
     )
 }

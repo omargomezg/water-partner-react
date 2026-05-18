@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { ApiResponse, Category, Content, Filter } from "./types/types";
 import { useListOfArticlesStore } from "./store/useListOfArticlesStore";
 import apiClient from "../../../../services/apiClient";
+import { PageResponse } from "../../../../types";
 
 export const useListOfArticles = () => {
   const content = useListOfArticlesStore((state) => state.articles);
@@ -19,8 +20,8 @@ export const useListOfArticles = () => {
   useEffect(() => {
     fetchData(pagination.current, pagination.pageSize);
     const fetchCategories = async () => {
-      const { data } = await apiClient.get<Category[]>(`/category`);
-      const tempCategories: SelectProps[] = data.map((category: Category) => ({
+      const { data } = await apiClient.get<PageResponse<Category>>(`/category`);
+      const tempCategories: SelectProps[] = data.content.map((category: Category) => ({
         label: category.name,
         value: category.id,
       }));

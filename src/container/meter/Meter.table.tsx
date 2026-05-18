@@ -1,6 +1,6 @@
 import {Button, Pagination, Space, Table, TableProps} from "antd";
 import dayjs from "dayjs";
-import {useEffect} from "react";
+import {FC, useEffect} from "react";
 import {EditOutlined} from "@ant-design/icons";
 import {useAppStore} from "../../store/useAppStore";
 import {constants} from "../../utils/Utils";
@@ -78,7 +78,12 @@ const MeterTable = () => {
     )
 }
 
-const RowButtons = ({tariff}: any) => {
+type PropsRowButtons = {
+    meter: WaterMeter,
+    onSelect: (meter: WaterMeter) => void
+}
+
+const RowButtons: FC<PropsRowButtons> = ({meter}) => {
     const openForm = useAppStore((state) => state.setOpenFormWaterMeter);
     return <Space>
         <Button type="link" onClick={openForm}>

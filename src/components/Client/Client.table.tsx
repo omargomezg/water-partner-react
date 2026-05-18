@@ -68,7 +68,6 @@ const ClientTable = () => {
 }
 
 const RowButtons = ({ client }: any) => {
-	console.log("client >", client);
 	const setProfile = useAppStore((state) => state.setProfile);
 	const deleteClient = useAppStore((state) => state.deleteClient);
 	const setOpenClientMetersModal = useAppStore((state) => state.setOpenClientMetersModal);
