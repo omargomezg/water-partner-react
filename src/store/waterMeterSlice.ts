@@ -15,7 +15,6 @@ type WaterMeterState = {
 }
 
 interface WaterMeterActions {
-    setOpenFormWaterMeter: () => void;
     setWaterMeterFilterForClientAssociated: (filter: WaterMeterFilter) => void;
     setWaterMeterConfigurationFilter: (filter: WaterMeterFilter) => void;
     getWaterMetersForConfiguration: () => Promise<boolean>;
@@ -35,19 +34,7 @@ export const createWaterMeterSlice: ImmerStateCreator<WaterMeterSlice> = (set, g
     availableMeters: null,
     loadingWaterMeters: false,
     waterMeterClientAssociatedFilter: { page: 0, size: constants.PAGE_SIZE },
-    waterMeterConfigurationFilter: { page: 0, size: constants.PAGE_SIZE },
-    setOpenFormWaterMeter: (meter: WaterMeter | null, open: boolean) => {
-        if (open === true) {
-            set((state) => {
-                state.openFormWaterMeter = !state.openFormWaterMeter
-                state.waterMeter = null
-            });
-        } else {
-            set((state) => {
-                state.openFormWaterMeter = true
-            })
-        }
-    },
+    waterMeterConfigurationFilter: { page: 0, size: constants.PAGE_SIZE },    
     setWaterMeterConfigurationFilter: (filter: WaterMeterFilter) => {
         set((state) => {
             state.waterMeterConfigurationFilter = filter;

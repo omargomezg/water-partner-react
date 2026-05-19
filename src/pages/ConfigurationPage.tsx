@@ -2,7 +2,6 @@ import { FC } from "react";
 import "../App.css";
 import { Tabs, TabsProps } from "antd";
 import TariffContainer from "../container/tariff/Tariff.container";
-import { MeterContainer } from "../container/meter/Meter.container";
 import CheckAuthentication from "../components/CheckAuthentication";
 import SectorContainer from "../container/Sector/Sector.container";
 import PeriodContainer from "../container/Period/Period.container";
@@ -17,26 +16,21 @@ const items: TabsProps["items"] = [
   },
   {
     key: "2",
-    label: "Medidores",
-    children: <MeterContainer />,
-  },
-  {
-    key: "3",
     label: "Sectores",
     children: <SectorContainer />,
   },
   {
-    key: "4",
+    key: "3",
     label: "Periodos",
     children: <PeriodContainer />,
   },
   {
-    key: "5",
+    key: "4",
     label: "Cuentas",
     children: <AccountContainer />,
   },
   {
-    key: "6",
+    key: "5",
     label: "Tipo de Clientes",
     children: <ClientTypeContainer />,
   },

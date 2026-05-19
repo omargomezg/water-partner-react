@@ -36,7 +36,7 @@ const ClientMetersModal: FC = () => {
 
     const openSubsidyModal = (meter: WaterMeter) => {
         setSelectedMeterId(meter.id);
-        setSelectedMeterSerial(meter.serial);
+        setSelectedMeterSerial(meter.serialNumber);
         setSubsidyModalOpen(true);
     };
 
@@ -187,7 +187,7 @@ const AssociateMeterSection: FC<{ onCancel: () => void, onSuccess: () => void }>
                         >
                             {availableMeters?.meters.map(meter => (
                                 <Select.Option key={meter.id} value={meter.id}>
-                                    {meter.serial} - {meter.trademark} ({meter.diameter})
+                                    {meter.serialNumber} - {meter.trademark} ({meter.diameter})
                                 </Select.Option>
                             ))}
                         </Select>
