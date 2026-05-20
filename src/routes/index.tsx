@@ -9,6 +9,7 @@ import { meterReadingRoutes } from "./MeterReadingRoutes";
 import { siteRoutes } from "./SiteRoutes";
 import { categoryRoutes } from "./CategoryRoutes";
 import { meterRoutes } from "./MeterRoutes";
+import { dashboardRoutes } from "./DashboardRoutes";
 
 export const router = createBrowserRouter([
     {
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
             ...siteRoutes,
             ...categoryRoutes,
             ...meterRoutes,
+            ...dashboardRoutes,
         ]
     },
         {path: "/login", element: <LoginContainer />}

@@ -3,13 +3,13 @@ import { FC, useState } from "react";
 import { SelectDiameter } from "./SelectDiameter";
 import { Filter } from "../types/Filter";
 
-enum types {
+export enum FilterTypes {
   Meter,
   Client,
 }
 
 type FiltersProps = {
-  type: types;
+  type: FilterTypes;
   onClose: (filters: Filter) => void;
 };
 
@@ -36,7 +36,7 @@ export const CommonFilter: FC<FiltersProps> = ({ onClose, type }) => {
 type FilterModalProps = {
   open: boolean;
   onClose: (filters: Filter, total: number) => void;
-  type: types;
+  type: FilterTypes;
 };
 
 const FilterModal: FC<FilterModalProps> = ({ open, onClose, type }) => {
@@ -99,7 +99,7 @@ const FilterModal: FC<FilterModalProps> = ({ open, onClose, type }) => {
         open={open}
       >
         <Form layout={"vertical"} onFinish={onFinish} form={form}>
-          {type === types.Meter && (
+          {type === FilterTypes.Meter && (
             <>
               <Form.Item label="Número de serie" name="serialNumber">
                 <Input placeholder="Número de serie" />

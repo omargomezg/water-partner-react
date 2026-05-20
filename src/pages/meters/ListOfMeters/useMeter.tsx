@@ -2,7 +2,7 @@ import { TableProps } from "antd";
 import { WaterMeter } from "../../../types";
 import dayjs from "dayjs";
 import DiameterText from "../../../components/DiameterText";
-import { RowButtons } from "./Meter.table";
+import { RowButtons } from "./ListOfMetersPage";
 
 export const useMeter = () => {
 const columns: TableProps<WaterMeter>['columns'] = [
