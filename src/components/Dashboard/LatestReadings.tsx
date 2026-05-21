@@ -1,20 +1,20 @@
 import React from 'react';
 import { Table, Tag, Typography, Card } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { useAppStore } from '../../store/useAppStore';
+import { Reading } from '../../store/dashboardSlice';
 
-interface DataType {
-    key: string;
-    date: string;
-    client: string;
-    reading: number;
-    status: string;
-}
 
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<Reading> = [
     {
         title: 'Fecha',
-        dataIndex: 'date',
-        key: 'date',
+        dataIndex: 'readingDate',
+        key: 'readingDate',
+        render: (date) => new Date(date).toLocaleDateString('es-CL', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        }),
     },
     {
         title: 'Cliente',
@@ -23,15 +23,16 @@ const columns: ColumnsType<DataType> = [
     },
     {
         title: 'Lectura',
-        dataIndex: 'reading',
-        key: 'reading',
+        dataIndex: 'readingValue',
+        key: 'readingValue',
+        render: (value) => `${new Intl.NumberFormat('es-CL').format(value)} m³`,
     },
     {
         title: 'Estado',
         key: 'status',
         dataIndex: 'status',
-        render: (_, { status }) => (
-            <Tag color={status === 'Validada' ? 'green' : 'geekblue'} key={status}>
+        render: (status) => (
+            <Tag color={status === 'completed' ? 'green' : 'geekblue'} key={status}>
                 {status.toUpperCase()}
             </Tag>
         ),
@@ -39,50 +40,14 @@ const columns: ColumnsType<DataType> = [
 
 ];
 
-const data: DataType[] = [
-    {
-        key: '1',
-        date: '2023-10-25',
-        client: 'Juan Perez',
-        reading: 12050,
-        status: 'Validada',
-    },
-    {
-        key: '2',
-        date: '2023-10-25',
-        client: 'Maria Gonzalez',
-        reading: 11980,
-        status: 'Validada',
-    },
-    {
-        key: '3',
-        date: '2023-10-24',
-        client: 'Carlos Lopez',
-        reading: 13400,
-        status: 'Ingresada',
-    },
-    {
-        key: '4',
-        date: '2023-10-24',
-        client: 'Ana Martinez',
-        reading: 10500,
-        status: 'Ingresada',
-    },
-    {
-        key: '5',
-        date: '2023-10-23',
-        client: 'Pedro Sanchez',
-        reading: 9800,
-        status: 'Validada',
-    },
-];
-
 const LatestReadings: React.FC = () => {
+
+        const { dashboardData} = useAppStore();
     return (
         <Card title={<Typography.Title level={4}>Últimas Lecturas Ingresadas</Typography.Title>} bordered={false}>
-            <Table
+            <Table<Reading>
                 columns={columns}
-                dataSource={data}
+                dataSource={dashboardData?.lastReadings}
                 pagination={false}
                 size="small"
             />

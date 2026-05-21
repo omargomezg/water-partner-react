@@ -64,7 +64,7 @@ const DashboardStats: React.FC = () => {
         },
         {
             title: 'Servicios para Corte',
-            value: dashboardData?.servicesForCut ?? 0,
+            value: dashboardData?.toSuspend ?? 0,
             icon: <WarningOutlined />,
             color: '#cf1322'
         },

@@ -3,8 +3,22 @@ import { ImmerStateCreator } from './useAppStore';
 
 export interface DashboardData {
     totalClients: number;
-    servicesForCut: number;
+    toSuspend: number;
     pendingReadings: number;
+    lastReadings: Reading[];
+    consumptions: Consumption[]
+}
+
+export interface Reading {
+    readingDate: Date;
+    client: string;
+    readingValue: number;
+    status: 'pending' | 'completed';
+}
+
+interface Consumption {
+    month: string;
+    value: number;
 }
 
 interface DashboardState {
@@ -30,7 +44,7 @@ export const createDashboardSlice: ImmerStateCreator<DashboardSlice> = (set) => 
             state.dashboardError = null;
         });
         try {
-            const response = await apiClient.get<DashboardData>('/dashboard');
+            const response = await apiClient.get<DashboardData>('/api/dashboard');
             set((state) => {
                 state.dashboardData = response.data;
                 state.isLoadingDashboard = false;
