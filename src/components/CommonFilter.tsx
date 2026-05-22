@@ -6,6 +6,7 @@ import { Filter } from "../types/Filter";
 export enum FilterTypes {
   Meter,
   Client,
+  Debts
 }
 
 type FiltersProps = {

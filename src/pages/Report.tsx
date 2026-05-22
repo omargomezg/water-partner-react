@@ -11,7 +11,7 @@ const ReportPage: FC = () => {
             <Flex vertical align="flex-start">
               <Typography.Title level={2}>Reportes</Typography.Title>
               <Typography.Text type="secondary" strong>
-                COntenido en construcción...
+                COntenido en construcción... Mostraremos un Dashboard
               </Typography.Text>
             </Flex>
           </Flex>

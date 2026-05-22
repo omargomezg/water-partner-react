@@ -7,11 +7,12 @@ interface FormInputRutProps {
     name?: string;
     label?: string;
     required?: boolean;
+    style?: React.CSSProperties;
 }
 
-const FormInputRut: FC<FormInputRutProps> = ({ name, label = "RUT", required = false }) => {
+const FormInputRut: FC<FormInputRutProps> = ({ name, label = "RUT", required = false, style }) => {
     return (
-        <Form.Item label={label} name={name}
+        <Form.Item label={label} name={name} style={style}
             rules={[
                 { required: required, message: `Por favor ingrese ${label}` },
                 ({ getFieldValue }) => ({
