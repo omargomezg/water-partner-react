@@ -83,9 +83,11 @@ export const CreateService: FC<CreateServiceProps> = ({onClose}) => {
 
     const handleFinish = async (values: ICreate) => {
         values.owner = owner as Client;
+        values.sector.id = String(values.sector.id);
         await apiClient.post("/api/subscriptions", values);
         message.success("Servicio creado exitosamente");
-        handleClose();
+        setOpen(false);
+        onClose(true);
     };
 
     const footer: React.ReactNode = (
