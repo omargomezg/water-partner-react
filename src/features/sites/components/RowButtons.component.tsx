@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 type Props = {
     id?: string;
 }
-export const RowButtons: React.FC<Props> = ({id}) => {
+export const RowButtonsComponent: React.FC<Props> = ({id}) => {
     const navigate = useNavigate();
     const handleChange = async () => {
       navigate(`/configurations/sites/${id}/edit`);

@@ -35,7 +35,7 @@ const templates = [
   { value: "index-classic", label: "Clásica" },
 ];
 
-export const FormSiteContainer: React.FC = () => {
+export const FormSitePage: React.FC = () => {
   const [form] = Form.useForm();
   const { loading, site, categories, otherSites, handleCancel, handleSubmit } = useFormSite(form, {
     onSuccess: (msg) => message.success(msg),

@@ -1,10 +1,11 @@
-import { Space, Table, TableProps } from "antd";
+import { Button, Flex, Space, Table, TableProps } from "antd";
 import { SiteSummary, SocialNetwork } from "./types/types";
 import { useEffect, useState } from "react";
 import apiClient from "../../services/apiClient";
-import { TitleWithDescription } from "./components/TitleWithDescription";
-import { RowButtons } from "./components/RowButtons";
-import { SocialNetworkLink } from "./components/SocialNetwork";
+import { TitleWithDescriptionComponent } from "./components/TitleWithDescription.component";
+import { RowButtonsComponent } from "./components/RowButtons.component";
+import { SocialNetworkLinkComponent } from "./components/SocialNetwork.component";
+import { CreateSiteComponent } from "./components/CreateSite.component";
 
 const columns: TableProps<SiteSummary>["columns"] = [
   {
@@ -12,7 +13,7 @@ const columns: TableProps<SiteSummary>["columns"] = [
     dataIndex: "name",
     key: "name",
     render: (name, { description, url, googleTagID }) => (
-      <TitleWithDescription
+      <TitleWithDescriptionComponent
         description={description}
         googleTagID={googleTagID}
         name={name}
@@ -35,7 +36,7 @@ const columns: TableProps<SiteSummary>["columns"] = [
         <Space orientation="vertical" size="small">
           {
           socialNetworks?.map((a: SocialNetwork) => (
-          <SocialNetworkLink url={a.url} name={a.name} />
+          <SocialNetworkLinkComponent url={a.url} name={a.name} />
           ))
         }
         </Space>)
@@ -44,11 +45,11 @@ const columns: TableProps<SiteSummary>["columns"] = [
   {
     title: "Action",
     key: "action",
-    render: (_, record: SiteSummary) => <RowButtons id={record.id} />,
+    render: (_, record: SiteSummary) => <RowButtonsComponent id={record.id} />,
   },
 ];
 
-export const ListOfSitesContainer: React.FC = () => {
+export const ListOfSitesPage: React.FC = () => {
   const [sites, setSites] = useState<SiteSummary[]>([]);
 
   const fetchSites = async () => {
@@ -61,6 +62,9 @@ export const ListOfSitesContainer: React.FC = () => {
   }, []);
   return (
     <>
+      <Flex gap="medium" justify="flex-end" style={{ marginBottom: "10px" }}>
+        <CreateSiteComponent />
+        </Flex>
       <Table<SiteSummary>
         columns={columns}
         dataSource={sites}
