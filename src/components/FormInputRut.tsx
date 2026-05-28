@@ -1,6 +1,6 @@
 import { Form } from "antd";
 import { FC } from "react";
-import { validateRut } from "../utils/Utils"; // Asumiendo que validateRut está aquí
+import { validateRut } from "../utils/Utils";
 import RutInput from "./RutInput";
 
 interface FormInputRutProps {

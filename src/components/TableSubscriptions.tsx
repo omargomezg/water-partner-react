@@ -1,6 +1,5 @@
 import { Button, Table, TablePaginationConfig, TableProps, message } from "antd";
 import { FC, useEffect, useState } from "react";
-import { CardStyle } from "./CardStyle";
 import { PageResponse } from "../types";
 import apiClient from "../services/apiClient";
 import { Filter } from "../types/Filter";
