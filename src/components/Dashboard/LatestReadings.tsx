@@ -49,6 +49,7 @@ const LatestReadings: React.FC = () => {
                 columns={columns}
                 dataSource={dashboardData?.lastReadings}
                 pagination={false}
+                rowKey="id"
                 size="small"
             />
         </Card>

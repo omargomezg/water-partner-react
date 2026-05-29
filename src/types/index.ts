@@ -17,3 +17,5 @@ export * from './PeriodFilter';
 export * from './ReadingRecord';
 export * from './Reading';
 export * from './Subsidy';
+export * from './Subscription';
+export * from './User';
