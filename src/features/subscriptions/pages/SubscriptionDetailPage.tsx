@@ -1,16 +1,19 @@
 import { FC } from "react";
 import { CardStyle } from "../../../components/CardStyle";
 import { Button, Card, Col, Flex, Row, Typography } from "antd";
-import { LastUtilityBills } from "../components/LastUtilityBills";
+import { LastUtilityBills } from "../components/LastUtilityBills.component";
+import { AddReadingComponent } from "../components/AddReading.component";
+import { useParams } from "react-router-dom";
 
 const { Title } = Typography;
 
 export const SubscriptionDetailPage: FC = () => {
+  const { id: subscriptionId } = useParams<{ id: string }>();
   return (
     <>
       <Flex justify="end" gap="middle" style={{ marginBottom: "10px" }}>
         <Button type="link">Atrás</Button>
-        <Button type="dashed">+ Lectura</Button>
+        <AddReadingComponent subscriptionId={subscriptionId as string}  />
       </Flex>
       <Flex gap="middle" style={{ width: "100%" }}>
         <CardStyle

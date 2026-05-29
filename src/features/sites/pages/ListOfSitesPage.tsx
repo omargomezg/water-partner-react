@@ -1,11 +1,11 @@
 import { Button, Flex, Space, Table, TableProps } from "antd";
-import { SiteSummary, SocialNetwork } from "./types/types";
+import { SiteSummary, SocialNetwork } from "../types/types";
 import { useEffect, useState } from "react";
-import apiClient from "../../services/apiClient";
-import { TitleWithDescriptionComponent } from "./components/TitleWithDescription.component";
-import { RowButtonsComponent } from "./components/RowButtons.component";
-import { SocialNetworkLinkComponent } from "./components/SocialNetwork.component";
-import { CreateSiteComponent } from "./components/CreateSite.component";
+import apiClient from "../../../services/apiClient";
+import { TitleWithDescriptionComponent } from "../components/TitleWithDescription.component";
+import { RowButtonsComponent } from "../components/RowButtons.component";
+import { SocialNetworkLinkComponent } from "../components/SocialNetwork.component";
+import { CreateSiteComponent } from "../components/CreateSite.component";
 
 const columns: TableProps<SiteSummary>["columns"] = [
   {

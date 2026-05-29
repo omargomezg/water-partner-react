@@ -11,11 +11,11 @@ import {
   Spin,
   Typography,
 } from "antd";
-import { useFormSite } from "./useFormSite";
+import { useFormSite } from "../useFormSite";
 import { MinusCircleOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
-import { CardStyle } from "../../components/CardStyle";
-import { TagManager } from "../../components/TagManager";
+import { CardStyle } from "../../../components/CardStyle";
+import { TagManager } from "../../../components/TagManager";
 
 const { Title } = Typography;
 

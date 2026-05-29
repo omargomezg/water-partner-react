@@ -1,6 +1,6 @@
 import { RouteObject } from "react-router-dom";
-import { ListOfSitesPage } from "../features/sites/ListOfSitesPage";
-import { FormSitePage } from "../features/sites/FormSitePage";
+import { ListOfSitesPage } from "../features/sites/pages/ListOfSitesPage";
+import { FormSitePage } from "../features/sites/pages/FormSitePage";
 
 export const siteRoutes: RouteObject[] = [
     {
