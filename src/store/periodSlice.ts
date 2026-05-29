@@ -57,7 +57,7 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
     createPeriod: async (period: Period) => {
         const response: GenericResponse<Period> = new GenericResponse<Period>();
         try {
-            const res = await apiClient.post<Period>('/period', period);
+            const res = await apiClient.post<Period>('/api/periods', period);
             const { status, data } = res;
             response.success = status === 201
             response.content = data
