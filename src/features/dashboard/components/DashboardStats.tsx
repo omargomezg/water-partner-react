@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Card, Col, Row, Statistic, Spin, Alert } from 'antd';
 import { UserOutlined, WarningOutlined, FileTextOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { useAppStore } from '../../store/useAppStore';
+import { useAppStore } from '../../../store/useAppStore';
 
 interface StatCardProps {
     title: string;

@@ -1,5 +1,5 @@
 import { RouteObject } from "react-router-dom";
-import DashboardPage from "../pages/DashboardPage";
+import DashboardPage from "../features/dashboard/pages/DashboardPage";
 
 export const dashboardRoutes: RouteObject[] = [
     {

@@ -2,10 +2,10 @@ import { FC, useEffect, useState } from "react";
 import { CardStyle } from "../../../components/CardStyle";
 import { Button, Card, Col, Flex, Grid, Row, Spin, Typography } from "antd";
 import { LastUtilityBills } from "../components/LastUtilityBills.component";
-import { AddReadingComponent } from "../components/AddReading.component";
+import { AddReadingComponent } from "../../../components/AddReading.component";
 import { useNavigate, useParams } from "react-router-dom";
 import apiClient from "../../../services/apiClient";
-import { Subscription } from "../../../types";
+import { Client, Subscription } from "../../../types";
 import { AddUserComponent } from "../components/AddUser.component";
 
 const { Title } = Typography;
@@ -31,6 +31,10 @@ export const SubscriptionDetailPage: FC = () => {
     }
   }, [subscriptionId]);
 
+  const setUsers = (users: Client[]) => {
+    setSubscription((prev) => ({ ...prev, users }));
+  };
+
   return (
     <Spin spinning={!subscription}>
       <Flex justify="end" gap="middle" style={{ marginBottom: "10px" }}>
@@ -48,7 +52,7 @@ export const SubscriptionDetailPage: FC = () => {
             <Col md={8}>
               <ParagraphWithTitle
                 title="Nombre"
-                text={subscription?.owner?.name}
+                text={subscription?.owner?.fullName}
               />
             </Col>
             <Col md={8}>
@@ -64,13 +68,22 @@ export const SubscriptionDetailPage: FC = () => {
         </CardStyle>
         <CardStyle
           title="Usuarios"
-          extra={<AddUserComponent subscriptionId={subscription.id} />}
+          extra={
+            <AddUserComponent
+              subscriptionId={subscription.id}
+              refresh={setUsers}
+            />
+          }
           style={{ flex: 1, height: "100%" }}
         >
+          <p>
+            Cuentas adicionales vinculadas a este servicio habilitadas para
+            consultar saldos, ver consumos y gestionar pagos.
+          </p>
           {subscription.users &&
             subscription.users.map((user) => (
               <Card style={{ marginBottom: "10px" }} key={user.email}>
-                <p>{user.name}</p>
+                <p>{user.fullName}</p>
                 <p>{user.email}</p>
               </Card>
             ))}

@@ -1,7 +1,6 @@
 export interface User {
-    email: string;
-    alias: string;
-    name: string;
-    active: boolean;
-
+  email: string;
+  alias: string;
+  fullName: string;
+  active: boolean;
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Table, Tag, Typography, Card } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useAppStore } from '../../store/useAppStore';
-import { Reading } from '../../store/dashboardSlice';
+import { useAppStore } from '../../../store/useAppStore';
+import { Reading } from '../../../store/dashboardSlice';
 
 
 const columns: ColumnsType<Reading> = [

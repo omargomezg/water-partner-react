@@ -77,9 +77,6 @@ export const FormMeterPage = () => {
         <Form.Item name="trademark" label="Marca" rules={[{ required: true }]}>
           <Input style={{ width: "250px" }} autoComplete="off" />
         </Form.Item>
-        <Form.Item name="sector" label="Sector" rules={[{ required: true }]}>
-          <Input style={{ width: "250px" }} />
-        </Form.Item>
         <Form.Item
           name="comment"
           label={"Observaciones"}

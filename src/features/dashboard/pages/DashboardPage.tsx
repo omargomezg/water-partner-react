@@ -1,17 +1,16 @@
 import { FC, useState } from "react";
-import { Button, Col, Flex, Form, Input, Row } from "antd";
-import DashboardStats from "./Dashboard/DashboardStats";
-import ConsumptionChart from "./Dashboard/ConsumptionChart";
-import LatestReadings from "./Dashboard/LatestReadings";
-import { CreateService } from "../container/CreateService";
-import { TableSubscriptions } from "./TableSubscriptions";
-import { CardStyle } from "./CardStyle";
+import { Row, Col, Form, Input, Button, Flex } from "antd";
+import { CardStyle } from "../../../components/CardStyle";
+import ConsumptionChart from "../components/ConsumptionChart";
+import DashboardStats from "../components/DashboardStats";
+import LatestReadings from "../components/LatestReadings";
+import { CreateService } from "../../../container/CreateService";
+import { SubscriptionsComponent } from "../components/Subscriptions.component";
 
-const MainContent: FC = () => {
+const DashboardPage: FC = () => {
   const [form] = Form.useForm();
   const [openCreateService, setOpenCreateService] = useState(false);
   const [refreshTable, setRefreshTable] = useState<Date>(new Date());
-
   const handleOnClose = (refresh: boolean): void => {
     setOpenCreateService(false);
     console.log(refresh);
@@ -23,7 +22,6 @@ const MainContent: FC = () => {
   const handleClickSearch = () => {
     setRefreshTable(new Date());
   };
-
   return (
     <>
       <div style={{ flex: 1 }}>
@@ -39,11 +37,11 @@ const MainContent: FC = () => {
             </Col>
             <Col span={12} style={{ textAlign: "right" }}>
               <Button type="primary" onClick={() => setOpenCreateService(true)}>
-                Nuevo servicio
+                + Nuevo servicio
               </Button>
             </Col>
           </Row>
-          <TableSubscriptions lastUpdate={refreshTable} />
+          <SubscriptionsComponent lastUpdate={refreshTable} />
         </CardStyle>
         <Flex vertical gap="2.3rem">
           <DashboardStats />
@@ -62,4 +60,4 @@ const MainContent: FC = () => {
   );
 };
 
-export default MainContent;
+export default DashboardPage;

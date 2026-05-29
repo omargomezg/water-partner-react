@@ -1,26 +1,31 @@
-import { Button, Flex, Form, Input, InputNumber, Modal } from "antd";
+import { Button, Flex, Form, InputNumber, Modal } from "antd";
 import { FC, useState } from "react";
 
 type AddReadingComponentProps = {
   subscriptionId: string;
 };
 
+/**
+ * Componente que permite agregar una lectura de agua a un servicio de APR.
+ * * @param props - Propiedades del componente basadas en {@link AddReadingComponentProps}
+ * @returns Componente con botón y modal para registrar lecturas
+ */
 export const AddReadingComponent: FC<AddReadingComponentProps> = ({
   subscriptionId,
 }) => {
     const [form ] = Form.useForm();
-  const [openForm, setOpenForm] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const handleSave = async () => {};
 
   return (
     <>
-      <Button type="dashed" onClick={() => setOpenForm(true)}>
+      <Button type="dashed" onClick={() => setOpen(true)}>
         + Lectura
       </Button>
       <Modal
-        open={openForm}
+        open={open}
         onOk={handleSave}
-        onCancel={() => setOpenForm(false)}
+        onCancel={() => setOpen(false)}
       >
         <p style={{ paddingBottom: "10px" }}>
           Por favor, digite los números actuales que muestra el medidor.

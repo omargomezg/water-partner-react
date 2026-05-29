@@ -1,22 +1,22 @@
-import { Button, Table, TablePaginationConfig, TableProps, message } from "antd";
+import { FileTextOutlined } from "@ant-design/icons";
+import { Button, message, Table, TablePaginationConfig, TableProps } from "antd";
 import { FC, useEffect, useState } from "react";
-import { PageResponse } from "../types";
-import apiClient from "../services/apiClient";
-import { Filter } from "../types/Filter";
 import { useNavigate } from "react-router-dom";
-import { EditOutlined } from "@ant-design/icons";
+import apiClient from "../../../services/apiClient";
+import { PageResponse } from "../../../types";
+import { Filter } from "../../../types/Filter";
+import { AddReadingComponent } from "../../../components/AddReading.component";
+
 
 interface Subscriptions {
-    id?: string
+    id: string
 }
-
-
 
 type TableSubscriptionsProps = {
   lastUpdate?: Date;
 };
 
-export const TableSubscriptions: FC<TableSubscriptionsProps> = ({
+export const SubscriptionsComponent: FC<TableSubscriptionsProps> = ({
   lastUpdate,
 }) => {
     const navigate = useNavigate();
@@ -50,13 +50,20 @@ export const TableSubscriptions: FC<TableSubscriptionsProps> = ({
     key: "ownerName",
   },
   {
+    title: "Lecura",
+    dataIndex: ["owner", "fullName"],
+    key: "ownerName",
+    render: (_, {id}) => <AddReadingComponent subscriptionId={id} />
+  },
+  {
     title: "",
     key: "actions",
     render: (_, record) => (<Button
             onClick={() => navigate(`/subscriptions/${record?.id}`)}
-            type="primary"
+            type="dashed"
             shape="circle"
-            icon={<EditOutlined />}
+            title="Ver detalles"
+            icon={<FileTextOutlined />}
           ></Button>)
   },
 ];
