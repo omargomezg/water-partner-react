@@ -11,6 +11,7 @@ import { categoryRoutes } from "./CategoryRoutes";
 import { meterRoutes } from "./MeterRoutes";
 import { dashboardRoutes } from "./DashboardRoutes";
 import { subscriptionRoutes } from "./SubscriptionRoutes";
+import { periodRoutes } from "./PeriodRoutes";
 
 export const router = createBrowserRouter([
     {
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
             ...meterRoutes,
             ...dashboardRoutes,
             ...subscriptionRoutes,
+            ...periodRoutes,
         ]
     },
         {path: "/login", element: <LoginContainer />}
