@@ -71,7 +71,7 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
     deletePeriod: async (id: number) => {
         const response: GenericResponse<void> = new GenericResponse<void>();
         try {
-            const res = await apiClient.delete<void>(`/period/${id}`);
+            const res = await apiClient.delete<void>(`/api/periods/${id}`);
             const { status } = res;
             response.success = status === 200;
             get().fetchPeriods();
@@ -84,7 +84,7 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
     initPeriod: async (id: number) => {
         const response: GenericResponse<void> = new GenericResponse<void>();
         try {
-            const res = await apiClient.post<void>(`/period/${id}/init`);
+            const res = await apiClient.post<void>(`/api/periods/${id}/initialize`);
             const { status } = res;
             response.success = status === 200;
             get().fetchPeriods();

@@ -1,7 +1,7 @@
 import { Button, Col, DatePicker, Form, Input, Row, Typography, message } from "antd";
 import { FC, useEffect, useState } from "react";
 import { Period } from "../../../types";
-import { useParams, useNavigate } from "react-router-dom"; // Añadido useNavigate por si quieres redirigir
+import { useParams, useNavigate } from "react-router-dom";
 import apiClient from "../../../services/apiClient";
 import dayjs from "dayjs";
 
@@ -39,15 +39,12 @@ export const PeriodPage: FC = () => {
     }
   }, [id, form]);
 
-  // 🚀 Función para guardar los cambios
   const handleSave = async (values: any) => {
     try {
       setSaving(true);
 
-      // Desestructuramos el array de fechas 'period'
       const [startDayjs, endDayjs] = values.period || [null, null];
 
-      // Construimos el payload convirtiendo dayjs a timestamps numéricos (.valueOf())
       const payload: Partial<Period> = {
         name: values.name,
         description: values.description,
@@ -55,11 +52,10 @@ export const PeriodPage: FC = () => {
         endDate: endDayjs ? endDayjs.valueOf() : null,
       };
 
-      // Enviamos la actualización vía PUT a la API
       await apiClient.put(`/api/periods/${id}`, payload);
       
       message.success("Periodo actualizado con éxito");
-      setPeriodName(values.name); // Actualiza el título de la página de inmediato
+      navigate("/configurations/periods");
       
     } catch (error) {
       console.error("Error al guardar el periodo:", error);
@@ -75,7 +71,6 @@ export const PeriodPage: FC = () => {
       
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={18} md={12}>
-          {/* Asignamos la función handleSave al onFinish del Form */}
           <Form 
             layout="vertical" 
             form={form} 

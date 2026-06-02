@@ -1,5 +1,5 @@
 import { Button, Flex, Form, InputNumber, Modal } from "antd";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 type AddReadingComponentProps = {
   subscriptionId: string;
@@ -15,6 +15,11 @@ export const AddReadingComponent: FC<AddReadingComponentProps> = ({
 }) => {
     const [form ] = Form.useForm();
   const [open, setOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    
+  }, [subscriptionId]);
+
   const handleSave = async () => {};
 
   return (

@@ -7,6 +7,10 @@ export interface Period {
   name: string;
   description: string;
   startDate: string;
+  period: {
+    start: Date,
+    end: Date
+  };
   endDate: string;
   billsCreated: boolean;
   invoicesCreated: boolean;

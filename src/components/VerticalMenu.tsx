@@ -36,7 +36,8 @@ const menuItems = [
             {key: '/configurations/tariffs', label: <Link to="/configurations">Configuración</Link>},
             {key: '/configurations/sites', label: <Link to="/configurations/sites">Sitios</Link>},
             {key: '/configurations/category/list', label: <Link to="/configurations/category/list">Categorías</Link>},
-            {key: '/configurations/meters', label: <Link to="/configurations/meters">Medidores</Link>}
+            {key: '/configurations/meters', label: <Link to="/configurations/meters">Medidores</Link>},
+            {key: '/configurations/periods', label: <Link to="/configurations/periods">Periodos</Link>}
         ],
     },
 ];
