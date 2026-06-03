@@ -6,7 +6,7 @@ import ClientMetersModal from "../components/Client/ClientMeters.modal";
 import ClientContainer from "../container/Client/Client.container";
 import { useAppStore } from "../store/useAppStore";
 
-const ClientPage: FC = () => {
+export const ClientPage: FC = () => {
   const client = useAppStore((state) => state.client);
   return (
     <>
@@ -17,8 +17,6 @@ const ClientPage: FC = () => {
     </>
   );
 };
-
-export default ClientPage;
 
 const ClientList = () => {
   return <ClientContainer></ClientContainer>;
