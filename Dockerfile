@@ -12,12 +12,12 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instala todas las dependencias del proyecto
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Copia el resto del código fuente del proyecto
 COPY . .
 
-# Ejecuta el comando de construcción de React. 
+# Ejecuta el comando de construcción de React.
 # Esto genera los archivos estáticos optimizados en la carpeta 'build'.
 RUN npm run build
 
