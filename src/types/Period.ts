@@ -1,3 +1,4 @@
+import { Site } from "./Site";
 
 export interface Period {
   id: number;
@@ -15,4 +16,5 @@ export interface Period {
   billsCreated: boolean;
   invoicesCreated: boolean;
   status: string;
+  site: Site;
 }
