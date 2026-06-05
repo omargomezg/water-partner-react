@@ -5,6 +5,7 @@ import { RowButtons } from "./components/RowButtons";
 import { useListOfArticles } from "./useListOfArticles";
 import { Content } from "./types/types";
 import { Filters } from "./components/Filters";
+import { AddArticleComponent } from "../FormArticle/components/AddArticle.component";
 
 const columns: TableProps<Content>["columns"] = [
   {
@@ -38,12 +39,19 @@ const columns: TableProps<Content>["columns"] = [
 ];
 
 export const ListOfArticlesContainer = () => {
-  const { handleTableChange, handleApplyFilters, content, pagination, loading, categories } =
-    useListOfArticles();
+  const {
+    handleTableChange,
+    handleApplyFilters,
+    content,
+    pagination,
+    loading,
+    categories,
+  } = useListOfArticles();
 
   return (
     <>
-      <Filters categories={categories} onChange={handleApplyFilters}/>
+      <Filters categories={categories} onChange={handleApplyFilters} />
+      <AddArticleComponent />
       <Table<Content>
         columns={columns}
         dataSource={content?.content}

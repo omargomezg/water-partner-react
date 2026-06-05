@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Category, Content, Tags } from "./type/type";
+import { Category, Content, Tags } from "../containers/FormArticle/type/type";
 import { useState, useEffect } from "react";
 import { Form, FormInstance, Grid, SelectProps } from "antd";
-import apiClient from "../../../../services/apiClient";
+import apiClient from "../../../services/apiClient";
 import axios from "axios";
-import { PageResponse } from "../../../../types";
+import { PageResponse } from "../../../types";
 const { useBreakpoint } = Grid;
 
 interface FormArticleOptions {
@@ -29,7 +29,7 @@ export const useFormArticle = (
       fetchContent();
     }
   }, []);
- 
+
   useEffect(() => {
     const fetchCategories = async () => {
       const { data } = await apiClient.get<PageResponse<Category>>(`/category`);

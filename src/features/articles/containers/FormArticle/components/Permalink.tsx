@@ -13,7 +13,7 @@ export const Permalink: React.FC<Props> = ({ permalink, title }) => {
       ellipsis={{ tooltip: title }}
       style={{ fontSize: "0.8rem" }}
     >
-      permalink: {permalink || window.location.pathname}
+      permalink: {permalink}
     </Text>
   );
 };
