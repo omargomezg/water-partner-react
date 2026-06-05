@@ -19,8 +19,8 @@ export const CellTitle: React.FC<CellTitleProps> = ({
   tags,
   category,
 }) => {
-  const imageUrl = image  ?  `http://localhost:8080/file/image/${image}?width=200` :
-     "http://localhost:8080/img/Image-not-found.png";
+  const imageUrl = image  ?  `${process.env.REACT_APP_API_URL}/file/image/${image}?width=200` :
+     `${process.env.REACT_APP_API_URL}/img/Image-not-found.png`;
   return (
     <>
       <Row gutter={[16, 0]} align="middle">
