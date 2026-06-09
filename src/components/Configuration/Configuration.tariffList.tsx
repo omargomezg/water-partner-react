@@ -1,9 +1,7 @@
-import {Table} from "antd";
+import { Table } from 'antd';
 
 const ConfigurationTariffList = () => {
-    return (
-        <Table />
-    )
-}
+	return <Table />;
+};
 
-export default ConfigurationTariffList
+export default ConfigurationTariffList;

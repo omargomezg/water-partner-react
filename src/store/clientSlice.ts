@@ -1,7 +1,7 @@
-import { ImmerStateCreator } from "./useAppStore";
-import apiClient from "../services/apiClient";
-import { Client, ClientFilter, GenericResponse, PageResponse, WaterMeter } from "../types";
-import { cleanFilter, constants } from "../utils/Utils";
+import { ImmerStateCreator } from './useAppStore';
+import apiClient from '../services/apiClient';
+import { Client, ClientFilter, GenericResponse, PageResponse, WaterMeter } from '../types';
+import { cleanFilter, constants } from '../utils/Utils';
 
 type ClientState = {
 	openClientForm: boolean;
@@ -10,13 +10,13 @@ type ClientState = {
 	openClientMetersModal: boolean;
 	openReadingRecordForm: boolean;
 	openModalPdf: boolean;
-	meterForSubsidy: any,
-	clientFilter: ClientFilter,
-	client: Client | null,
-	clientForMeters: Client | null,
-	clients: PageResponse<Client> | null,
-	loadingClients: boolean,
-}
+	meterForSubsidy: any;
+	clientFilter: ClientFilter;
+	client: Client | null;
+	clientForMeters: Client | null;
+	clients: PageResponse<Client> | null;
+	loadingClients: boolean;
+};
 
 interface ClientActions {
 	setClientMeterDrawerOpen: () => void;
@@ -49,13 +49,13 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 	clients: null,
 	loadingClients: false,
 	setClientMeterDrawerOpen: () => {
-		set((state) => ({ openClientMeterDrawer: !state.openClientMeterDrawer }))
+		set((state) => ({ openClientMeterDrawer: !state.openClientMeterDrawer }));
 	},
 	setOpenClientMetersModal: (open: boolean, client?: Client) => {
 		set((state) => {
 			state.openClientMetersModal = open;
 			if (client) state.clientForMeters = client;
-		})
+		});
 	},
 	setClientFilter: (filter: ClientFilter) => {
 		set((state) => {
@@ -66,25 +66,28 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 	setOpenSubsidyForm: (meter: any) => {
 		set((state) => ({
 			openSubsidyForm: !state.openSubsidyForm,
-			meterForSubsidy: meter
-		}))
+			meterForSubsidy: meter,
+		}));
 	},
 	setClientOpenForm: () => set((state) => ({ openClientForm: !state.openClientForm })),
 	setProfile: (client) => {
-		set((state) => { state.client = client })
+		set((state) => {
+			state.client = client;
+		});
 	},
 	setOpenModalPdf: () => set((state) => ({ openModalPdf: !state.openModalPdf })),
-	setOpenReadingRecordForm: () => set((state) => ({ openReadingRecordForm: !state.openReadingRecordForm })),
+	setOpenReadingRecordForm: () =>
+		set((state) => ({ openReadingRecordForm: !state.openReadingRecordForm })),
 	getClients: async () => {
-		set((state) => ({ loadingClients: true }))
+		set((state) => ({ loadingClients: true }));
 		try {
-			const clientFilter = get().clientFilter
+			const clientFilter = get().clientFilter;
 			const params = new URLSearchParams(cleanFilter(clientFilter)).toString();
 			const response = await apiClient.get<PageResponse<Client>>(`/api/clients?${params}`);
 			const { status, data } = response;
 			if (status === 200) {
 				set((state) => {
-					state.clients = data
+					state.clients = data;
 				});
 				return true;
 			}
@@ -93,7 +96,7 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 			return false;
 		} finally {
 			set((state) => {
-				state.loadingClients = false
+				state.loadingClients = false;
 			});
 		}
 	},
@@ -137,5 +140,5 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 			response.message = (err as Error).message;
 		}
 		return response;
-	}
-})
+	},
+});

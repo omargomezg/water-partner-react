@@ -1,7 +1,7 @@
 /**
  * Componente que permite editar a un propietario
- * @returns 
+ * @returns
  */
 export const OwnerFormPage: React.FC = () => {
-  return <>Hola! Propietario Form Edit</>;
+	return <>Hola! Propietario Form Edit</>;
 };

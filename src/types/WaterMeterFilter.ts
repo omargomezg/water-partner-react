@@ -1,10 +1,10 @@
-import { PageFilter } from "./PageFilter";
+import { PageFilter } from './PageFilter';
 
 export interface WaterMeterFilter extends PageFilter {
-    serial?: number;
-    trademark?: string;
-    diameter?: string;
-    sector?: string;
-    isAssigned?: boolean;
-    text?: string;
+	serial?: number;
+	trademark?: string;
+	diameter?: string;
+	sector?: string;
+	isAssigned?: boolean;
+	text?: string;
 }

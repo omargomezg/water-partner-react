@@ -1,6 +1,6 @@
-import { WaterMeter } from "./WaterMeter";
+import { WaterMeter } from './WaterMeter';
 
 export interface MetersAvailable {
-    meters: WaterMeter[];
-    totalHits: number;
+	meters: WaterMeter[];
+	totalHits: number;
 }

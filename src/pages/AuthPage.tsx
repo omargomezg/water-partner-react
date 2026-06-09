@@ -1,5 +1,5 @@
-import LoginContainer from "../features/auth/Login.container";
+import LoginContainer from '../features/auth/Login.container';
 
 export const AuthPage = () => {
-  return <LoginContainer></LoginContainer>;
+	return <LoginContainer></LoginContainer>;
 };

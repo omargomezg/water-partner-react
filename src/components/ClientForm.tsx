@@ -1,12 +1,12 @@
-import { Button, Col, Divider, Form, Input, message, Radio, Row, Select, Space } from "antd";
-import { useAppStore } from "../store/useAppStore";
-import { FC } from "react";
-import { Client } from "../types/Client";
-import FormInputRut from "./FormInputRut";
-import SelectClientsType from "./SelectClientsType";
-import apiClient from "../services/apiClient";
-import axios from "axios";
-import { constants } from "../utils/Utils";
+import { Button, Col, Divider, Form, Input, message, Radio, Row, Select, Space } from 'antd';
+import { useAppStore } from '../store/useAppStore';
+import { FC } from 'react';
+import { Client } from '../types/Client';
+import FormInputRut from './FormInputRut';
+import SelectClientsType from './SelectClientsType';
+import apiClient from '../services/apiClient';
+import axios from 'axios';
+import { constants } from '../utils/Utils';
 
 interface ClientFormProps {
 	client?: Client;
@@ -21,35 +21,37 @@ const ClientForm: FC<ClientFormProps> = ({ client }) => {
 	const onCancel = () => {
 		form.resetFields();
 		setClientOpenForm();
-	}
+	};
 
 	const onFinish = async (values: Client) => {
 		try {
 			const response = await apiClient.post<Client>(`/api/clients`, values);
 			const { status } = response;
 			if (status === 201) {
-				setClientFilter({ page: 0, size: constants.PAGE_SIZE })				
+				setClientFilter({ page: 0, size: constants.PAGE_SIZE });
 				getClients();
 				setClientOpenForm();
 				message.success('Cliente creado correctamente');
 			}
 		} catch (err) {
-			 if (axios.isAxiosError(err)) {
-        		message.error(err.response?.data.message);
-      		}
+			if (axios.isAxiosError(err)) {
+				message.error(err.response?.data.message);
+			}
 		}
-	}
+	};
 
 	return (
 		<Form layout={'vertical'} form={form} initialValues={client} onFinish={onFinish}>
 			<Row gutter={16}>
 				<Col span={10}>
-					<Form.Item name="typeOfDni"
+					<Form.Item
+						name="typeOfDni"
 						label="Tipo de identificación"
 						initialValue="CHILEAN"
-						rules={[{ required: true }]}>
+						rules={[{ required: true }]}
+					>
 						<Radio.Group>
-							<Radio value='CHILEAN'>RUT</Radio>
+							<Radio value="CHILEAN">RUT</Radio>
 						</Radio.Group>
 					</Form.Item>
 				</Col>
@@ -58,9 +60,7 @@ const ClientForm: FC<ClientFormProps> = ({ client }) => {
 				</Col>
 			</Row>
 			<Divider />
-			<Form.Item name="clientType"
-				label="Tipo de cliente"
-				rules={[{ required: true }]}>
+			<Form.Item name="clientType" label="Tipo de cliente" rules={[{ required: true }]}>
 				{/* <SelectClientsType /> */}
 				<Select>
 					<option value="SOCIO">Socio</option>
@@ -85,13 +85,15 @@ const ClientForm: FC<ClientFormProps> = ({ client }) => {
 				</Col>
 			</Row>
 			<Space style={{ float: 'right' }}>
-				<Button type="default" onClick={onCancel}>Cancelar</Button>
+				<Button type="default" onClick={onCancel}>
+					Cancelar
+				</Button>
 				<Button type="primary" htmlType="submit">
 					Guardar
 				</Button>
 			</Space>
-		</Form >
-	)
-}
+		</Form>
+	);
+};
 
-export default ClientForm
+export default ClientForm;

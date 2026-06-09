@@ -4,5 +4,5 @@
  * administrador o cualquier persona que se inscribe para revisar la cuenta y pagar
  */
 export const ResidentFormPage: React.FC = () => {
-  return <>Hola! Residente Form Edit</>;
+	return <>Hola! Residente Form Edit</>;
 };

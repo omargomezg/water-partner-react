@@ -1,20 +1,20 @@
-import { Site } from "./Site";
+import { Site } from './Site';
 
 export interface Period {
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
-  createdBy: string;
-  name: string;
-  description: string;
-  startDate: string;
-  period: {
-    start: Date,
-    end: Date
-  };
-  endDate: string;
-  billsCreated: boolean;
-  invoicesCreated: boolean;
-  status: string;
-  site: Site;
+	id: number;
+	createdAt: Date;
+	updatedAt: Date;
+	createdBy: string;
+	name: string;
+	description: string;
+	startDate: string;
+	period: {
+		start: Date;
+		end: Date;
+	};
+	endDate: string;
+	billsCreated: boolean;
+	invoicesCreated: boolean;
+	status: string;
+	site: Site;
 }

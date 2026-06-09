@@ -1,5 +1,5 @@
 export interface Reading {
-    id: number;
-    reading: number;
-    readingDate: string;
+	id: number;
+	reading: number;
+	readingDate: string;
 }

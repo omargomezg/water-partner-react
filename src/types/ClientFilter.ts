@@ -1,6 +1,6 @@
 import { PageFilter } from './PageFilter';
 
 export interface ClientFilter extends PageFilter {
-    name?: string;
-    rut?: string;
+	name?: string;
+	rut?: string;
 }

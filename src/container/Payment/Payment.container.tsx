@@ -1,15 +1,14 @@
-import PaymentFirstStep from "./Payment.firstStep"
-import PaymentSecondStep from "./Payment.secondStep";
-import usePaymentStore from "../../store/PaymentStore";
+import PaymentFirstStep from './Payment.firstStep';
+import PaymentSecondStep from './Payment.secondStep';
+import usePaymentStore from '../../store/PaymentStore';
 
 const PaymentContainer = () => {
-    const {step} = usePaymentStore()
+	const { step } = usePaymentStore();
 
-    if (step === 2) {
-        return <PaymentSecondStep/>
-    }
-    return <PaymentFirstStep/>
+	if (step === 2) {
+		return <PaymentSecondStep />;
+	}
+	return <PaymentFirstStep />;
+};
 
-}
-
-export default PaymentContainer
+export default PaymentContainer;

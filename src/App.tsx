@@ -1,48 +1,42 @@
-import { useState } from "react";
-import { Button, Flex, Layout } from "antd";
-import "./App.css";
-import Sidebar from "./components/Sidebar";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import CustomHeader from "./components/Header";
-import SideContent from "./components/SideContent";
+import { useState } from 'react';
+import { Button, Flex, Layout } from 'antd';
+import './App.css';
+import Sidebar from './components/Sidebar';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import CustomHeader from './components/Header';
+import SideContent from './components/SideContent';
 
 const { Header, Sider, Content } = Layout;
 
 function App() {
-  const [collapsed, setCollapsed] = useState(false);
+	const [collapsed, setCollapsed] = useState(false);
 
-  return (
-    <Layout style={{ minHeight: "100vh" }} hasSider>
-      <Sider
-        theme="light"
-        trigger={null}
-        collapsible
-        collapsed={collapsed}
-        className="side"
-      >
-        <Sidebar />
-        <Button
-          type="text"
-          classNames
-          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          onClick={() => {
-            setCollapsed(!collapsed);
-          }}
-          className="trigger-btn"
-        />
-      </Sider>
-      <Layout>
-        <Header className="header">
-          <CustomHeader />
-        </Header>
-        <Content className="content">
-          <Flex gap="large">
-            <SideContent />
-          </Flex>
-        </Content>
-      </Layout>
-    </Layout>
-  );
+	return (
+		<Layout style={{ minHeight: '100vh' }} hasSider>
+			<Sider theme="light" trigger={null} collapsible collapsed={collapsed} className="side">
+				<Sidebar />
+				<Button
+					type="text"
+					classNames
+					icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+					onClick={() => {
+						setCollapsed(!collapsed);
+					}}
+					className="trigger-btn"
+				/>
+			</Sider>
+			<Layout>
+				<Header className="header">
+					<CustomHeader />
+				</Header>
+				<Content className="content">
+					<Flex gap="large">
+						<SideContent />
+					</Flex>
+				</Content>
+			</Layout>
+		</Layout>
+	);
 }
 
 export default App;

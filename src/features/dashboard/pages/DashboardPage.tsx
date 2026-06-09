@@ -1,63 +1,63 @@
-import { FC, useState } from "react";
-import { Row, Col, Form, Input, Button, Flex } from "antd";
-import { CardStyle } from "../../../components/CardStyle";
-import ConsumptionChart from "../components/ConsumptionChart";
-import DashboardStats from "../components/DashboardStats";
-import LatestReadings from "../components/LatestReadings";
-import { CreateService } from "../../../container/CreateService";
-import { SubscriptionsComponent } from "../components/Subscriptions.component";
+import { FC, useState } from 'react';
+import { Row, Col, Form, Input, Button, Flex } from 'antd';
+import { CardStyle } from '../../../components/CardStyle';
+import ConsumptionChart from '../components/ConsumptionChart';
+import DashboardStats from '../components/DashboardStats';
+import LatestReadings from '../components/LatestReadings';
+import { CreateService } from '../../../container/CreateService';
+import { SubscriptionsComponent } from '../components/Subscriptions.component';
 
 const DashboardPage: FC = () => {
-  const [form] = Form.useForm();
-  const [openCreateService, setOpenCreateService] = useState(false);
-  const [refreshTable, setRefreshTable] = useState<Date>(new Date());
-  const handleOnClose = (refresh: boolean): void => {
-    setOpenCreateService(false);
-    console.log(refresh);
-    if (refresh) {
-      setRefreshTable(new Date());
-    }
-  };
+	const [form] = Form.useForm();
+	const [openCreateService, setOpenCreateService] = useState(false);
+	const [refreshTable, setRefreshTable] = useState<Date>(new Date());
+	const handleOnClose = (refresh: boolean): void => {
+		setOpenCreateService(false);
+		console.log(refresh);
+		if (refresh) {
+			setRefreshTable(new Date());
+		}
+	};
 
-  const handleClickSearch = () => {
-    setRefreshTable(new Date());
-  };
-  return (
-    <>
-      <div style={{ flex: 1 }}>
-        <CardStyle>
-          <Row gutter={16} style={{ marginBottom: "20px" }}>
-            <Col span={12}>
-              <Form layout="inline" form={form}>
-                <Form.Item>
-                  <Input placeholder="Nº servicio..." />
-                </Form.Item>
-                <Button onClick={handleClickSearch}>Buscar</Button>
-              </Form>
-            </Col>
-            <Col span={12} style={{ textAlign: "right" }}>
-              <Button type="primary" onClick={() => setOpenCreateService(true)}>
-                + Nuevo servicio
-              </Button>
-            </Col>
-          </Row>
-          <SubscriptionsComponent lastUpdate={refreshTable} />
-        </CardStyle>
-        <Flex vertical gap="2.3rem">
-          <DashboardStats />
-          <Row>
-            <Col span={12}>
-              <ConsumptionChart />
-            </Col>
-            <Col span={12}>
-              <LatestReadings />
-            </Col>
-          </Row>
-        </Flex>
-      </div>
-      {openCreateService && <CreateService onClose={handleOnClose} />}
-    </>
-  );
+	const handleClickSearch = () => {
+		setRefreshTable(new Date());
+	};
+	return (
+		<>
+			<div style={{ flex: 1 }}>
+				<CardStyle>
+					<Row gutter={16} style={{ marginBottom: '20px' }}>
+						<Col span={12}>
+							<Form layout="inline" form={form}>
+								<Form.Item>
+									<Input placeholder="Nº servicio..." />
+								</Form.Item>
+								<Button onClick={handleClickSearch}>Buscar</Button>
+							</Form>
+						</Col>
+						<Col span={12} style={{ textAlign: 'right' }}>
+							<Button type="primary" onClick={() => setOpenCreateService(true)}>
+								+ Nuevo servicio
+							</Button>
+						</Col>
+					</Row>
+					<SubscriptionsComponent lastUpdate={refreshTable} />
+				</CardStyle>
+				<Flex vertical gap="2.3rem">
+					<DashboardStats />
+					<Row>
+						<Col span={12}>
+							<ConsumptionChart />
+						</Col>
+						<Col span={12}>
+							<LatestReadings />
+						</Col>
+					</Row>
+				</Flex>
+			</div>
+			{openCreateService && <CreateService onClose={handleOnClose} />}
+		</>
+	);
 };
 
 export default DashboardPage;

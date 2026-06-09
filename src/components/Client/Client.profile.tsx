@@ -1,122 +1,138 @@
-import { Button, Card, Col, Divider, Flex, Row, Space, Typography, Tag } from "antd";
+import { Button, Card, Col, Divider, Flex, Row, Space, Typography, Tag } from 'antd';
 import styles from './Client.module.css';
-import ClientAssociatedMeters from "./Client.associatedMeters";
-import ClientReadingRecords from "./Client.readingRecords";
-import ClientBoletas from "./Client.boletas";
-import ClientSubsidyForm from "./Client.subsidyForm";
-import ClientModalPdf from "./Client.modalPdf";
-import ClientReadingRecordForm from "./Client.readingRecordForm";
-import { useAppStore } from "../../store/useAppStore";
-import ClientMetersDrawer from "./Client.metersDrawer";
-import dayjs from "dayjs";
+import ClientAssociatedMeters from './Client.associatedMeters';
+import ClientReadingRecords from './Client.readingRecords';
+import ClientBoletas from './Client.boletas';
+import ClientSubsidyForm from './Client.subsidyForm';
+import ClientModalPdf from './Client.modalPdf';
+import ClientReadingRecordForm from './Client.readingRecordForm';
+import { useAppStore } from '../../store/useAppStore';
+import ClientMetersDrawer from './Client.metersDrawer';
+import dayjs from 'dayjs';
 
 const items = [
-    {
-        key: '1',
-        label: '24-11-2025',
-        children: 'Reposición de servicios',
-    },
-    {
-        key: '2',
-        label: '01-07-2025',
-        children: 'Cambio de medidor',
-    },
-]
+	{
+		key: '1',
+		label: '24-11-2025',
+		children: 'Reposición de servicios',
+	},
+	{
+		key: '2',
+		label: '01-07-2025',
+		children: 'Cambio de medidor',
+	},
+];
 
 const ClientProfile = () => {
-    const client = useAppStore((state) => state.client);
-    const setClientMeterDrawerOpen = useAppStore((state) => state.setClientMeterDrawerOpen);
-    const setProfile = useAppStore((state) => state.setProfile);
-    //TODO Editar para abrir el formulario de edicion de usuario y no el de cliente
-    const setClientOpenForm = useAppStore((state) => state.setClientOpenForm);
-    // if (!client) return (<>No cliente para editar</>);
+	const client = useAppStore((state) => state.client);
+	const setClientMeterDrawerOpen = useAppStore((state) => state.setClientMeterDrawerOpen);
+	const setProfile = useAppStore((state) => state.setProfile);
+	//TODO Editar para abrir el formulario de edicion de usuario y no el de cliente
+	const setClientOpenForm = useAppStore((state) => state.setClientOpenForm);
+	// if (!client) return (<>No cliente para editar</>);
 
-    const activeSubsidy = client?.waterMeters?.find(m => m.subsidy)?.subsidy;
+	const activeSubsidy = client?.waterMeters?.find((m) => m.subsidy)?.subsidy;
 
-    return (<>
-        <Card style={{ marginBottom: '10px' }}>
-            <Space>
-                <Button type="dashed" onClick={() => setProfile(null)}>Cerrar</Button>
-                <Button type="primary">Editar</Button>
-                <Button type="primary">Medidor</Button>
-            </Space>
-        </Card>
-        <Row gutter={16}>
-            <Col span={6}>
-                <Card style={{ marginBottom: '10px' }}>
-                    <Typography.Title level={4}>
-                        Antecedentes
-                    </Typography.Title>
-                    <Divider />
-                    <dl>
-                        <dt>Rut</dt>
-                        <dd>{client?.rut}</dd>
-                        <dt>Nombre</dt>
-                        <dd>{client?.fullName}</dd>
-                        <dt>Teléfono</dt>
-                        <dd><a href={`tel:${client?.phone}`}>{client?.phone}</a></dd>
-                        <dt>Correo electrónico</dt>
-                        <dd><a href={`mailto:${client?.email}`}>{client?.email}</a></dd>
-                        {activeSubsidy && (
-                            <>
-                                <dt>Subsidio activo</dt>
-                                <dd>
-                                    <Tag color="green">
-                                        {activeSubsidy.percentage}% - Vence {dayjs(activeSubsidy.endingDate).format('DD/MM/YYYY')}
-                                    </Tag>
-                                </dd>
-                            </>
-                        )}
-                    </dl>
-                    <Divider />
-                    <Flex justify="end">
-                        <Button type="default" onClick={setClientOpenForm}>Editar antecedentes</Button>
-                    </Flex>
-                </Card>
-            </Col>
-            <Col span={18}>
-                <Row gutter={16}>
-                    <Col span={18}>
-                        <Card style={{ marginBottom: '10px' }} title="Medidores" extra={<Button type="link" onClick={setClientMeterDrawerOpen}>+</Button>}>
-                            <ClientAssociatedMeters></ClientAssociatedMeters>
-                        </Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card title="Últimas solicitudes" style={{ marginBottom: '10px' }}>
-                            <ul className={styles.requestList}>
-                                {items.map(x => <li key={x.key}>
-                                    <Typography.Link >{x.label}: {x.children}</Typography.Link>
-                                </li>)}
-                            </ul>
-                        </Card>
-                    </Col>
-                </Row>
-                <Row gutter={16}>
-                    <Col span={12}>
-                        <Card>
-                            <Typography.Title level={4}>
-                                Últimas 12 boletas
-                            </Typography.Title>
-                            <ClientBoletas></ClientBoletas>
-                        </Card>
-                    </Col>
-                    <Col span={12}>
-                        <Card>
-                            <Typography.Title level={4}>
-                                Últimas lecturas
-                            </Typography.Title>
-                            <ClientReadingRecords></ClientReadingRecords>
-                        </Card>
-                    </Col>
-                </Row>
-            </Col>
-        </Row>
-        <ClientSubsidyForm></ClientSubsidyForm>
-        <ClientModalPdf></ClientModalPdf>
-        <ClientReadingRecordForm></ClientReadingRecordForm>
-        <ClientMetersDrawer></ClientMetersDrawer>
-    </>
-    )
-}
+	return (
+		<>
+			<Card style={{ marginBottom: '10px' }}>
+				<Space>
+					<Button type="dashed" onClick={() => setProfile(null)}>
+						Cerrar
+					</Button>
+					<Button type="primary">Editar</Button>
+					<Button type="primary">Medidor</Button>
+				</Space>
+			</Card>
+			<Row gutter={16}>
+				<Col span={6}>
+					<Card style={{ marginBottom: '10px' }}>
+						<Typography.Title level={4}>Antecedentes</Typography.Title>
+						<Divider />
+						<dl>
+							<dt>Rut</dt>
+							<dd>{client?.rut}</dd>
+							<dt>Nombre</dt>
+							<dd>{client?.fullName}</dd>
+							<dt>Teléfono</dt>
+							<dd>
+								<a href={`tel:${client?.phone}`}>{client?.phone}</a>
+							</dd>
+							<dt>Correo electrónico</dt>
+							<dd>
+								<a href={`mailto:${client?.email}`}>{client?.email}</a>
+							</dd>
+							{activeSubsidy && (
+								<>
+									<dt>Subsidio activo</dt>
+									<dd>
+										<Tag color="green">
+											{activeSubsidy.percentage}% - Vence{' '}
+											{dayjs(activeSubsidy.endingDate).format('DD/MM/YYYY')}
+										</Tag>
+									</dd>
+								</>
+							)}
+						</dl>
+						<Divider />
+						<Flex justify="end">
+							<Button type="default" onClick={setClientOpenForm}>
+								Editar antecedentes
+							</Button>
+						</Flex>
+					</Card>
+				</Col>
+				<Col span={18}>
+					<Row gutter={16}>
+						<Col span={18}>
+							<Card
+								style={{ marginBottom: '10px' }}
+								title="Medidores"
+								extra={
+									<Button type="link" onClick={setClientMeterDrawerOpen}>
+										+
+									</Button>
+								}
+							>
+								<ClientAssociatedMeters></ClientAssociatedMeters>
+							</Card>
+						</Col>
+						<Col span={6}>
+							<Card title="Últimas solicitudes" style={{ marginBottom: '10px' }}>
+								<ul className={styles.requestList}>
+									{items.map((x) => (
+										<li key={x.key}>
+											<Typography.Link>
+												{x.label}: {x.children}
+											</Typography.Link>
+										</li>
+									))}
+								</ul>
+							</Card>
+						</Col>
+					</Row>
+					<Row gutter={16}>
+						<Col span={12}>
+							<Card>
+								<Typography.Title level={4}>Últimas 12 boletas</Typography.Title>
+								<ClientBoletas></ClientBoletas>
+							</Card>
+						</Col>
+						<Col span={12}>
+							<Card>
+								<Typography.Title level={4}>Últimas lecturas</Typography.Title>
+								<ClientReadingRecords></ClientReadingRecords>
+							</Card>
+						</Col>
+					</Row>
+				</Col>
+			</Row>
+			<ClientSubsidyForm></ClientSubsidyForm>
+			<ClientModalPdf></ClientModalPdf>
+			<ClientReadingRecordForm></ClientReadingRecordForm>
+			<ClientMetersDrawer></ClientMetersDrawer>
+		</>
+	);
+};
 
-export default ClientProfile
+export default ClientProfile;
