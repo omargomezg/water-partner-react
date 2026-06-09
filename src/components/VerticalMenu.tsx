@@ -9,36 +9,44 @@ const menuItems = [
         label: <Link to="/dashboard">Dashboard</Link>,
     },
     {
-        key: '/meter-reading',
+        key: '/meter-readings',
         icon: <FileDoneOutlined />,
-        label: <Link to="/meter-reading">Lecturas</Link>,
+        label: <Link to="/meter-readings">Lecturas</Link>,
     },
     {
-        key: '/content',
+        key: '/articles',
         icon: <FileDoneOutlined />,
-        label: <Link to="/content">Contenidos</Link>,
+        label: <Link to="/articles">Contenidos</Link>,
     },
     {
-        key: '/client',
+        key: '/clients',
         icon: <UserOutlined/>,
-        label: <Link to="/client">Clientes</Link>,
+        label: <Link to="/clients">Clientes</Link>,
     },
     {
-        key: '/report',
+        key: '/reports',
         icon: <FilePdfOutlined/>,
-        label: <Link to="/report">Reportes</Link>,
+        label: <Link to="/reports">Reportes</Link>,
     },
     {
-        key: '/configuration',
+        key: '/configurations',
         icon: <ControlOutlined/>,
-        label: <Link to="/configuration">Configuración</Link>,
+        label: "Configuración",
+        children: [
+            {key: '/configurations/tariffs', label: <Link to="/configurations">Configuración</Link>},
+            {key: '/configurations/sites', label: <Link to="/configurations/sites">Sitios</Link>},
+            {key: '/configurations/category/list', label: <Link to="/configurations/category/list">Categorías</Link>},
+            {key: '/configurations/meters', label: <Link to="/configurations/meters">Medidores</Link>},
+            {key: '/configurations/periods', label: <Link to="/configurations/periods">Periodos</Link>},
+            {key: '/configurations/accounts', label: <Link to="/configurations/accounts">Cuentas de Usuario</Link>}
+        ],
     },
 ];
 
 const VerticalMenu = () => {
     const location = useLocation();
     const currentPath = location.pathname;
-    return <Menu
+    return <Menu theme="dark"
         mode="inline"
         defaultSelectedKeys={[currentPath]}
         className="menu-bar"

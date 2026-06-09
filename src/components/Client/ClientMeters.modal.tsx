@@ -24,7 +24,7 @@ const ClientMetersModal: FC = () => {
 
     const handleRemoveMeter = async (meterId: number) => {
         if (clientForMeters) {
-            const response = await removeClientWaterMeter(clientForMeters.dni, meterId.toString());
+            const response = await removeClientWaterMeter(clientForMeters.rut, meterId.toString());
             if (response.success) {
                 message.success('Medidor desasociado correctamente');
                 getClients();
@@ -36,7 +36,7 @@ const ClientMetersModal: FC = () => {
 
     const openSubsidyModal = (meter: WaterMeter) => {
         setSelectedMeterId(meter.id);
-        setSelectedMeterSerial(meter.serial);
+        setSelectedMeterSerial(meter.serialNumber);
         setSubsidyModalOpen(true);
     };
 
@@ -126,7 +126,7 @@ const AssociateMeterSection: FC<{ onCancel: () => void, onSuccess: () => void }>
     const onFinishLink = async (values: any) => {
         if (!clientForMeters) return;
         setLoading(true);
-        const success = await associateWaterMeterToClient(clientForMeters.dni, values.meterId);
+        const success = await associateWaterMeterToClient(clientForMeters.rut, values.meterId);
         setLoading(false);
         if (success) {
             message.success('Medidor asociado correctamente');
@@ -158,7 +158,7 @@ const AssociateMeterSection: FC<{ onCancel: () => void, onSuccess: () => void }>
 
         if (createdMeter) {
             // Associate
-            const success = await associateWaterMeterToClient(clientForMeters.dni, createdMeter.id);
+            const success = await associateWaterMeterToClient(clientForMeters.rut, createdMeter.id);
             if (success) {
                 message.success('Medidor creado y asociado correctamente');
                 onSuccess();
@@ -187,7 +187,7 @@ const AssociateMeterSection: FC<{ onCancel: () => void, onSuccess: () => void }>
                         >
                             {availableMeters?.meters.map(meter => (
                                 <Select.Option key={meter.id} value={meter.id}>
-                                    {meter.serial} - {meter.trademark} ({meter.diameter})
+                                    {meter.serialNumber} - {meter.trademark} ({meter.diameter})
                                 </Select.Option>
                             ))}
                         </Select>

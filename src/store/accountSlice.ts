@@ -1,17 +1,17 @@
 import apiClient from "../services/apiClient";
-import { PageResponse, Account } from "../types";
+import { PageResponse, User } from "../types";
 import { ImmerStateCreator } from "./useAppStore";
 
 type AccountState = {
   openAccountForm: boolean;
-  accounts: PageResponse<Account> | null;
-  account: Account | null;
+  accounts: PageResponse<User> | null;
+  account: User | null;
   loadingAccounts: boolean;
 };
 interface AccountActions {
   setOpenAccountForm: () => void;
   getAccounts: () => Promise<boolean>;
-  createAccount: (account: Account) => Promise<boolean>;
+  createAccount: (account: User) => Promise<boolean>;
   deleteAccount: (id: string) => Promise<boolean>;
 }
 export type AccountSlice = AccountState & AccountActions;
@@ -37,7 +37,7 @@ export const createAccountSlice: ImmerStateCreator<AccountSlice> = (
       state.loadingAccounts = true;
     });
     try {
-      const response = await apiClient.get<PageResponse<Account>>(`/user`);
+      const response = await apiClient.get<PageResponse<User>>(`/user`);
       const { status, data } = response;
       if (status !== 200) {
         return false;
@@ -55,9 +55,9 @@ export const createAccountSlice: ImmerStateCreator<AccountSlice> = (
       return false;
     }
   },
-  createAccount: async (account: Account) => {
+  createAccount: async (account: User) => {
     try {
-      const response = await apiClient.post<Account>(`/user`, account);
+      const response = await apiClient.post<User>(`/user`, account);
       const { status } = response;
       console.log("el status es:", status);
       if (status !== 201) {
@@ -72,7 +72,7 @@ export const createAccountSlice: ImmerStateCreator<AccountSlice> = (
   },
   deleteAccount: async (id: string) => {    
     try {
-      const response = await apiClient.post<Account>(`/user/${id}`);
+      const response = await apiClient.post<User>(`/user/${id}`);
       const { status } = response;
       if (status !== 200) {
         return false;

@@ -50,7 +50,7 @@ const ActionButtons = ({meter}: { meter: WaterMeter }) => {
 
     const onAddMeter = async () => {
         if (client) {
-            const res = await addWaterMeterToClient(client.dni, meter);
+            const res = await addWaterMeterToClient(client.rut, meter);
             if (res.success) {
                 setClientMeterDrawerOpen();
             }

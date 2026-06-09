@@ -69,7 +69,7 @@ const ActionButtons = ({ meter }: any) => {
 	const [, holder] = message.useMessage();
 	const setOpenSubsidyForm = useAppStore((state) => state.setOpenSubsidyForm);
 	const removeClientWaterMeter = useAppStore((state) => state.removeClientWaterMeter);
-	const dni = useAppStore((state) => state.client?.dni);
+	const dni = useAppStore((state) => state.client?.rut);
 	const handleClickDelete = async () => {
 		await removeClientWaterMeter(dni as string, meter.id);
 	}

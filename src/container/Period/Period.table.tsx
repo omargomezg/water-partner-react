@@ -6,13 +6,14 @@ import { FC, useEffect } from "react";
 import { DeleteOutlined, EditOutlined, PlaySquareOutlined } from "@ant-design/icons";
 import { constants } from "../../utils/Utils";
 import BadgePeriodStatus from "../../components/BadgePeriodStatus";
+import { useNavigate } from "react-router-dom";
 
 
 const columns: TableProps<Period>['columns'] = [
     {
         title: 'Identificador',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'name',
+        key: 'name',
     }, {
         title: "Estado",
         dataIndex: 'status',
@@ -87,19 +88,16 @@ interface RowButtonsProps {
 
 
 const RowButtons: FC<RowButtonsProps> = ({ period }) => {
-    const setOpenFormPeriod = useAppStore((state) => state.setOpenFormPeriod);
+    const navigate = useNavigate();
     const deletePeriod = useAppStore((state) => state.deletePeriod);
     const initPeriod = useAppStore((state) => state.initPeriod);
-    const handleClick = () => {
-        setOpenFormPeriod(period);
-    }
     return <Space>
         <Button type="link" onClick={() => initPeriod(period.id)}>
             <PlaySquareOutlined /></Button>
         <Button type="link" onClick={() => deletePeriod(period.id)}>
             <DeleteOutlined />
         </Button>
-        <Button type="link" onClick={handleClick}>
+        <Button type="link" onClick={() => navigate(`/periods/${period.id}/edit`)}>
             <EditOutlined />
         </Button>
     </Space>

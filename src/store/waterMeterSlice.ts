@@ -15,7 +15,6 @@ type WaterMeterState = {
 }
 
 interface WaterMeterActions {
-    setOpenFormWaterMeter: () => void;
     setWaterMeterFilterForClientAssociated: (filter: WaterMeterFilter) => void;
     setWaterMeterConfigurationFilter: (filter: WaterMeterFilter) => void;
     getWaterMetersForConfiguration: () => Promise<boolean>;
@@ -35,19 +34,7 @@ export const createWaterMeterSlice: ImmerStateCreator<WaterMeterSlice> = (set, g
     availableMeters: null,
     loadingWaterMeters: false,
     waterMeterClientAssociatedFilter: { page: 0, size: constants.PAGE_SIZE },
-    waterMeterConfigurationFilter: { page: 0, size: constants.PAGE_SIZE },
-    setOpenFormWaterMeter: () => {
-        if (get().openFormWaterMeter === true) {
-            set((state) => {
-                state.openFormWaterMeter = !state.openFormWaterMeter
-                state.waterMeter = null
-            });
-        } else {
-            set((state) => {
-                state.openFormWaterMeter = true
-            })
-        }
-    },
+    waterMeterConfigurationFilter: { page: 0, size: constants.PAGE_SIZE },    
     setWaterMeterConfigurationFilter: (filter: WaterMeterFilter) => {
         set((state) => {
             state.waterMeterConfigurationFilter = filter;
@@ -67,7 +54,7 @@ export const createWaterMeterSlice: ImmerStateCreator<WaterMeterSlice> = (set, g
         try {
             const filter = get().waterMeterConfigurationFilter;
             const params = new URLSearchParams(cleanFilter(filter)).toString();
-            const response = await apiClient.get<PageResponse<WaterMeter>>(`/water-meter?${params}`);
+            const response = await apiClient.get<PageResponse<WaterMeter>>(`/api/meters?${params}`);
             const { status, data } = response;
             if (status !== 200) {
                 return false;
@@ -133,7 +120,7 @@ export const createWaterMeterSlice: ImmerStateCreator<WaterMeterSlice> = (set, g
     },
     createWaterMeter: async (waterMeter: WaterMeter) => {
         try {
-            const response = await apiClient.post<WaterMeter>(`/water-meter`, waterMeter);
+            const response = await apiClient.post<WaterMeter>(`/api/meters`, waterMeter);
             const { status, data } = response;
             if (status !== 201) {
                 return null;

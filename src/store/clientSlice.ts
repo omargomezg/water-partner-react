@@ -28,8 +28,7 @@ interface ClientActions {
 	setOpenModalPdf: () => void;
 	setOpenReadingRecordForm: () => void;
 	getClients: () => Promise<boolean>;
-	createClient: (client: Client) => Promise<boolean>;
-	deleteClient: (id: string) => Promise<boolean>;
+	deleteClient: (rut: string) => Promise<boolean>;
 	addWaterMeterToClient: (dni: string, meter: any) => Promise<GenericResponse<void>>;
 	removeClientWaterMeter: (dni: string, id: string) => Promise<GenericResponse<void>>;
 }
@@ -81,7 +80,7 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 		try {
 			const clientFilter = get().clientFilter
 			const params = new URLSearchParams(cleanFilter(clientFilter)).toString();
-			const response = await apiClient.get<PageResponse<Client>>(`/client?${params}`);
+			const response = await apiClient.get<PageResponse<Client>>(`/api/clients?${params}`);
 			const { status, data } = response;
 			if (status === 200) {
 				set((state) => {
@@ -98,25 +97,9 @@ export const createClientSlice: ImmerStateCreator<ClientSlice> = (set, get) => (
 			});
 		}
 	},
-	createClient: async (client: Client) => {
+	deleteClient: async (rut: string) => {
 		try {
-			const response = await apiClient.post<Client>(`/client`, client);
-			const { status } = response;
-			if (status === 201) {
-				set((state) => {
-					state.clientFilter = { page: 0, size: constants.PAGE_SIZE };
-				});
-				get().getClients();
-				return true;
-			}
-			return false;
-		} catch (err) {
-			return false;
-		}
-	},
-	deleteClient: async (id: string) => {
-		try {
-			const response = await apiClient.delete(`/client/${id}`);
+			const response = await apiClient.delete(`/api/clients/${rut}`);
 			const { status } = response;
 			if (status === 200) {
 				get().getClients();

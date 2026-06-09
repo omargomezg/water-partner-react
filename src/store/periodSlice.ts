@@ -43,7 +43,7 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
     fetchPeriods: async () => {
         const response: GenericResponse<Period[]> = new GenericResponse<Period[]>();
         try {
-            const res = await apiClient.get<PageResponse<Period>>('/period');
+            const res = await apiClient.get<PageResponse<Period>>('/api/periods');
             const { data } = res;
             set((state) => { state.periods = data });
             response.success = true;
@@ -57,7 +57,7 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
     createPeriod: async (period: Period) => {
         const response: GenericResponse<Period> = new GenericResponse<Period>();
         try {
-            const res = await apiClient.post<Period>('/period', period);
+            const res = await apiClient.post<Period>('/api/periods', period);
             const { status, data } = res;
             response.success = status === 201
             response.content = data
@@ -71,7 +71,7 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
     deletePeriod: async (id: number) => {
         const response: GenericResponse<void> = new GenericResponse<void>();
         try {
-            const res = await apiClient.delete<void>(`/period/${id}`);
+            const res = await apiClient.delete<void>(`/api/periods/${id}`);
             const { status } = res;
             response.success = status === 200;
             get().fetchPeriods();
@@ -84,7 +84,7 @@ export const createPeriodSlice: ImmerStateCreator<PeriodSlice> = (set, get) => (
     initPeriod: async (id: number) => {
         const response: GenericResponse<void> = new GenericResponse<void>();
         try {
-            const res = await apiClient.post<void>(`/period/${id}/init`);
+            const res = await apiClient.post<void>(`/api/periods/${id}/initialize`);
             const { status } = res;
             response.success = status === 200;
             get().fetchPeriods();

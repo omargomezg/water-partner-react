@@ -1,13 +1,13 @@
 import {Button, Space, Table, TableProps} from "antd";
 import dayjs from "dayjs";
-import {useMeterStore} from "../../store/Meter.store";
 import {EditOutlined} from "@ant-design/icons";
-import { Account } from "../../types";
+import { User } from "../../types";
 import { useAppStore } from "../../store/useAppStore";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 
-const columns: TableProps<Account>['columns'] = [
+const columns: TableProps<User>['columns'] = [
     {
         title: 'Nombre',
         dataIndex: 'fullName',
@@ -23,8 +23,8 @@ const columns: TableProps<Account>['columns'] = [
         render: (roles) => roles?.join(', '),
     }, {
         title: 'Estado',
-        dataIndex: 'enabled',
-        key: 'enabled',
+        dataIndex: 'active',
+        key: 'active',
         render: (enabled) => enabled ? 'Activo' : 'Inactivo',
     }, {
         title: 'Última actualización',
@@ -43,8 +43,8 @@ const columns: TableProps<Account>['columns'] = [
     }, {
         title: 'Action',
         key: 'action',
-        render: (_, record: Account) => (
-            <RowButtons tariff={record} />
+        render: (_, record: User) => (
+            <RowButtons user={record} />
         ),
     }
 ];
@@ -56,15 +56,16 @@ const AccountTable = () => {
         getAccounts();
     }, [getAccounts]);
 
-    return <Table<Account> style={{width: '100%'}}
-                            rowKey="dni"
+    return <Table<User> style={{width: '100%'}}
+                            rowKey="id"
                             columns={columns}
         dataSource={accounts?.content}/>
 }
-const RowButtons = ({tariff}: any) => {
-    const {setOpenForm} = useMeterStore()
+const RowButtons = ({user}: any) => {
+    const navigate = useNavigate();
+
     return <Space>
-        <Button type="link" onClick={setOpenForm}>
+        <Button type="link" onClick={() => navigate(`/clients/${user.id}/edit`)}>
             <EditOutlined/>
         </Button>
     </Space>

@@ -1,6 +1,6 @@
 import { Button, Form, Input, message, Space, Select } from "antd"
 import { useAppStore } from "../../store/useAppStore";
-import { Account } from "../../types";
+import { User } from "../../types";
 import { FC } from "react";
 import FormInputRut from "../../components/FormInputRut";
 
@@ -10,7 +10,7 @@ const AccountForm: FC = () => {
     const createAccount = useAppStore((state) => state.createAccount);
     const [messageApi, contextHolder] = message.useMessage();
 
-    const onFinish = async (values: Account) => {
+    const onFinish = async (values: User) => {
         const status = await createAccount(values);
         status === true ? setOpenAccountForm() : messageApi.warning("Error al crear cuenta", 10);
     }
