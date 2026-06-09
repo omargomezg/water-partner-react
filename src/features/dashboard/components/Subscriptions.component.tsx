@@ -81,8 +81,8 @@ export const SubscriptionsComponent: FC<TableSubscriptionsProps> = ({ lastUpdate
 		fetch(filter);
 	}, [filter]);
 
-	const fetch = async (currentFilter: Filter) => {
-		currentFilter.getLectures = true;
+	const fetch = async (currentFilter: Filter): Promise<void> => {
+		currentFilter.lectures = true;
 		setLoading(true);
 		try {
 			const { data } = await apiClient.get<PageResponse<Subscriptions>>('/api/subscriptions', {

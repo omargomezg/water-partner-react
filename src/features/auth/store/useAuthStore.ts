@@ -1,12 +1,15 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import {AuthResponse} from "./types/type";
 
 type State = {
 	token: string;
+	email: string;
+	roles: string[];
 };
 
 type Actions = {
-	setToken: (token: string) => void;
+	setValues: (auth: AuthResponse) => void;
 	logout: () => void;
 };
 
@@ -16,9 +19,21 @@ export const useAuthStore = create<AuthStore>()(
 	persist(
 		(set) => ({
 			token: '',
-			setToken: (token: string) => set({ token }),
+			email: '',
+			roles: [],
+			setValues: (auth: AuthResponse) => {
+				set({
+					token: auth.token,
+					email: auth.email,
+					roles: auth.roles
+				});
+			},
 			logout: () => {
-				set({ token: '' });
+				set({
+					token: '',
+					email: '',
+					roles: []
+				});
 			},
 		}),
 		{

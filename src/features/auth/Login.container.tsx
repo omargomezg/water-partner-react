@@ -7,13 +7,13 @@ import { useAuthStore } from './store/useAuthStore';
 
 const LoginContainer = () => {
 	const navigate = useNavigate();
-	const setToken = useAuthStore((state) => state.setToken);
+	const setValues = useAuthStore((state) => state.setValues);
 
 	const onFinish = async (values: any) => {
 		try {
 			const { data } = await apiClient.post<AuthResponse>(`/api/auth/login`, values);
 			if (data) {
-				setToken(data.token);
+				setValues(data);
 				navigate('/articles');
 			}
 		} catch (error) {

@@ -7,5 +7,5 @@ export interface Filter {
 	sort?: string;
 	page: number;
 	size: number;
-	getLectures?: boolean;
+	lectures?: boolean;
 }
