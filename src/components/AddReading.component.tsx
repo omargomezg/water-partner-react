@@ -1,8 +1,8 @@
 import { Button, Flex, Form, InputNumber, Modal } from "antd";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import apiClient from "../services/apiClient";
-import { Lecture } from "../types/Lectures";
 import { PageResponse } from "../types";
+import { Lecture } from "../types/Lectures";
 
 type AddReadingComponentProps = {
   subscriptionId: string;

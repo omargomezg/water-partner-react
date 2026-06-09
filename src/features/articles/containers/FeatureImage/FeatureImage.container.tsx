@@ -8,7 +8,7 @@ export const FeatureImageContainer: React.FC = () => {
   const { id: articleId } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+  const BASE_URL = process.env.API_URL || "http://localhost:8080";
   const [imageId, setImageId] = useState<string | null>(null);
   const [file, setFile] = useState({
     img: "",
